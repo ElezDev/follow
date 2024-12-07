@@ -170,21 +170,16 @@
             </a>
 
 
-            {{-- <form action="#" method="GET" class="flex items-center">
-                <input type="text" name="q" placeholder="Buscar..." class="px-2 py-1 text-sm border border-black rounded-full w-96">
-                
-                <button  aria-label="Buscar" class="p-2 -ml-10 bg-transparent border-none cursor-pointer">
-                    <img src="{{ asset('img/lupa.png') }}" alt="Buscar" class="w-4 h-auto">
-                </button>
-            </form> --}}
+    
 
-                <form class="flex items-center gap-2 mb-4" onsubmit="return false;">
-                <input type="text" id="searchInput" placeholder="Buscar por nombre o identificación"class="px-2 py-1 text-sm border border-black rounded-full w-96" />
-                 <button  aria-label="Buscar" class="p-2 -ml-10 bg-transparent border-none cursor-pointer">
+            <form class="flex items-center gap-2 mb-4" onsubmit="return false;">
+                <input type="text" id="searchInput"
+                    placeholder="Buscar por nombre o identificación"class="px-2 py-1 text-sm border border-black rounded-full w-96" />
+                <button aria-label="Buscar" class="p-2 -ml-10 bg-transparent border-none cursor-pointer">
                     <img src="{{ asset('img/lupa.png') }}" alt="Buscar" class="w-4 h-auto">
                 </button>
-              </form>
-            
+            </form>
+
 
             <form action="#" method="GET" class="mr-1 -ml-28">
                 <a href="{{ route('superadmin.SuperAdmin-AprendizAgregar') }}" type="button"
@@ -231,29 +226,31 @@
 
     <script>
         const searchInput = document.getElementById('searchInput');
-const resultContainer = document.getElementById('resultContainer');
+        const resultContainer = document.getElementById('resultContainer');
 
-searchInput.addEventListener('keyup', () => {
-    const query = searchInput.value.trim();
+        searchInput.addEventListener('keyup', () => {
+            const query = searchInput.value.trim();
 
-    fetch(`/superadmin/SuperAdmin-Aprendiz?search=${encodeURIComponent(query)}`, {
-        headers: { 'X-Requested-With': 'XMLHttpRequest' },
-    })
-        .then(response => {
-            if (!response.ok) {
-                throw new Error('Error al cargar los resultados');
-            }
-            return response.text();
-        })
-        .then(html => {
-            resultContainer.innerHTML = html;
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            resultContainer.innerHTML = `<p class="text-center text-red-500 col-span-full">Error al cargar resultados. Intenta de nuevo.</p>`;
+            fetch(`/superadmin/SuperAdmin-Aprendiz?search=${encodeURIComponent(query)}`, {
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al cargar los resultados');
+                    }
+                    return response.text();
+                })
+                .then(html => {
+                    resultContainer.innerHTML = html;
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    resultContainer.innerHTML =
+                        `<p class="text-center text-red-500 col-span-full">Error al cargar resultados. Intenta de nuevo.</p>`;
+                });
         });
-});
-
     </script>
 </body>
 
