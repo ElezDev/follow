@@ -169,7 +169,7 @@
 
         </div>
 
-        <div class="m-4 mt-4 text-sm text-center text-gray-500">Total de cuadros: {{ $contador }}</div>
+        <div class="m-4 mt-4 text-sm text-center text-gray-500">Total de registros: {{ $contador }}</div>
     </main>
     <script src="{{ asset('js/SuperAdmin.js') }}"></script>
 </body>

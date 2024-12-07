@@ -101,7 +101,7 @@ Route::get('/superadmin/SuperAdmin-Configuracion', [SuperadminController::class,
 Route::get('/superadmin/SuperAdmin-Aprendiz', [SuperadminController::class, 'SuperAdminAprendiz'])->name('superadmin.SuperAdmin-Aprendiz');
 
 // Ruta para ver el perfil de un aprendiz específico
-Route::get('/superadmin/SuperAdmin-AprendizPerfil', [SuperadminController::class, 'SuperAdminAprendizPerfil'])->name('superadmin.SuperAdmin-AprendizPerfil');
+Route::get('/superadmin/SuperAdmin-AprendizPerfil/{id}', [SuperadminController::class, 'SuperAdminAprendizPerfil'])->name('superadmin.SuperAdmin-AprendizPerfil');
 
 
 

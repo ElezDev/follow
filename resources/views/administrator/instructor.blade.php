@@ -188,7 +188,7 @@
                     @endfor
                 </div>
             </div>
-            <div class="mt-4 text-center m-4 text-sm text-gray-500">Total de cuadros: {{ $contador }}</div>
+            <div class="mt-4 text-center m-4 text-sm text-gray-500">Total de registros: {{ $contador }}</div>
         </main>
         <script src="{{ asset('js/SuperAdmin.js') }}"></script>
     </body>

@@ -61,7 +61,7 @@ class UserRegisterController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
-        ])->post('https://apietapaproductivatest-production-af30.up.railway.app/api/user_registers', [
+        ])->post('http://127.0.0.1:8001/api/user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],
             'telephone' => $validated['telephone'],
@@ -219,7 +219,7 @@ class UserRegisterController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
-        ])->post('https://apietapaproductivatest-production-af30.up.railway.app/api/user_registers', [
+        ])->post('http://127.0.0.1:8001/api/user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],
             'telephone' => $validated['telephone'],

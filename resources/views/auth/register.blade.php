@@ -378,7 +378,7 @@ const municipalities = {
             id_role: document.getElementById('id_role').value,
         };
 
-        axios.post('https://apietapaproductivatest-production-af30.up.railway.app/api/user_registers', formData, {
+        axios.post('http://127.0.0.1:8001/api/user_registers', formData, {
             headers: {
                 'Content-Type': 'application/json',  
             }
