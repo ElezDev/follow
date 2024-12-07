@@ -176,3 +176,6 @@ Route::post('/registrar-bitacora', [BitacoraController::class, 'registrar'])->na
 Route::get('/test-react', function () {
     return view('test');
 });
+
+
+Route::get('/superadmin/aprendiz', [SuperAdminController::class, 'SuperAdminAprendiz'])->name('superadmin.aprendiz');

@@ -32,9 +32,10 @@
                 </a>
             </form>
 
-            <a href="#" class="-ml-96">
+                    <a href="{{ route('superadmin.aprendiz', ['download' => true]) }}" class="-ml-96">
                 <img src="{{ asset('img/Descarga.webp') }}" alt="descarga" class="w-8 h-auto mr-12">
             </a>
+
         </div>
         <div
             class="w-full max-w-6xl bg-[#2f3e4c14] border-2 border-[#04324D] rounded-lg p-6 shadow-[0_0_10px_rgba(0,0,0,0.8)] mt-1">
