@@ -41,7 +41,8 @@
                             <input type="number" class="w-full border border-gray-300 rounded-lg p-2.5" id="telephone" name="telephone" required>
                         </div>
                         <div>
-                            <label for="email" class="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Correo
+                                Electrónico</label>
                             <input type="email" class="w-full border border-gray-300 rounded-lg p-2.5" id="email" name="email" required>
                         </div>
                         <div>
@@ -69,7 +70,8 @@
                     <div class="grid grid-cols-2 gap-4">
                         <!-- Select para Niveles Académicos -->
                         <div>
-                            <label for="academic_level" class="block text-sm font-medium text-gray-700">Nivel Académico</label>
+                            <label for="academic_level" class="block text-sm font-medium text-gray-700">Nivel
+                                Académico</label>
                             <select id="academic_level" name="academic_level" class="w-full border border-gray-300 rounded-lg p-2.5" required>
                                 <option value="" disabled selected>Selecciona el nivel académico</option>
                                 <option value="tecnologo">Tecnólogo</option>
@@ -84,67 +86,100 @@
                                 <option value="" disabled selected>Selecciona el programa</option>
                                 <!-- Programas Técnicos -->
                                 <optgroup label="Técnicos">
-                                    <option value="GESTION ADMINISTRATIVA DEL SECTOR SALUD">GESTION ADMINISTRATIVA DEL SECTOR SALUD</option>
+                                    <option value="GESTION ADMINISTRATIVA DEL SECTOR SALUD">GESTION ADMINISTRATIVA DEL
+                                        SECTOR SALUD</option>
                                     <option value="GESTION DE MERCADOS">GESTION DE MERCADOS</option>
                                     <option value="ASISTENCIA ADMINISTRATIVA">ASISTENCIA ADMINISTRATIVA</option>
-                                    <option value="GESTION DE PROCESOS ADMINISTRATIVOS DE SALUD">GESTION DE PROCESOS ADMINISTRATIVOS DE SALUD</option>
+                                    <option value="GESTION DE PROCESOS ADMINISTRATIVOS DE SALUD">GESTION DE PROCESOS
+                                        ADMINISTRATIVOS DE SALUD</option>
                                     <option value="GESTION EMPRESARIAL">GESTION EMPRESARIAL</option>
                                     <option value="GUIANZA TURISTICA">GUIANZA TURISTICA</option>
                                     <option value="GESTION CONTABLE Y FINANCIERA">GESTION CONTABLE Y FINANCIERA</option>
-                                    <option value="ANALISIS Y DESARROLLO DE SISTEMAS DE INFORMACION">ANALISIS Y DESARROLLO DE SISTEMAS DE INFORMACION</option>
+                                    <option value="ANALISIS Y DESARROLLO DE SISTEMAS DE INFORMACION">ANALISIS Y
+                                        DESARROLLO DE SISTEMAS DE INFORMACION</option>
                                     <option value="GESTION LOGISTICA">GESTION LOGISTICA</option>
                                     <option value="NEGOCIACION INTERNACIONAL">NEGOCIACION INTERNACIONAL</option>
                                     <option value="GESTION DEL TALENTO HUMANO">GESTION DEL TALENTO HUMANO</option>
                                     <option value="GESTION DOCUMENTAL">GESTION DOCUMENTAL</option>
-                                    <option value="CONTABILIZACION DE OPERACIONES COMERCIALES Y FINANCIERAS">CONTABILIZACION DE OPERACIONES COMERCIALES Y FINANCIERAS</option>
-                                    <option value="GESTION BANCARIA Y DE ENTIDADES FINANCIERAS">GESTION BANCARIA Y DE ENTIDADES FINANCIERAS</option>
+                                    <option value="CONTABILIZACION DE OPERACIONES COMERCIALES Y FINANCIERAS">
+                                        CONTABILIZACION DE OPERACIONES COMERCIALES Y FINANCIERAS</option>
+                                    <option value="GESTION BANCARIA Y DE ENTIDADES FINANCIERAS">GESTION BANCARIA Y DE
+                                        ENTIDADES FINANCIERAS</option>
                                     <option value="PELUQUERIA">PELUQUERIA</option>
                                     <option value="PANIFICACION">PANIFICACION</option>
                                     <option value="COCINA">COCINA</option>
                                     <option value="SERVICIOS FARMACEUTICOS">SERVICIOS FARMACEUTICOS</option>
                                     <option value="SALUD PUBLICA">SALUD PUBLICA</option>
-                                    <option value="APOYO ADMINISTRATIVO EN SALUD">APOYO ADMINISTRATIVO EN SALUD</option>
+                                    <option value="APOYO ADMINISTRATIVO EN SALUD">APOYO ADMINISTRATIVO EN SALUD
+                                    </option>
                                     <option value="OPERACION TURISTICA LOCAL">OPERACION TURISTICA LOCAL</option>
                                     <option value="ANIMACION 3D">ANIMACION 3D</option>
                                     <option value="ANIMACION DIGITAL">ANIMACION DIGITAL</option>
                                     <option value="PROMOCION DE PRODUCTOS">PROMOCION DE PRODUCTOS</option>
-                                    <option value="SERVICIOS Y OPERACIONES MICROFINANCIERAS">SERVICIOS Y OPERACIONES MICROFINANCIERAS</option>
-                                    <option value="CUIDADO ESTETICO DE MANOS Y PIES">CUIDADO ESTETICO DE MANOS Y PIES</option>
-                                    <option value="CONTROL DE MOVILIDAD TRANSPORTE Y SEGURIDAD VIAL">CONTROL DE MOVILIDAD TRANSPORTE Y SEGURIDAD VIAL</option>
+                                    <option value="SERVICIOS Y OPERACIONES MICROFINANCIERAS">SERVICIOS Y OPERACIONES
+                                        MICROFINANCIERAS</option>
+                                    <option value="CUIDADO ESTETICO DE MANOS Y PIES">CUIDADO ESTETICO DE MANOS Y PIES
+                                    </option>
+                                    <option value="CONTROL DE MOVILIDAD TRANSPORTE Y SEGURIDAD VIAL">CONTROL DE
+                                        MOVILIDAD TRANSPORTE Y SEGURIDAD VIAL</option>
                                     <option value="ENFERMERIA">ENFERMERIA</option>
                                     <option value="SISTEMAS">SISTEMAS</option>
-                                    <option value="DISTRIBUCION FISICA INTERNACIONAL">DISTRIBUCION FISICA INTERNACIONAL</option>
-                                    <option value="ASESORIA COMERCIAL Y OPERACIONES DE ENTIDADES FINANCIERAS">ASESORIA COMERCIAL Y OPERACIONES DE ENTIDADES FINANCIERAS</option>
-                                    <option value="ATENCION INTEGRAL A LA PRIMERA INFANCIA">ATENCION INTEGRAL A LA PRIMERA INFANCIA</option>
-                                    <option value="ASISTENCIA EN ORGANIZACION DE ARCHIVOS">ASISTENCIA EN ORGANIZACION DE ARCHIVOS</option>
-                                    <option value="DESARROLLO DE OPERACIONES LOGISTICA EN LA CADENA DE ABASTECIMIENTO">DESARROLLO DE OPERACIONES LOGISTICA EN LA CADENA DE ABASTECIMIENTO</option>
-                                    <option value="SERVICIO DE RESTAURANTE Y BAR">SERVICIO DE RESTAURANTE Y BAR</option>
-                                    <option value="OPERACIONES DE COMERCIO EXTERIOR">OPERACIONES DE COMERCIO EXTERIOR</option>
-                                    <option value="DISEÑO E INTEGRACION DE MULTIMEDIA">DISEÑO E INTEGRACION DE MULTIMEDIA</option>
-                                    <option value="INFORMACION Y SERVICIO AL CLIENTE">INFORMACION Y SERVICIO AL CLIENTE</option>
-                                    <option value="SERVICIOS DE AGENCIAS DE VIAJES">SERVICIOS DE AGENCIAS DE VIAJES</option>
+                                    <option value="DISTRIBUCION FISICA INTERNACIONAL">DISTRIBUCION FISICA INTERNACIONAL
+                                    </option>
+                                    <option value="ASESORIA COMERCIAL Y OPERACIONES DE ENTIDADES FINANCIERAS">ASESORIA
+                                        COMERCIAL Y OPERACIONES DE ENTIDADES FINANCIERAS</option>
+                                    <option value="ATENCION INTEGRAL A LA PRIMERA INFANCIA">ATENCION INTEGRAL A LA
+                                        PRIMERA INFANCIA</option>
+                                    <option value="ASISTENCIA EN ORGANIZACION DE ARCHIVOS">ASISTENCIA EN ORGANIZACION
+                                        DE ARCHIVOS</option>
+                                    <option value="DESARROLLO DE OPERACIONES LOGISTICA EN LA CADENA DE ABASTECIMIENTO">
+                                        DESARROLLO DE OPERACIONES LOGISTICA EN LA CADENA DE ABASTECIMIENTO</option>
+                                    <option value="SERVICIO DE RESTAURANTE Y BAR">SERVICIO DE RESTAURANTE Y BAR
+                                    </option>
+                                    <option value="OPERACIONES DE COMERCIO EXTERIOR">OPERACIONES DE COMERCIO EXTERIOR
+                                    </option>
+                                    <option value="DISEÑO E INTEGRACION DE MULTIMEDIA">DISEÑO E INTEGRACION DE
+                                        MULTIMEDIA</option>
+                                    <option value="INFORMACION Y SERVICIO AL CLIENTE">INFORMACION Y SERVICIO AL CLIENTE
+                                    </option>
+                                    <option value="SERVICIOS DE AGENCIAS DE VIAJES">SERVICIOS DE AGENCIAS DE VIAJES
+                                    </option>
                                     <option value="ASESORIA COMERCIAL">ASESORIA COMERCIAL</option>
                                     <option value="PROCESOS DE PANADERIA">PROCESOS DE PANADERIA</option>
-                                    <option value="GESTION COMUNITARIA DEL RIESGO DE DESASTRES">GESTION COMUNITARIA DEL RIESGO DE DESASTRES</option>
-                                    <option value="PROGRAMACION DE APLICACIONES Y SERVICIOS PARA LA NUBE">PROGRAMACION DE APLICACIONES Y SERVICIOS PARA LA NUBE</option>
+                                    <option value="GESTION COMUNITARIA DEL RIESGO DE DESASTRES">GESTION COMUNITARIA DEL
+                                        RIESGO DE DESASTRES</option>
+                                    <option value="PROGRAMACION DE APLICACIONES Y SERVICIOS PARA LA NUBE">PROGRAMACION
+                                        DE APLICACIONES Y SERVICIOS PARA LA NUBE</option>
                                     <option value="PROGRAMACION DE SOFTWARE">PROGRAMACION DE SOFTWARE</option>
                                     <option value="SERVICIOS DE BARISMO">SERVICIOS DE BARISMO</option>
-                                    <option value="GESTION CONTABLE Y DE INFORMACION FINANCIERA">GESTION CONTABLE Y DE INFORMACION FINANCIERA</option>
-                                    <option value="INTEGRACION DE OPERACIONES LOGISTICAS">INTEGRACION DE OPERACIONES LOGISTICAS</option>
-                                    <option value="INTEGRACION DE CONTENIDOS DIGITALES">INTEGRACION DE CONTENIDOS DIGITALES</option>
+                                    <option value="GESTION CONTABLE Y DE INFORMACION FINANCIERA">GESTION CONTABLE Y DE
+                                        INFORMACION FINANCIERA</option>
+                                    <option value="INTEGRACION DE OPERACIONES LOGISTICAS">INTEGRACION DE OPERACIONES
+                                        LOGISTICAS</option>
+                                    <option value="INTEGRACION DE CONTENIDOS DIGITALES">INTEGRACION DE CONTENIDOS
+                                        DIGITALES</option>
                                     <option value="AUXILIAR EN COCINA">AUXILIAR EN COCINA</option>
-                                    <option value="PROGRAMACION PARA ANALITICA DE DATOS">PROGRAMACION PARA ANALITICA DE DATOS</option>
-                                    <option value="AGENTE DE TRANSITO Y TRANSPORTE">AGENTE DE TRANSITO Y TRANSPORTE</option>
-                                    <option value="ANALISIS Y DESARROLLO DE SOFTWARE">ANALISIS Y DESARROLLO DE SOFTWARE</option>
+                                    <option value="PROGRAMACION PARA ANALITICA DE DATOS">PROGRAMACION PARA ANALITICA DE
+                                        DATOS</option>
+                                    <option value="AGENTE DE TRANSITO Y TRANSPORTE">AGENTE DE TRANSITO Y TRANSPORTE
+                                    </option>
+                                    <option value="ANALISIS Y DESARROLLO DE SOFTWARE">ANALISIS Y DESARROLLO DE SOFTWARE
+                                    </option>
                                     <option value="ATENCION INTEGRAL AL CLIENTE">ATENCION INTEGRAL AL CLIENTE</option>
-                                    <option value="CONTROL DE MOVILIDAD, TRANSPORTE Y SEGURIDAD VIAL">CONTROL DE MOVILIDAD, TRANSPORTE Y SEGURIDAD VIAL</option>
-                                    <option value="DESARROLLO DE PROCESOS DE MERCADEO">DESARROLLO DE PROCESOS DE MERCADEO</option>
+                                    <option value="CONTROL DE MOVILIDAD, TRANSPORTE Y SEGURIDAD VIAL">CONTROL DE
+                                        MOVILIDAD, TRANSPORTE Y SEGURIDAD VIAL</option>
+                                    <option value="DESARROLLO DE PROCESOS DE MERCADEO">DESARROLLO DE PROCESOS DE
+                                        MERCADEO</option>
                                     <option value="DESARROLLO PUBLICITARIO">DESARROLLO PUBLICITARIO</option>
-                                    <option value="GESTION INTEGRAL DEL TRANSPORTE">GESTION INTEGRAL DEL TRANSPORTE</option>
+                                    <option value="GESTION INTEGRAL DEL TRANSPORTE">GESTION INTEGRAL DEL TRANSPORTE
+                                    </option>
                                     <option value="ORGANIZACION DE ARCHIVO">ORGANIZACION DE ARCHIVO</option>
-                                    <option value="PRESELECCION DE TALENTO HUMANO MEDIADO POR HERRAMIENTAS TIC">PRESELECCION DE TALENTO HUMANO MEDIADO POR HERRAMIENTAS TIC</option>
-                                    <option value="SERVICIOS EN CONTACT CENTER Y BPO">SERVICIOS EN CONTACT CENTER Y BPO</option>
-                                    <option value="COORDINACION DE PROCESOS LOGISTICOS">COORDINACION DE PROCESOS LOGISTICOS</option>
+                                    <option value="PRESELECCION DE TALENTO HUMANO MEDIADO POR HERRAMIENTAS TIC">
+                                        PRESELECCION DE TALENTO HUMANO MEDIADO POR HERRAMIENTAS TIC</option>
+                                    <option value="SERVICIOS EN CONTACT CENTER Y BPO">SERVICIOS EN CONTACT CENTER Y BPO
+                                    </option>
+                                    <option value="COORDINACION DE PROCESOS LOGISTICOS">COORDINACION DE PROCESOS
+                                        LOGISTICOS</option>
                                 </optgroup>
                             </select>
                         </div>
@@ -177,13 +212,16 @@
 
                         <div>
                             <label for="id_trainer" class="block text-sm font-medium text-gray-700">Entrenador</label>
-                    <select class="w-full border border-gray-300 rounded-lg p-2.5" id="id_trainer" name="id_trainer" required>
-                        <option value="">Seleccione un instructor</option>
-                        @foreach ($instructorDataArray as $instructor)
-                            <option value="{{ $instructor['id'] }}">{{ $instructor['name'] }} {{ $instructor['last_name'] }}</option>
-                        @endforeach
-                    </select>
+                            <select class="w-full border border-gray-300 rounded-lg p-2.5" id="id_trainer" name="id_trainer" required>
+                                <option value="">Seleccione un instructor</option>
+                                @foreach ($instructorDataArray as $instructor)
+                                @foreach ($instructor['trainers'] as $trainer)
+                                <option value="{{ $trainer['id'] }}">{{ $instructor['name'] }} {{ $instructor['last_name'] }}</option>
+                                @endforeach
+                                @endforeach
+                            </select>
                         </div>
+
                     </div>
                 </div>
 
@@ -266,5 +304,5 @@
 
 
 </body>
-</html>
 
+</html>

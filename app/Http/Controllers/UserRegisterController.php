@@ -36,7 +36,7 @@ class UserRegisterController extends Controller
         $company = Http::get('http://127.0.0.1:8001/api/getCompany');
         $CompanyDataArray = $company->json();
     
-        $instructor = Http::get('http://127.0.0.1:8001/api/user_by_roles_instructor');
+        $instructor = Http::get('http://127.0.0.1:8001/api/get_trainer');
         $instructorDataArray = $instructor->json(); 
         return view('superadmin.SuperAdmin-AprendizAgregar', compact('CompanyDataArray', 'instructorDataArray'));
     }
@@ -68,7 +68,7 @@ class UserRegisterController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
-        ])->post('https://apietapaproductivatest-production-af30.up.railway.app/api/user_registers', [
+        ])->post('http://127.0.0.1:8001/api//api/user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],
             'telephone' => $validated['telephone'],
@@ -226,7 +226,7 @@ class UserRegisterController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
-        ])->post('https://apietapaproductivatest-production-af30.up.railway.app/api/user_registers', [
+        ])->post('http://127.0.0.1:8001/api/user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],
             'telephone' => $validated['telephone'],
@@ -242,7 +242,7 @@ class UserRegisterController extends Controller
 
     
         if ($response->successful()) {
-            return redirect()->route('superadmin.SuperAdmin-Administrator')->with('success', 'Usuario creado correctamente');
+            return redirect()->route('superadmin.SuperAdmin-Instructor')->with('success', 'Usuario creado correctamente');
         } else {
             return redirect()->back()->with('error', 'Error al crear el usuario');
         }
