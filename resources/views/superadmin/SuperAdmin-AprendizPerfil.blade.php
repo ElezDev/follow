@@ -205,10 +205,6 @@
                 </div>
 
 
-
-
-
-
                 <div class="flex justify-end mt-6 space-x-4">
                     <a href="{{ route('administrator.home') }}" class="bg-[#009e00] hover:bg-[#37a837] text-white py-2 px-4 rounded">Actualizar</a>
                     <a href="{{ route('administrator.apprentice') }}" class="px-4 py-2 text-black bg-gray-300 rounded hover:bg-gray-400">Cancelar</a>

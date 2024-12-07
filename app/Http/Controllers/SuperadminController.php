@@ -80,14 +80,36 @@ class SuperadminController extends Controller
     }
     
 
-    public function SuperAdminAprendiz()
+    public function SuperAdminAprendiz(Request $request)
     {
-
+        // Obtención de datos de la API
         $userData = Http::get('http://127.0.0.1:8001/api/user_by_roles_aprendiz');
         $userDataArray = $userData->json();
-        
-        return view('superadmin.SuperAdmin-Aprendiz',  ['aprendiz' => $userDataArray]);
+    
+        // Filtro por búsqueda
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+    
+            $filteredData = array_filter($userDataArray, function ($user) use ($search) {
+                return stripos($user['name'], $search) !== false || 
+                       stripos($user['last_name'], $search) !== false || 
+                       stripos($user['identification'], $search) !== false;
+            });
+    
+            $userDataArray = array_values($filteredData);
+        }
+    
+        // Retorno para solicitudes AJAX
+        if ($request->ajax()) {
+            return view('partials.aprendiz_results', ['aprendiz' => $userDataArray]);
+        }
+    
+        // Retorno para la vista principal
+        return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
     }
+    
+
+    
 
 
     // public function SuperAdminInstructorAñadir()
