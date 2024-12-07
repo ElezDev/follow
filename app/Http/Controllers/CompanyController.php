@@ -61,7 +61,7 @@ class CompanyController extends Controller
 
     public function SuperAdminAdministrator(Request $request)
     {
-        $userData = Http::get('http://127.0.0.1:8001/api/user_by_roles');
+        $userData = Http::get(env('URL_API') . 'user_by_roles');
        $userDataArray = $userData->json();
     
         if ($request->has('search') && !empty($request->search)) {
