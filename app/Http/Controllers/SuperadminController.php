@@ -67,17 +67,6 @@ class SuperadminController extends Controller
         return view('superadmin.email');
     }
 
-    // public function SuperAdminRedactar()
-    // {
-    //     return view('superadmin.SuperAdmin-Redactar');
-    // }
-
-
-    // public function SuperAdminAdministratorAñadir()
-    // {
-    //     return view('superadmin.SuperAdmin-AdministratorAñadir');
-    // }
-
     public function SuperAdminAdministratorPerfil($id)
     {
         $response = Http::get(env('URL_API') . "user_registers/{$id}");

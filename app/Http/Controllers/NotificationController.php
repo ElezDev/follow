@@ -53,13 +53,9 @@ class NotificationController extends Controller
         return view('trainer.notification');
     }
 
-
-
     public function create()
     {
-        //
     }
-
     
     public function show($id)
     {

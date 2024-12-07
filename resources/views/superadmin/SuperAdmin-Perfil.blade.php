@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,115 +13,66 @@
             top: 100%;
             margin-top: 0.5rem;
         }
+
         .user-status {
-            text-align: center; /* Centrar el texto */
-            color: #009e00; /* Color verde */
-            margin-top: 5px; /* Espacio superior para alineación */
-            font-size: 12px; /* Ajustar el tamaño de fuente */
+            text-align: center;
+            /* Centrar el texto */
+            color: #009e00;
+            /* Color verde */
+            margin-top: 5px;
+            /* Espacio superior para alineación */
+            font-size: 12px;
+            /* Ajustar el tamaño de fuente */
         }
     </style>
 </head>
+
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
-  <header class="bg-white text-[#009e00] px-5 py-2.5 flex flex-col items-center border-t-[5px] border-t-white border-b border-b-[#e0e0e0]">
 
-        <div class="flex justify-between w-full">
-            <div class="flex items-center">
-                <!-- Logo de SENA en el lado izquierdo -->
-                <img class="w-[70px] h-[70px]" src="{{ asset('img/logo-sena.png') }}" alt="Sena Logo ">
+    @include('partials.header')
 
-                <!-- Espaciado entre los dos bloques -->
-                <div class="flex-grow m-2"></div>
-
-                <!-- Logo de Etapa Productiva y texto "Centro de Comercio y Servicios" en el lado derecho -->
-                <div class="text-left">
-                    <!-- Logo de Etapa Seguimiento -->
-                    <a href="{{ route('superadmin.home') }}" class="flex items-center">
-                        <img src="{{ asset('img/logo.png') }}" alt="Etapa Seguimiento Logo" class="w-10 h-auto mr-1.5">
-                        <div class="flex flex-col text-left">
-                            <h2 class="text-[12px] m-0 text-[#009e00]">Etapa</h2>
-                            <h2 class="text-[12px] m-0 text-[#009e00]">Productiva</h2>
-                        </div>
-                    </a>
-
-                    <!-- Texto "Centro de Comercio y Servicios" debajo del logo y el texto de Etapa Productiva -->
-                    <h2 class="text-sm mt-2 text-[#009e00]">Centro de Comercio y Servicios</h2>
-                </div>
-            </div>
-            <div class="relative ml-auto flex items-center">
-                <!-- Contenedor para la imagen y el ícono de los tres puntos -->
-                <div class="relative">
-                    <!-- Imagen de usuario -->
-                    <img class="bg-white w-[45px] h-auto rounded-full border-2 " src="{{ asset('img/administrador/mujer.png') }}" alt="User Icon">
-
-                    <!-- Botón de los tres puntos encima de la imagen -->
-                    <button id="menuButton" class="absolute top-1 right-0 bg-transparent p-1 mr-[-46%]">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" class="w-8 h-8">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.75a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                        </svg>
-                    </button>
-                </div>
-                 {{-- Menu --}}
-                 <div id="userMenu" class=" hidden absolute right-4  mt-2 w-64 bg-[#D9D9D9] border border-gray-300 rounded-lg shadow-lg z-20">
-                     <div class="p-4">
-                         <div class="flex items-center mb-4">
-                             <div>
-                                 <p class="text-sm font-bold">{{ auth()->user()->name }} {{ auth()->user()->last_name }}</p>
-                                 <p class="text-sm mt-2">Super Administrador</p>
-                             </div>
-
-
-                         </div>
-                         <ul>
-                             <li class="mt-2"><a href="{{ route('superadmin.SuperAdmin-Perfil') }}" class="block text-center text-green-600 font-bold bg-white border hover:text-white hover:bg-green-600 border-green-600 rounded-lg py-1">Ver perfil</a></li>
-
-                             <li class="mt-2"><a href="{{ route('superadmin.SuperAdmin-Configuracion') }}" class="block text-black hover:bg-white p-2 rounded-lg">Configuración</a></li>
-                             <li class="mt-2"><a href="{{ route('superadmin.SuperAdmin-Permisos') }}" class="block text-black hover:bg-white p-2 rounded-lg" onclick="toggleSublist(event)">Permisos</a></li>
-                             <li class="mt-2"><a href="{{ route('superadmin.SuperAdmin-Graficas')}}" class="block text-black hover:bg-white p-2 rounded-lg">Graficas</a></li>
-                         </ul>
-                         <form id="logoutForm" action="{{ route('logout') }}" method="POST" class="mt-4">
-                             @csrf
-                             <button type="submit" class="block text-center text-green-600 font-bold bg-white border hover:text-white hover:bg-green-600 border-green-600 rounded-lg py-2 w-full">Cerrar sesión</button>
-                         </form>
-                 </div>
-             </div>
-        </header>
     <nav class="bg-[#009e00] px-2.5 h-14 py-1.5 flex justify-end items-center relative z-10">
 
-    {{-- FIN Barra Azul --}}
+        {{-- FIN Barra Azul --}}
 
         <div class="w-full flex justify-center">
-            <ul class="horizontal-list flex space-x-4 justify-center items-center" >
+            <ul class="horizontal-list flex space-x-4 justify-center items-center">
                 <li>
-                    <a href="{{ route('superadmin.home') }}" class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                    <a href="{{ route('superadmin.home') }}"
+                        class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
                         Inicio
                     </a>
                 </li>
                 <li>
                     <a href="{{ route('superadmin.SuperAdmin-Administrator') }}"
-                       class="block text-center text-white px-4 py-2 rounded-lg {{ request()->routeIs('superadmin.SuperAdmin-Administrator') ? 'bg-green-600 bg-opacity-70' : 'bg-green-600 bg-opacity-20 hover:bg-opacity-50' }}">
+                        class="block text-center text-white px-4 py-2 rounded-lg {{ request()->routeIs('superadmin.SuperAdmin-Administrator') ? 'bg-green-600 bg-opacity-70' : 'bg-green-600 bg-opacity-20 hover:bg-opacity-50' }}">
                         <span class="font-bold">
-                           Administradores
+                            Administradores
                         </span>
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Instructor') }}" class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
-                       Instructores
+                    <a href="{{ route('superadmin.SuperAdmin-Instructor') }}"
+                        class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                        Instructores
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Aprendiz') }}" class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                    <a href="{{ route('superadmin.SuperAdmin-Aprendiz') }}"
+                        class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
                         Aprendices
                     </a>
                 </li>
                 <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Graficas') }}" class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
-                       Graficas
+                    <a href="{{ route('superadmin.SuperAdmin-Graficas') }}"
+                        class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                        Graficas
                     </a>
                 </li>
                 <button id="notifButton" class="absolute right-0 mr-4">
                     <a href="{{ route('superadmin.SuperAdmin-Notificaciones') }}">
-                        <img class="w-[50px] h-auto filter invert" src="{{ asset('img/notificaciones.png') }}" alt="Notificaciones">
+                        <img class="w-[50px] h-auto filter invert" src="{{ asset('img/notificaciones.png') }}"
+                            alt="Notificaciones">
                     </a>
                 </button>
             </ul>
@@ -144,35 +96,46 @@
                     <div class="flex justify-center items-center">
                         <img src="{{ asset('img/administrador/mujer.png') }}" alt="User" class="w-40 h-40 mb-">
                     </div>
-                <h1 class="text-lg m-0 text-black font-bold">SUPER</h1>
-                <h1 class="text-lg m-0 text-black font-bold">ADMINISTRADOR</h1>
+                    <h1 class="text-lg m-0 text-black font-bold">SUPER</h1>
+                    <h1 class="text-lg m-0 text-black font-bold">ADMINISTRADOR</h1>
                 </div>
 
                 <h3 class="font-bold mb-4">Datos básicos</h3>
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Nombres:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->name }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Apellidos:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->last_name }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+                            {{ session('user.name') }}
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Cedula:</label>
-                        <input type="text" class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md" value="">
+                        <input type="text" class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md"
+                            value="">
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Telefono:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->phone }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+                            {{ session('user.phone') }}
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Correo electrónico:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->email }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+                            {{ session('user.email') }}
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Fecha de nacimiento:</label>
-                        <p type="date" class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->Birthdate }}</p>
+                        <p type="date" class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+
+                        </p>
                     </div>
                 </div>
 
@@ -180,33 +143,46 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Pais:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->country }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+                            {{ session('user.country') }}
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Departamento:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->department }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+                            {{ session('user.departament') }}
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Municipio:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->municipality }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+                            {{ session('user.municipality') }}
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Barrio:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->neighborhood }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+                            {{ session('user.neighborhood') }}
+                        </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Dirección:</label>
-                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">{{ auth()->user()->address }}</p>
+                        <p class="text-sm text-black bg-white mt-1 w-full h-7 p-1 rounded-md">
+                            {{ session('user.address') ?? "" }}
+                        </p>
                     </div>
                 </div>
 
                 <div class="flex justify-end mt-6 space-x-4">
-                    <a href="{{ route('superadmin.SuperAdmin-Perfil') }}" class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded">Actualizar</a>
-                    <a href="{{ route('superadmin.home') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">Cancelar</a>
+                    <a href="{{ route('superadmin.SuperAdmin-Perfil') }}"
+                        class="bg-green-700 hover:bg-green-900 text-white py-2 px-4 rounded">Actualizar</a>
+                    <a href="{{ route('superadmin.home') }}"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">Cancelar</a>
                 </div>
-        </div>
-    </main>
-</div>
-<script src="{{ asset('js/SuperAdmin.js') }}"></script>
+            </div>
+        </main>
+    </div>
+    <script src="{{ asset('js/SuperAdmin.js') }}"></script>
 </body>
+
 </html>
