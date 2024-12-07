@@ -227,7 +227,7 @@ class UserRegisterController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
-        ])->post('http://127.0.0.1:8001/api/user_registers', [
+        ])->post(env('URL_API') . 'user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],
             'telephone' => $validated['telephone'],
