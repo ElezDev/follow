@@ -118,7 +118,7 @@
                         <span class="p-1 text-xs text-center">{{ $user['municipality'] }}</span>
                         <span class="p-1 text-xs text-center">{{ $user['role']['role_type'] }}</span>
 
-                        <span class="p-1 text-xs text-center">Aprendices: 0</span>
+                        <span class="p-1 text-xs text-center">Aprendices: {{ $user['num_apprentices_assigned'] }}</span>
                     </a>
                     @php
                         $contador++;

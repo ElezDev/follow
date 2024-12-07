@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\AprendizExport;
 use App\Models\superadmin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class SuperadminController extends Controller
@@ -104,29 +106,56 @@ class SuperadminController extends Controller
     }
     
 
+    // public function SuperAdminAprendiz(Request $request)
+    // {
+    //     $userData = Http::get(env('URL_API') . 'user_by_roles_aprendiz');
+    //     $userDataArray = $userData->json();
+    
+    //     if ($request->has('search') && !empty($request->search)) {
+    //         $search = $request->search;
+    
+    //         $filteredData = array_filter($userDataArray, function ($user) use ($search) {
+    //             return stripos($user['name'], $search) !== false || 
+    //                    stripos($user['last_name'], $search) !== false || 
+    //                    stripos($user['identification'], $search) !== false;
+    //         });
+    
+    //         $userDataArray = array_values($filteredData);
+    //     }
+    
+    //     if ($request->ajax()) {
+    //         return view('partials.aprendiz_results', ['aprendiz' => $userDataArray]);
+    //     }
+    
+    //     return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
+    // }
+
     public function SuperAdminAprendiz(Request $request)
-    {
-        $userData = Http::get(env('URL_API') . 'user_by_roles_aprendiz');
-        $userDataArray = $userData->json();
-    
-        if ($request->has('search') && !empty($request->search)) {
-            $search = $request->search;
-    
-            $filteredData = array_filter($userDataArray, function ($user) use ($search) {
-                return stripos($user['name'], $search) !== false || 
-                       stripos($user['last_name'], $search) !== false || 
-                       stripos($user['identification'], $search) !== false;
-            });
-    
-            $userDataArray = array_values($filteredData);
-        }
-    
-        if ($request->ajax()) {
-            return view('partials.aprendiz_results', ['aprendiz' => $userDataArray]);
-        }
-    
-        return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
+{
+    $userData = Http::get(env('URL_API') . 'user_by_roles_aprendiz');
+    $userDataArray = $userData->json();
+
+    // Filtrar los datos si es necesario
+    if ($request->has('search') && !empty($request->search)) {
+        $search = $request->search;
+
+        $filteredData = array_filter($userDataArray, function ($user) use ($search) {
+            return stripos($user['name'], $search) !== false || 
+                   stripos($user['last_name'], $search) !== false || 
+                   stripos($user['identification'], $search) !== false;
+        });
+
+        $userDataArray = array_values($filteredData);
     }
+
+    // Generar y descargar el archivo Excel si la solicitud es de tipo 'download'
+    if ($request->has('download')) {
+        return Excel::download(new AprendizExport($userDataArray), 'aprendices.xlsx');
+    }
+
+    // Retornar la vista con los datos
+    return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
+}
 
     public function SuperAdminInstructorPerfil($id)
     {

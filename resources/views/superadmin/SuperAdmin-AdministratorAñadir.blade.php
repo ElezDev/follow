@@ -70,15 +70,15 @@
 
                                 <!-- Rol de usuario (según tu ejemplo, 'id_role' será fijo o seleccionado) -->
                                 <div>
-                                    <label class="block text-gray-700">Rol</label>
+                                    {{-- <label class="block text-gray-700">Rol</label> --}}
                                     <input type="hidden" name="id_role" value="1"> <!-- O el valor adecuado -->
                                 </div>
 
                                 <!-- Contraseña -->
-                                <div>
+                                {{-- <div>
                                     <label class="block text-gray-700">Contraseña</label>
                                     <input type="password" name="password" class="w-full border border-gray-300 rounded-lg p-2.5" placeholder="Contraseña" required>
-                                </div>
+                                </div> --}}
 
                                 <div class="flex justify-end mt-6 space-x-4">
                                     <button type="submit" class="px-4 py-2 text-white bg-green-700 rounded hover:bg-green-900">Confirmar</button>

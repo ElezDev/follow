@@ -27,7 +27,8 @@ class ApprenticeController extends Controller
     {
         return view('apprentice.visit');
     }
-    public function registervisit(){
+    public function registervisit()
+    {
         return view('apprentice.registervisit');
     }
 
@@ -100,16 +101,21 @@ class ApprenticeController extends Controller
     }
 
 
-    public function crearAprendiz(Request $request){
-
+    public function crearAprendiz(Request $request)
+    {
 
 
         $response = Http::withHeaders([
-            'Content-Type' => 'application/json',              
-            'Accept' => 'application/json',   
-        ])->post(env('URL_API') . 'apprentices-asignar', $request->all());
-        dd($response);
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            ])->post(env('URL_API') . 'apprentices-asignar', $request->all());
 
+
+        if ($response->successful()) {
+            return redirect()->route('superadmin.SuperAdmin-Aprendiz')->with('success', 'Usuario creado correctamente');
+        } else {
+            return redirect()->back()->with('error', 'Error al crear el usuario');
+        }
 
     }
 

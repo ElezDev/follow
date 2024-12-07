@@ -1,89 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite('resources/css/app.css')
-    <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
-    <title>Etapa Productiva</title>
-    <style>
-        #userMenu {
-            top: 100%;
-            margin-top: 0.5rem;
-        }
-
-        .user-status {
-            text-align: center;
-            /* Centrar el texto */
-            color: #009e00;
-            /* Color verde */
-            margin-top: 5px;
-            /* Espacio superior para alineación */
-            font-size: 12px;
-            /* Ajustar el tamaño de fuente */
-        }
-    </style>
-</head>
+@include('partials.head')
 
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
-
     @include('partials.header')
-
-    <nav class="bg-[#009e00] px-2.5 h-14 py-1.5 flex justify-end items-center relative z-10">
-
-        {{-- FIN Barra Azul --}}
-
-        <div class="flex justify-center w-full">
-            <ul class="flex items-center justify-center space-x-4 horizontal-list">
-                <li>
-                    <a href="{{ route('superadmin.home') }}"
-                        class="block px-4 py-2 text-center text-white transition bg-transparent rounded-lg hover:bg-green-700">
-                        Inicio
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Administrator') }}"
-                        class="block px-4 py-2 text-center text-white transition bg-transparent rounded-lg hover:bg-green-700">
-                        Administrador
-
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Instructor') }}"
-                        class="block px-4 py-2 text-center text-white transition bg-transparent rounded-lg hover:bg-green-700">
-                        Instructor
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Aprendiz') }}"
-                        class="block text-center text-white px-4 py-2 rounded-lg {{ request()->routeIs('superadmin.SuperAdmin-Aprendiz') ? 'bg-green-600 bg-opacity-70' : 'bg-green-600 bg-opacity-20 hover:bg-opacity-50' }}">
-                        <span class="font-bold">
-                            Aprendices
-                        </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Graficas') }}"
-                        class="block px-4 py-2 text-center text-white transition bg-transparent rounded-lg hover:bg-green-700">
-                        Graficas
-                    </a>
-                </li>
-
-                <button id="notifButton" class="absolute right-0 mr-4">
-                    <a href="{{ route('superadmin.SuperAdmin-Notificaciones') }}">
-                        <img class="w-[50px] h-auto filter invert" src="{{ asset('img/notificaciones.png') }}"
-                            alt="Notificaciones">
-                    </a>
-                </button>
-
-            </ul>
-        </div>
-
-    </nav>
-
+    @yield('content')
+    @include('partials.nav')
+   
+  
 
     <main class="relative flex flex-col items-center mt-4">
         <div class="flex items-center justify-between w-full mb-4">
@@ -107,51 +32,61 @@
                 </a>
             </form>
 
-            <a href="#" class="-ml-96">
+                    <a href="{{ route('superadmin.aprendiz', ['download' => true]) }}" class="-ml-96">
                 <img src="{{ asset('img/Descarga.webp') }}" alt="descarga" class="w-8 h-auto mr-12">
             </a>
+
         </div>
         <div
             class="w-full max-w-6xl bg-[#2f3e4c14] border-2 border-[#04324D] rounded-lg p-6 shadow-[0_0_10px_rgba(0,0,0,0.8)] mt-1">
-            {{-- <form class="flex items-center gap-2 mb-4" onsubmit="return false;">
-                <input type="text" id="searchInput" placeholder="Buscar por nombre o identificación"
-                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-200" />
-            </form> --}}
-            <div id="resultContainer"
-                class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6">
-                @php
-                    $contador = 0;
-                @endphp
-                @if (!empty($aprendiz) && is_array($aprendiz))
-                    @foreach ($aprendiz as $user)
-                        <a href="{{ route('superadmin.SuperAdmin-AprendizPerfil', ['id' => $user['id'] ?? '']) }}"
-                            class="w-40 h-30 bg-white border-2 border-[#009E00] rounded-2xl m-4 p-2 flex flex-col items-center hover:bg-green-100">
-                            <img src="{{ asset('img/administrador/administrador.png') }}" alt="User"
-                                class="w-8 h-8 mb-1">
+          
+          <div id="resultContainer" 
+     class="grid gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+    @php
+        $contador = 0;
+    @endphp
+    @if (!empty($aprendiz) && is_array($aprendiz))
+      @foreach ($aprendiz as $user)
+    <a href="{{ route('superadmin.SuperAdmin-AprendizPerfil', ['id' => $user['id'] ?? '']) }}"
+       class="flex flex-col items-center w-full p-4 transition-shadow duration-300 bg-white border border-gray-300 shadow-lg rounded-xl hover:shadow-xl">
+        <!-- Imagen del usuario -->
+        <div class="w-16 h-16 mb-2 overflow-hidden rounded-full">
+            <img src="{{ asset('img/administrador/administrador.png') }}" 
+                 alt="User" 
+                 class="object-cover w-full h-full">
+        </div>
 
-                            <!-- Validaciones con navegación segura -->
-                            <span class="p-1 text-xs text-center">
-                                {{ $user['name'] ?? 'N/A' }} {{ $user['last_name'] ?? 'N/A' }}
-                            </span>
-                            <span class="p-1 text-xs text-center">
-                                {{ $user['identification'] ?? 'Sin identificación' }}
-                            </span>
-                            <span class="p-1 text-xs text-center">
-                                {{ $user['department'] ?? 'Sin departamento' }}
-                            </span>
-                            <span class="p-1 text-xs text-center">
-                                {{ $user['role']['role_type'] ?? 'Sin rol' }}
-                            </span>
-                        </a>
-                        @php
-                            $contador++;
-                        @endphp
-                    @endforeach
-                @else
-                    <p class="text-center text-red-500">No se encontraron aprendices.</p>
-                @endif
+        <!-- Información del aprendiz -->
+        <div class="space-y-1 text-center">
+            <p class="text-sm font-medium text-gray-700">
+                <strong></strong> {{ $user['name'] ?? 'N/A' }} {{ $user['last_name'] ?? 'N/A' }}
+            </p>
+            <p class="text-xs text-gray-500">
+                <strong>Ficha:</strong> {{ $user['apprentice']['ficha'] ?? 'N/A' }}
+            </p>
+            <p class="text-xs text-gray-500">
+                <strong>Prog:</strong> {{ $user['apprentice']['program'] ?? 'N/A' }}
+            </p>
+            <p class="text-xs font-semibold text-green-600">
+                <strong>Rol:</strong> {{ $user['role']['role_type'] ?? 'N/A' }}
+            </p>
+            <p class="text-xs text-gray-500">
+                <strong>Instr:</strong> 
+                {{ $user['apprentice']['trainer']['user']['name'] ?? 'N/A' }} 
+                {{ $user['apprentice']['trainer']['user']['last_name'] ?? '' }}
+            </p>
+        </div>
+    </a>
+    @php
+        $contador++;
+    @endphp
+@endforeach
 
-            </div>
+    @else
+        <p class="text-center text-red-500">No se encontraron aprendices.</p>
+    @endif
+</div>
+
         </div>
 
         <div class="m-4 mt-4 text-sm text-center text-gray-500">Total de registros: {{ $contador }}</div>
