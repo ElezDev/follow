@@ -215,7 +215,7 @@
                             <select class="w-full border border-gray-300 rounded-lg p-2.5" id="id_trainer" name="id_trainer" required>
                                 <option value="">Seleccione un instructor</option>
                                 @foreach ($instructorDataArray as $instructor)
-                                @foreach ($instructor['trainers'] as $trainer)
+                                @foreach ($instructor['trainer'] as $trainer)
                                 <option value="{{ $trainer['id'] }}">{{ $instructor['name'] }} {{ $instructor['last_name'] }}</option>
                                 @endforeach
                                 @endforeach

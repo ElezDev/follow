@@ -1,90 +1,14 @@
 <!DOCTYPE html>
 <html lang="es">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    @vite('resources/css/app.css')
-    <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
-    <title>Etapa Productiva</title>
-    <style>
-        #userMenu {
-            top: 100%;
-            margin-top: 0.5rem;
-        }
-
-        .user-status {
-            text-align: center;
-            /* Centrar el texto */
-            color: #009e00;
-            /* Color verde */
-            margin-top: 5px;
-            /* Espacio superior para alineación */
-            font-size: 12px;
-            /* Ajustar el tamaño de fuente */
-        }
-    </style>
-</head>
+@include('partials.head')
 
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
 
     @include('partials.header')
-    
-    <nav class="bg-[#009e00] px-2.5 h-14 py-1.5 flex justify-end items-center relative z-10">
-
-        {{-- FIN Barra Azul --}}
-
-        <div class="flex justify-center w-full">
-            <ul class="flex items-center justify-center space-x-4 horizontal-list">
-                <li>
-                    <a href="{{ route('superadmin.home') }}"
-                        class="block px-4 py-2 text-center text-white transition bg-transparent rounded-lg hover:bg-green-700">
-                        Inicio
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Administrator') }}"
-                        class="block px-4 py-2 text-center text-white transition bg-transparent rounded-lg hover:bg-green-700">
-                        Administrador
-
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Instructor') }}"
-                        class="block text-center text-white px-4 py-2 rounded-lg {{ request()->routeIs('superadmin.SuperAdmin-Instructor') ? 'bg-green-600 bg-opacity-70' : 'bg-green-600 bg-opacity-20 hover:bg-opacity-50' }}">
-                        <span class="font-bold">
-                            Instructor
-                        </span>
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Aprendiz') }}"
-                        class="block px-4 py-2 text-center text-white transition bg-transparent rounded-lg hover:bg-green-700">
-                        Aprendices
-                    </a>
-                </li>
-                <li>
-                    <a href="{{ route('superadmin.SuperAdmin-Graficas') }}"
-                        class="block px-4 py-2 text-center text-white transition bg-transparent rounded-lg hover:bg-green-700">
-                        Graficas
-                    </a>
-                </li>
-                <button id="notifButton" class="absolute right-0 mr-4">
-                    <a href="{{ route('superadmin.SuperAdmin-Notificaciones') }}">
-                        <img class="w-[50px] h-auto filter invert" src="{{ asset('img/notificaciones.png') }}"
-                            alt="Notificaciones">
-                    </a>
-                </button>
-            </ul>
-        </div>
-
-
-
-
-
-    </nav>
-
+    @yield('content')
+    @include('partials.nav')
+  
     <div class="flex items-center justify-between w-full mt-6">
         <a href="{{ route('superadmin.SuperAdmin-Instructor') }}" class="ml-4">
             <img src="{{ asset('img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
@@ -158,7 +82,7 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Aprendices Asignados:</label>
                         <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">
-                            {{ auth()->user()->modality }}</p>
+                              {{ $user['municipality'] }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Horas:</label>
