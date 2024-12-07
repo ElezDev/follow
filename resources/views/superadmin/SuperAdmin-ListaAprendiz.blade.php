@@ -147,7 +147,7 @@
                 <a href="{{ route('superadmin.SuperAdmin-InstructorPerfil') }}" class="bg-gray-300 hover:bg-gray-400 text-gray-800 py-2 px-4 rounded">Cancelar</a>
             </div>
         </div>
-        <div class="mt-4 text-center m-4 text-sm text-gray-500">Total de cuadros: {{ $contador }}</div>
+        <div class="mt-4 text-center m-4 text-sm text-gray-500">Total de registros: {{ $contador }}</div>
     </main>
     <script src="{{ asset('js/SuperAdmin.js') }}"></script>
 </body>

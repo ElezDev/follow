@@ -15,13 +15,32 @@ class SuperadminController extends Controller
         return view('superadmin.home');
     }
 
-    public function SuperAdminAdministrator()
+    public function SuperAdminAdministrator(Request $request)
     {
-        $userData = Http::get('https://apietapaproductivatest-production-af30.up.railway.app/api/user_by_roles');
-        $userDataArray = $userData->json();
+        $userData = Http::get('http://127.0.0.1:8001/api/user_by_roles');
+       $userDataArray = $userData->json();
+    
+        if ($request->has('search') && !empty($request->search)) {
+             $search = $request->search;
+    
+            $filteredData = array_filter($userDataArray, function ($user) use ($search) {
+                return stripos($user['name'], $search) !== false || 
+                       stripos($user['last_name'], $search) !== false || 
+                       stripos($user['identification'], $search) !== false;
+            });
+    
+            $userDataArray = array_values($filteredData);
+        }
+    
+        if ($request->ajax()) {
+            return view('partials.admin_results', ['data' => $userDataArray]);
+        }
 
         return view('superadmin.SuperAdmin-Administrator', ['users' => $userDataArray]);
     }
+
+
+   
 
     // public function SuperAdminNotificaciones()
     // {
@@ -61,7 +80,7 @@ class SuperadminController extends Controller
 
     public function SuperAdminAdministratorPerfil($id)
     {
-        $response = Http::get("https://apietapaproductivatest-production-af30.up.railway.app/api/user_registers/{$id}");
+        $response = Http::get("http://127.0.0.1:8001/api/user_registers/{$id}");
     
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
@@ -72,13 +91,57 @@ class SuperadminController extends Controller
         return view('superadmin.SuperAdmin-AdministratorPerfil', compact('user'));
     }
 
-    public function SuperAdminInstructor()
+    public function SuperAdminInstructor(Request $request)
     {
-        $userData = Http::get('https://apietapaproductivatest-production-af30.up.railway.app/api/user_by_roles_instructor');
-        $userDataArray = $userData->json();
+        $userData = Http::get('http://127.0.0.1:8001/api/user_by_roles_instructor');
+        $userDataArray = $userData->json(); 
+    
+        if ($request->has('search') && !empty($request->search)) {
+             $search = $request->search;
+    
+            $filteredData = array_filter($userDataArray, function ($user) use ($search) {
+                return stripos($user['name'], $search) !== false || 
+                       stripos($user['last_name'], $search) !== false || 
+                       stripos($user['identification'], $search) !== false;
+            });
+    
+            $userDataArray = array_values($filteredData);
+        }
+    
+        if ($request->ajax()) {
+           return view('partials.admin_results', ['data' => $userDataArray]);
+        }
             return view('superadmin.SuperAdmin-Instructor', ['users' => $userDataArray]);
     }
     
+
+    public function SuperAdminAprendiz(Request $request)
+    {
+        $userData = Http::get('http://127.0.0.1:8001/api/user_by_roles_aprendiz');
+        $userDataArray = $userData->json();
+    
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
+    
+            $filteredData = array_filter($userDataArray, function ($user) use ($search) {
+                return stripos($user['name'], $search) !== false || 
+                       stripos($user['last_name'], $search) !== false || 
+                       stripos($user['identification'], $search) !== false;
+            });
+    
+            $userDataArray = array_values($filteredData);
+        }
+    
+        if ($request->ajax()) {
+            return view('partials.aprendiz_results', ['aprendiz' => $userDataArray]);
+        }
+    
+        return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
+    }
+    
+
+    
+
 
     // public function SuperAdminInstructorAñadir()
     // {
@@ -87,7 +150,7 @@ class SuperadminController extends Controller
 
     public function SuperAdminInstructorPerfil($id)
     {
-        $response = Http::get("https://apietapaproductivatest-production-af30.up.railway.app/api/user_registers/{$id}");
+        $response = Http::get("http://127.0.0.1:8001/api/user_registers/{$id}");
     
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
@@ -102,11 +165,7 @@ class SuperadminController extends Controller
 // Route::get('/superadmin/instructor-perfil/{id}', [SuperAdminController::class, 'instructorPerfil'])->name('superadmin.SuperAdmin-InstructorPerfil');
 
 
-    public function SuperAdminAprendiz()
-    {
-        return view('superadmin.SuperAdmin-Aprendiz');
-    }
-
+  
     // public function SuperAdminAprendizAgregar()
     // {
     //     return view('superadmin.SuperAdmin-AprendizAgregar');
@@ -126,12 +185,22 @@ class SuperadminController extends Controller
         return view('superadmin.SuperAdmin-Perfil');
     }
 
-    public function SuperAdminAprendizPerfil()
+
+    public function SuperAdminAprendizPerfil($id)
     {
-        return view('superadmin.SuperAdmin-AprendizPerfil');
+        $response = Http::get("http://127.0.0.1:8001/api/user_registers/{$id}");
+        if ($response->failed()) {
+            abort(404, 'Usuario no encontrado en la API.');
+        }
+    
+        $user = $response->json();
+        return view('superadmin.SuperAdmin-AprendizPerfil',compact('user'));
+
     }
 
 
+
+   
 
 
     public function SuperAdminMensajeInstructor()

@@ -33,8 +33,15 @@ class UserRegisterController extends Controller
     }
     public function SuperAdminAprendizAgregar()
     {
-        return view('superadmin.SuperAdmin-AprendizAgregar');
+        $company = Http::get('http://127.0.0.1:8001/api/getCompany');
+        $CompanyDataArray = $company->json();
+    
+        $instructor = Http::get('http://127.0.0.1:8001/api/user_by_roles_instructor');
+        $instructorDataArray = $instructor->json(); 
+        return view('superadmin.SuperAdmin-AprendizAgregar', compact('CompanyDataArray', 'instructorDataArray'));
     }
+    
+
     public function SuperAdminInstructorAñadir()
     {
         return view('superadmin.SuperAdmin-InstructorAñadir');

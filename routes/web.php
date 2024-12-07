@@ -101,12 +101,13 @@ Route::get('/superadmin/SuperAdmin-Configuracion', [SuperadminController::class,
 Route::get('/superadmin/SuperAdmin-Aprendiz', [SuperadminController::class, 'SuperAdminAprendiz'])->name('superadmin.SuperAdmin-Aprendiz');
 
 // Ruta para ver el perfil de un aprendiz específico
-Route::get('/superadmin/SuperAdmin-AprendizPerfil', [SuperadminController::class, 'SuperAdminAprendizPerfil'])->name('superadmin.SuperAdmin-AprendizPerfil');
+Route::get('/superadmin/SuperAdmin-AprendizPerfil/{id}', [SuperadminController::class, 'SuperAdminAprendizPerfil'])->name('superadmin.SuperAdmin-AprendizPerfil');
 
 
 
 // Ruta para añadir un nuevo aprendiz
-Route::get('/superadmin/SuperAdmin-AprendizAgregar', [UserRegisterController::class, 'SuperAdminAprendizAgregar'])->name('superadmin.SuperAdmin-AprendizAgregar');
+Route::get('/superadmin/SuperAdmin-AprendizAgregar', action: [UserRegisterController::class, 'SuperAdminAprendizAgregar'])->name('superadmin.SuperAdmin-AprendizAgregar');
+Route::post('/superadmin/store-aprendiz', [ApprenticeController::class, 'crearAprendiz'])->name('superadmin.crearAprendiz');
 
 // Ruta para ver la lista de aprendices
 Route::get('/superadmin/SuperAdmin-ListaAprendiz', [SuperadminController::class, 'SuperAdminListaAprendiz'])->name('superadmin.SuperAdmin-ListaAprendiz');
