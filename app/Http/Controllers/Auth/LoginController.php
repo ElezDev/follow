@@ -38,10 +38,12 @@ class LoginController extends Controller
 
         if ($response->successful()) {
             $data = $response->json();
-            Storage::disk('local')->put('respuesta.json', json_encode($data));
 
             if (isset($data['access_token'])) {
-                Storage::disk('local')->put('token.json', json_encode(['token' => $data['access_token']]));
+                // Almacena el token en la sesión
+                session(['token' => $data['access_token']]);
+                session(['user' => $data['user']]); 
+                // Redirige al usuario
                 return redirect('/')->with('success', 'Usuario autenticado correctamente');
             }
         }
@@ -52,16 +54,8 @@ class LoginController extends Controller
     // Maneja la solicitud de cierre de sesión
     public function logout(Request $request)
     {
-        // Cierra la sesión del usuario autenticado
-        Auth::logout();
+        $request->session()->forget(['token', 'user']);
 
-        // Invalida la sesión actual
-        $request->session()->invalidate();
-
-        // Regenera el token de la sesión para evitar ataques CSRF
-        $request->session()->regenerateToken();
-
-        // Redirige a la página principal
         return redirect('/');
     }
 }

@@ -194,7 +194,9 @@
 </head>
 
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
-    <header
+
+    @include('partials.header')
+    {{-- <header
         class="bg-white text-[#009e00] px-5 py-3 flex flex-col items-center border-t-[5px] border-t-white border-b border-b-[#e0e0e0]">
         <div class="flex flex-wrap justify-between w-full items-center">
             <div class="flex items-center">
@@ -212,7 +214,8 @@
                 </div>
             </div>
         </div>
-    </header>
+    </header> --}}
+
     <div class="h-14 bg-[#009e00]">
     </div>
     <main>
