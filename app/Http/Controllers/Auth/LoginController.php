@@ -42,8 +42,14 @@ class LoginController extends Controller
             if (isset($data['access_token'])) {
                 // Almacena el token en la sesión
                 session(['token' => $data['access_token']]);
-                session(['user' => $data['user']]); 
+                session(['user' => $data['user']]);
                 // Redirige al usuario
+
+                $roleId = $data['user']['id_role'];
+
+                if ($roleId == 1 || $roleId == 2) {
+                    return redirect()->route('superadmin.home');
+                }
                 return redirect('/')->with('success', 'Usuario autenticado correctamente');
             }
         }
