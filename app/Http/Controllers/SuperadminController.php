@@ -109,7 +109,7 @@ class SuperadminController extends Controller
         }
     
         if ($request->ajax()) {
-            return view('partials.admin_results', ['data' => $userDataArray]);
+           return view('partials.admin_results', ['data' => $userDataArray]);
         }
             return view('superadmin.SuperAdmin-Instructor', ['users' => $userDataArray]);
     }

@@ -26,7 +26,7 @@ class RegistrarController extends Controller
     }
     public function SuperAdminAprendizAgregar()
     {
-        return view('superadmin.SuperAdmin-AprendizAgregar');
+        return view('superadmin.SuperAdmin-Aprendiz');
     }
     public function SuperAdminInstructorAñadir()
     {

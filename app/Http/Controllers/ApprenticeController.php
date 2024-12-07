@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\apprentice;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
 
 class ApprenticeController extends Controller
 {
@@ -96,4 +98,19 @@ class ApprenticeController extends Controller
     {
         //
     }
+
+
+    public function crearAprendiz(Request $request){
+
+
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',              
+            'Accept' => 'application/json',   
+        ])->post('http://127.0.0.1:8001/api/apprentices-asignar', $request->all());
+        dd($response);
+
+
+    }
+
 }
