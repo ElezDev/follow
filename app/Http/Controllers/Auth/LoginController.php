@@ -50,6 +50,11 @@ class LoginController extends Controller
                 if ($roleId == 1 || $roleId == 2) {
                     return redirect()->route('superadmin.home');
                 }
+
+                if ($roleId == 4) {
+                    return redirect()->route('apprentice.index');
+                }
+
                 return redirect('/')->with('success', 'Usuario autenticado correctamente');
             }
         }
