@@ -19,17 +19,37 @@
             </div>
         </div>
         <div class="relative flex items-center ml-auto">
+            
+            @if (!session()->has('token'))
+                <a href="{{ route('login') }}"
+                    class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
+                    Iniciar sesión
+                </a>
+            @else
+                <form action="{{ route('logout') }}" method="POST" class="inline">
+                    @csrf
+                    <button type="submit"
+                        class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
+                        Cerrar sesión
+                    </button>
+                </form>
+            @endif
+
             <div class="relative">
-                <img class="bg-white w-[45px] h-auto rounded-full border-2"
-                    src="{{ asset('img/administrador/mujer.png') }}" alt="User Icon">
-                <button id="menuButton" class="absolute top-1 right-0 bg-transparent p-1 mr-[-46%]">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="black" class="w-8 h-8">
-                        <path stroke-linecap="round" stroke-linejoin="round"
-                            d="M12 6.75a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                    </svg>
-                </button>
+
+                @if (session()->has('user'))
+                    <img class="bg-white w-[45px] h-auto rounded-full border-2"
+                        src="{{ asset('img/administrador/mujer.png') }}" alt="User Icon">
+                    <button id="menuButton" class="absolute top-1 right-0 bg-transparent p-1 mr-[-46%]">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="black" class="w-8 h-8">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M12 6.75a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
+                        </svg>
+                    </button>
+                @endif
             </div>
+
             <div id="userMenu"
                 class="hidden absolute right-4 mt-2 w-64 bg-[#D9D9D9] border border-gray-300 rounded-lg shadow-lg z-20">
                 <div class="p-4">
@@ -38,7 +58,7 @@
                             @if (session()->has('user'))
                                 <p class="text-sm font-bold">{{ session('user.name') }} {{ session('user.last_name') }}
                                 </p>
-                                <p class="mt-2 text-sm">Super Administrador</p>
+                                <p class="mt-2 text-sm">{{ session('user.role.role_type') }}</p>
                             @endif
                         </div>
                     </div>
@@ -76,23 +96,9 @@
                         @endif
 
                     </ul>
-
-                    @if (!session()->has('token'))
-                        <a href="{{ route('login') }}"
-                            class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
-                            Iniciar sesión
-                        </a>
-                    @else
-                        <form action="{{ route('logout') }}" method="POST" class="inline">
-                            @csrf
-                            <button type="submit"
-                                class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
-                                Cerrar sesión
-                            </button>
-                        </form>
-                    @endif
                 </div>
             </div>
+
         </div>
     </div>
 </header>

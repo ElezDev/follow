@@ -214,42 +214,8 @@
     {{-- @include('partials.header')
     @yield('content')
     @include('partials.nav') --}}
-    <header class="text-[#009e00] px-5 py-2.5 flex flex-col items-center">
-        <div class="flex justify-between w-full">
-            <div class="flex items-center justify-between w-full">
-                <div class="flex items-center">
-                    <img class="w-[70px] h-[70px]" src="{{ asset('img/logo-sena.png') }}" alt="Sena Logo">
-                    <div class="flex-grow m-2"></div>
-                    <div class="text-left">
-                        <div class="flex items-center">
-                            <img src="{{ asset('img/logo.png') }}" alt="Etapa Seguimiento Logo"
-                                class="w-10 h-auto mr-1.5">
-                            <div class="flex flex-col text-left">
-                                <h2 class="text-[12px] m-0 text-[#009e00]">Etapa</h2>
-                                <h2 class="text-[12px] m-0 text-[#009e00]">Productiva</h2>
-                            </div>
-                        </div>
-                        <h2 class="text-sm mt-2 text-[#009e00]">Centro de Comercio y Servicios</h2>
-                    </div>
-                </div>
+    @include('partials.header')
 
-                @if (!session()->has('token'))
-                    <a href="{{ route('login') }}"
-                        class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
-                        Iniciar sesión
-                    </a>
-                @else
-                    <form action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit"
-                            class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
-                            Cerrar sesión
-                        </button>
-                    </form>
-                @endif
-
-            </div>
-    </header>
 
     <nav class="h-14 py-1.5 flex justify-between items-center px-4 bg-[#009e00]">
         <!-- Elementos de navegación centrados -->
