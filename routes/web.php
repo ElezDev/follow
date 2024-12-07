@@ -15,6 +15,7 @@ use App\Http\Controllers\BitacoraController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\GraphicController;
 use App\Http\Middleware\CheckTokenAndUser;
+use App\Http\Middleware\RoleMiddleware;
 
 // Ruta principal que muestra el formulario de inicio de sesión
 Route::get('/', function () {
@@ -38,7 +39,7 @@ Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequest
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
 // Grupo de rutas protegidas por middleware 'auth' (usuarios autenticados)
-Route::middleware([CheckTokenAndUser::class])->group(function () {
+Route::middleware([CheckTokenAndUser::class, RoleMiddleware::class])->group(function () {
     // Rutas para roles específicos
     Route::get('/superadmin/home', function () {
         return view('superadmin.home');
