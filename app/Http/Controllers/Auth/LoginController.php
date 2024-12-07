@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Http;
 
 class LoginController extends Controller
 {
@@ -18,43 +20,26 @@ class LoginController extends Controller
     public function login(Request $request)
     {
         // Valida las credenciales de la solicitud
-        $credentials = $request->validate([
+        $validated = $request->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Intenta autenticar al usuario con las credenciales
-        if (Auth::attempt($credentials)) {
-            // Regenera la sesión para evitar ataques de fijación de sesión
-            $request->session()->regenerate();
+        $base_url = env('URL_API') . 'login';
 
-            // Obtiene el usuario autenticado
-            $user = Auth::user();
-
-            // Define las rutas de redirección según el rol del usuario
-            $roleRoutes = [
-                'superadmin' => 'superadmin.home',
-                'administrator' => 'administrator.home',
-                'trainer' => 'icon',
-                'apprentice' => 'apprentice.home',
-            ];
-
-            // Obtiene el primer rol del usuario
-            $userRole = $user->roles->first();
-            if ($userRole) {
-                // Determina la ruta de redirección basada en el rol del usuario
-                $redirectRoute = $roleRoutes[$userRole->guard_name] ?? '/';
-                return redirect()->intended(route($redirectRoute));
-            }
-
-            // Si no se encuentra un rol, redirige a la página principal
-            return redirect()->intended('/');
-        }
-
-        // Si la autenticación falla, retorna al formulario de inicio de sesión con un error
-        return back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->post($base_url, [
+            'email'    => $validated['email'],
+            'password' => $validated['password']
         ]);
+
+        if ($response->successful()) {
+            return redirect()->route('superadmin.SuperAdmin-Administrator')->with('success', 'Usuario creado correctamente');
+        } else {
+            return back()->withErrors(['email' => 'Las credenciales no coinciden con nuestros registros.']);
+        }
     }
 
     // Maneja la solicitud de cierre de sesión

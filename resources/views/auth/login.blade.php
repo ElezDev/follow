@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <link rel="logo-icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
@@ -51,21 +52,25 @@
         }
 
         body {
-        overflow: hidden; /* Elimina cualquier desplazamiento */
-        margin: 0;        /* Asegura que no haya márgenes que causen scroll */
-    }
+            overflow: hidden;
+            /* Elimina cualquier desplazamiento */
+            margin: 0;
+            /* Asegura que no haya márgenes que causen scroll */
+        }
 
-    main {
-        width: 100%;
-        height: 100vh; /* Ocupa exactamente toda la ventana */
-        background-image: url('{{ asset('img/login/image.png') }}');
-        background-size: 40%;
-        background-position: left top;
-        background-repeat: no-repeat;
-        display: flex;
-        justify-content: center;
-        align-items: center; /* Centra el contenido dentro de main */
-    }
+        main {
+            width: 100%;
+            height: 100vh;
+            /* Ocupa exactamente toda la ventana */
+            background-image: url('{{ asset('img/login/image.png') }}');
+            background-size: 40%;
+            background-position: left top;
+            background-repeat: no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            /* Centra el contenido dentro de main */
+        }
 
         .content {
             position: absolute;
@@ -89,23 +94,26 @@
         }
 
         .etapa-productiva {
-    font-size: 3.5rem;
-    font-weight: bold;
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* Centra los elementos de manera horizontal */
-    text-align: center;  /* Asegura que el texto esté centrado */
-    margin-top: -50px; /* Ajusta el valor según lo necesario */
-}
+            font-size: 3.5rem;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            /* Centra los elementos de manera horizontal */
+            text-align: center;
+            /* Asegura que el texto esté centrado */
+            margin-top: -50px;
+            /* Ajusta el valor según lo necesario */
+        }
 
-.etapa-productiva .etapa {
-    color: #009e00;
-    /* Se eliminó padding-left para evitar desplazamientos */
-}
+        .etapa-productiva .etapa {
+            color: #009e00;
+            /* Se eliminó padding-left para evitar desplazamientos */
+        }
 
-.etapa-productiva .productiva {
-    color: #003366;
-}
+        .etapa-productiva .productiva {
+            color: #003366;
+        }
 
 
         .login-container {
@@ -186,7 +194,8 @@
 </head>
 
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
-    <header class="bg-white text-[#009e00] px-5 py-3 flex flex-col items-center border-t-[5px] border-t-white border-b border-b-[#e0e0e0]">
+    <header
+        class="bg-white text-[#009e00] px-5 py-3 flex flex-col items-center border-t-[5px] border-t-white border-b border-b-[#e0e0e0]">
         <div class="flex flex-wrap justify-between w-full items-center">
             <div class="flex items-center">
                 <img class="w-[70px] h-[70px]" src="{{ asset('img/logo-sena.png') }}" alt="Sena Logo">
@@ -218,7 +227,7 @@
 
         <div class="login-container">
             <h3>USUARIO</h3>
-            <form id="loginform" method="POST" action="{{ route('login') }}">
+            <form id="loginform" method="POST" action="{{ route('login_authentication') }}">
                 @csrf
                 <div class="input-group">
                     <img src="{{ asset('img/mail.png.png') }}" alt="Usuario" class="input-icon">
@@ -230,11 +239,10 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
             </form>
-            <a href="{{ route('register') }}" class="register-link">¿Registar?</a>
-           
-
+            <a href="{{ route('register') }}" class="register-link">¿Registrar?</a>
 
         </div>
     </main>
 </body>
+
 </html>
