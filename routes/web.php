@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Http\Controllers\ApprenticeController;
 use App\Http\Controllers\SuperadminController;
 use App\Http\Controllers\Auth\LoginController;
@@ -8,19 +7,14 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\AdministratorController;
 use App\Http\Controllers\DiaryController;
 use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\RegistrarController;
 use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TrainerController;
 use App\Http\Controllers\UserRegisterController;
 use App\Http\Controllers\BitacoraController;
-use App\Models\User_register;
 use App\Http\Controllers\Auth\ForgotPasswordController;
 use App\Http\Controllers\GraphicController;
-
-//CONEXION DE RUTAS API
-use App\Http\Controllers\FollowupController;
-use App\Models\Municipality;
+use App\Http\Middleware\CheckTokenAndUser;
 
 // Ruta principal que muestra el formulario de inicio de sesión
 Route::get('/', function () {
@@ -30,8 +24,8 @@ Route::get('/', function () {
 Route::get('/graficos', [GraphicController::class, 'index'])->name('graficos.index');
 // Rutas para el inicio de sesión y registro
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login']);
+Route::get('auth/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->name('login_authentication');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
@@ -43,93 +37,78 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('forgot-password', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
 Route::post('forgot-password', [ForgotPasswordController::class, 'sendResetLinkEmail'])->name('password.email');
 
-
-
-
-
 // Grupo de rutas protegidas por middleware 'auth' (usuarios autenticados)
-Route::middleware(['auth'])->group(function () {
+Route::middleware([CheckTokenAndUser::class])->group(function () {
     // Rutas para roles específicos
     Route::get('/superadmin/home', function () {
         return view('superadmin.home');
     })->name('superadmin.home');
 
     // Rutas relacionadas con la gestión de administradores en el panel del superadmin
-// Ruta para la vista de administración general de administradores
-Route::get('/superadmin/SuperAdmin-Administrator', [SuperadminController::class, 'SuperAdminAdministrator'])->name('superadmin.SuperAdmin-Administrator');
+    // Ruta para la vista de administración general de administradores
+    Route::get('/superadmin/SuperAdmin-Administrator', [SuperadminController::class, 'SuperAdminAdministrator'])->name('superadmin.SuperAdmin-Administrator');
 
-// Ruta para ver notificaciones de superadmin
-Route::get('/superadmin/SuperAdmin-Notificaciones', [NotificationController::class, 'SuperAdminNotificaciones'])->name('superadmin.SuperAdmin-Notificaciones');
+    // Ruta para ver notificaciones de superadmin
+    Route::get('/superadmin/SuperAdmin-Notificaciones', [NotificationController::class, 'SuperAdminNotificaciones'])->name('superadmin.SuperAdmin-Notificaciones');
 
-// Ruta para redactar nuevas notificaciones
-Route::get('/superadmin/SuperAdmin-Redactar', [ReportController::class, 'SuperAdminRedactar'])->name('superadmin.SuperAdmin-Redactar');
-Route::get('/superadmin/email', [SuperadminController::class, 'SuperAdminemail'])->name('superadmin.email');
-// Ruta para añadir un nuevo administrador
-Route::get('/superadmin/SuperAdmin-AdministratorAñadir', [UserRegisterController::class, 'SuperAdminAdministratorAñadir'])->name('superadmin.SuperAdmin-AdministratorAñadir');
+    // Ruta para redactar nuevas notificaciones
+    Route::get('/superadmin/SuperAdmin-Redactar', [ReportController::class, 'SuperAdminRedactar'])->name('superadmin.SuperAdmin-Redactar');
+    Route::get('/superadmin/email', [SuperadminController::class, 'SuperAdminemail'])->name('superadmin.email');
+    // Ruta para añadir un nuevo administrador
+    Route::get('/superadmin/SuperAdmin-AdministratorAñadir', [UserRegisterController::class, 'SuperAdminAdministratorAñadir'])->name('superadmin.SuperAdmin-AdministratorAñadir');
 
-// Ruta para ver el perfil de un administrador específico
-Route::get('/superadmin/SuperAdmin-AdministratorPerfil/{id}', [SuperadminController::class, 'SuperAdminAdministratorPerfil'])->name('superadmin.SuperAdmin-AdministratorPerfil');
+    // Ruta para ver el perfil de un administrador específico
+    Route::get('/superadmin/SuperAdmin-AdministratorPerfil/{id}', [SuperadminController::class, 'SuperAdminAdministratorPerfil'])->name('superadmin.SuperAdmin-AdministratorPerfil');
 
-// Ruta para gestionar permisos de administradores
-Route::get('/superadmin/SuperAdmin-Permisos', [SuperadminController::class, 'SuperAdminPermisos'])->name('superadmin.SuperAdmin-Permisos');
+    // Ruta para gestionar permisos de administradores
+    Route::get('/superadmin/SuperAdmin-Permisos', [SuperadminController::class, 'SuperAdminPermisos'])->name('superadmin.SuperAdmin-Permisos');
 
-// Ruta para ver gráficos relacionados con la administración
-Route::get('/superadmin/SuperAdmin-Graficas', [SuperadminController::class, 'SuperAdminGraficas'])->name('superadmin.SuperAdmin-Graficas');
+    // Ruta para ver gráficos relacionados con la administración
+    Route::get('/superadmin/SuperAdmin-Graficas', [SuperadminController::class, 'SuperAdminGraficas'])->name('superadmin.SuperAdmin-Graficas');
 
-// Rutas relacionadas con la gestión de instructores en el panel del superadmin
-// Ruta para ver la lista de instructores
-Route::get('/superadmin/SuperAdmin-Instructor', [SuperadminController::class, 'SuperAdminInstructor'])->name('superadmin.SuperAdmin-Instructor');
+    // Rutas relacionadas con la gestión de instructores en el panel del superadmin
+    // Ruta para ver la lista de instructores
+    Route::get('/superadmin/SuperAdmin-Instructor', [SuperadminController::class, 'SuperAdminInstructor'])->name('superadmin.SuperAdmin-Instructor');
 
-// Ruta para ver el perfil de un instructor específico
-Route::get('/superadmin/SuperAdmin-InstructorPerfil/{id}', [SuperadminController::class, 'SuperAdminInstructorPerfil'])
-     ->name('superadmin.SuperAdmin-InstructorPerfil');
+    // Ruta para ver el perfil de un instructor específico
+    Route::get('/superadmin/SuperAdmin-InstructorPerfil/{id}', [SuperadminController::class, 'SuperAdminInstructorPerfil'])
+        ->name('superadmin.SuperAdmin-InstructorPerfil');
 
+    // Ruta para añadir un nuevo instructor
+    Route::get('/superadmin/SuperAdmin-InstructorAñadir', [UserRegisterController::class, 'SuperAdminInstructorAñadir'])->name('superadmin.SuperAdmin-InstructorAñadir');
+    Route::post('/superadmin/store-user', [UserRegisterController::class, 'storeUser'])->name('superadmin.storeUser');
+    Route::post('/superadmin/store-instructor', [UserRegisterController::class, 'crearInstructor'])->name('superadmin.crearInstructor');
 
+    // Ruta para configuración general del superadmin
+    Route::get('/superadmin/SuperAdmin-Configuracion', [SuperadminController::class, 'SuperAdminConfiguracion'])->name('superadmin.SuperAdmin-Configuracion');
 
-// Ruta para añadir un nuevo instructor
-Route::get('/superadmin/SuperAdmin-InstructorAñadir', [UserRegisterController::class, 'SuperAdminInstructorAñadir'])->name('superadmin.SuperAdmin-InstructorAñadir');
-Route::post('/superadmin/store-user', [UserRegisterController::class, 'storeUser'])->name('superadmin.storeUser');
-Route::post('/superadmin/store-instructor', [UserRegisterController::class, 'crearInstructor'])->name('superadmin.crearInstructor');
+    // Rutas relacionadas con la gestión de aprendices en el panel del superadmin
+    // Ruta para ver la lista de aprendices
+    Route::get('/superadmin/SuperAdmin-Aprendiz', [SuperadminController::class, 'SuperAdminAprendiz'])->name('superadmin.SuperAdmin-Aprendiz');
 
+    // Ruta para ver el perfil de un aprendiz específico
+    Route::get('/superadmin/SuperAdmin-AprendizPerfil/{id}', [SuperadminController::class, 'SuperAdminAprendizPerfil'])->name('superadmin.SuperAdmin-AprendizPerfil');
 
+    // Ruta para añadir un nuevo aprendiz
+    Route::get('/superadmin/SuperAdmin-AprendizAgregar', action: [UserRegisterController::class, 'SuperAdminAprendizAgregar'])->name('superadmin.SuperAdmin-AprendizAgregar');
+    Route::post('/superadmin/store-aprendiz', [ApprenticeController::class, 'crearAprendiz'])->name('superadmin.crearAprendiz');
 
-// Ruta para configuración general del superadmin
-Route::get('/superadmin/SuperAdmin-Configuracion', [SuperadminController::class, 'SuperAdminConfiguracion'])->name('superadmin.SuperAdmin-Configuracion');
+    // Ruta para ver la lista de aprendices
+    Route::get('/superadmin/SuperAdmin-ListaAprendiz', [SuperadminController::class, 'SuperAdminListaAprendiz'])->name('superadmin.SuperAdmin-ListaAprendiz');
 
-// Rutas relacionadas con la gestión de aprendices en el panel del superadmin
-// Ruta para ver la lista de aprendices
-Route::get('/superadmin/SuperAdmin-Aprendiz', [SuperadminController::class, 'SuperAdminAprendiz'])->name('superadmin.SuperAdmin-Aprendiz');
+    // Ruta para ver el cronograma de actividades
+    Route::get('/superadmin/SuperAdmin-Cronograma', [SuperadminController::class, 'SuperAdminCronograma'])->name('superadmin.SuperAdmin-Cronograma');
 
-// Ruta para ver el perfil de un aprendiz específico
-Route::get('/superadmin/SuperAdmin-AprendizPerfil/{id}', [SuperadminController::class, 'SuperAdminAprendizPerfil'])->name('superadmin.SuperAdmin-AprendizPerfil');
+    // Rutas relacionadas con el perfil del superadmin
+    // Ruta para ver el perfil del superadmin
+    Route::get('/superadmin/SuperAdmin-Perfil', [SuperadminController::class, 'SuperAdminPerfil'])->name('superadmin.SuperAdmin-Perfil');
 
+    // Rutas para manejar mensajes a instructores y aprendices
+    // Ruta para enviar un mensaje a un instructor
+    Route::get('/superadmin/SuperAdmin-MensajeInstructor', [SuperadminController::class, 'SuperAdminMensajeInstructor'])->name('superadmin.SuperAdmin-MensajeInstructor');
 
-
-// Ruta para añadir un nuevo aprendiz
-Route::get('/superadmin/SuperAdmin-AprendizAgregar', action: [UserRegisterController::class, 'SuperAdminAprendizAgregar'])->name('superadmin.SuperAdmin-AprendizAgregar');
-Route::post('/superadmin/store-aprendiz', [ApprenticeController::class, 'crearAprendiz'])->name('superadmin.crearAprendiz');
-
-// Ruta para ver la lista de aprendices
-Route::get('/superadmin/SuperAdmin-ListaAprendiz', [SuperadminController::class, 'SuperAdminListaAprendiz'])->name('superadmin.SuperAdmin-ListaAprendiz');
-
-// Ruta para ver el cronograma de actividades
-Route::get('/superadmin/SuperAdmin-Cronograma', [SuperadminController::class, 'SuperAdminCronograma'])->name('superadmin.SuperAdmin-Cronograma');
-
-// Rutas relacionadas con el perfil del superadmin
-// Ruta para ver el perfil del superadmin
-Route::get('/superadmin/SuperAdmin-Perfil', [SuperadminController::class, 'SuperAdminPerfil'])->name('superadmin.SuperAdmin-Perfil');
-
-
-
-// Rutas para manejar mensajes a instructores y aprendices
-// Ruta para enviar un mensaje a un instructor
-Route::get('/superadmin/SuperAdmin-MensajeInstructor', [SuperadminController::class, 'SuperAdminMensajeInstructor'])->name('superadmin.SuperAdmin-MensajeInstructor');
-
-// Ruta para enviar un mensaje a un aprendiz
-Route::get('/superadmin/SuperAdmin-MensajeAprendiz', [SuperadminController::class, 'SuperAdminMensajeAprendiz'])->name('superadmin.SuperAdmin-MensajeAprendiz');
-
-
-
+    // Ruta para enviar un mensaje a un aprendiz
+    Route::get('/superadmin/SuperAdmin-MensajeAprendiz', [SuperadminController::class, 'SuperAdminMensajeAprendiz'])->name('superadmin.SuperAdmin-MensajeAprendiz');
 
     //RUTAS ADMINISTRADOR
     Route::get('/administrator/home', function () {
@@ -159,11 +138,10 @@ Route::get('/superadmin/SuperAdmin-MensajeAprendiz', [SuperadminController::clas
     Route::get('/administrator/perfilInstructor', [AdministratorController::class, 'perfilInstructor'])->name('administrator.perfil-instructor');
     Route::get('/administrator/web', [AdministratorController::class, 'Web'])->name('administrator.web');
 
-
-  // Rutas de aprendiz (cambiada la duplicación del nombre)
-  Route::get('/apprentice/home', function () {
-    return view('apprentice.home');
-})->name('apprentice.home');
+    // Rutas de aprendiz (cambiada la duplicación del nombre)
+    Route::get('/apprentice/home', function () {
+        return view('apprentice.home');
+    })->name('apprentice.home');
 });
 
 // RUTAS APRENDIZ (fuera del middleware 'auth')
@@ -176,28 +154,25 @@ Route::get('/settingsaprendiz', [ApprenticeController::class, 'settings'])->name
 Route::get('/notificationaprendiz', [NotificationController::class, 'notification'])->name('apprentice.notification');
 Route::get('/notificacionaprendiz', [ApprenticeController::class, 'notification'])->name('notificacionaprendiz');
 
-
-
 Route::get('/trainer/icon', function () {
     return view('trainer.icon');
 })->name('icon');
 
 //rutas intructor
-Route::get('/trainer/icon',[TrainerController::class,'icon']);
-Route::get('/trainer/notification',[NotificationController::class, 'notificationtrainer'])->name('notificationtrainer');
-Route::get('/trainer/report',[ReportController::class,'report'])->name('report');
-Route::get('/trainer/username',[TrainerController::class,'username'])->name('username');
-Route::get('/trainer/Bitacora',[BitacoraController::class,'bitacora'])->name('bitacora');
-Route::get('/trainer/visita',[TrainerController::class,'visita'])->name('visita');
-Route::get('/trainer/perfilapre',[TrainerController::class,'perfilapre'])->name('perfilapre');
-Route::get('/trainer/iconTrainer',[TrainerController::class,'icon'])->name('icon');
-Route::get('/trainer/emailTrainer',[TrainerController::class,'email'])->name('email');
-Route::get('/trainer/configuracion',[TrainerController::class,'configuracion'])->name('configuracion');
-Route::get('/trainer/cronograma',[DiaryController::class,'cronograma'])->name('cronograma');
+Route::get('/trainer/icon', [TrainerController::class, 'icon']);
+Route::get('/trainer/notification', [NotificationController::class, 'notificationtrainer'])->name('notificationtrainer');
+Route::get('/trainer/report', [ReportController::class, 'report'])->name('report');
+Route::get('/trainer/username', [TrainerController::class, 'username'])->name('username');
+Route::get('/trainer/Bitacora', [BitacoraController::class, 'bitacora'])->name('bitacora');
+Route::get('/trainer/visita', [TrainerController::class, 'visita'])->name('visita');
+Route::get('/trainer/perfilapre', [TrainerController::class, 'perfilapre'])->name('perfilapre');
+Route::get('/trainer/iconTrainer', [TrainerController::class, 'icon'])->name('icon');
+Route::get('/trainer/emailTrainer', [TrainerController::class, 'email'])->name('email');
+Route::get('/trainer/configuracion', [TrainerController::class, 'configuracion'])->name('configuracion');
+Route::get('/trainer/cronograma', [DiaryController::class, 'cronograma'])->name('cronograma');
 Route::post('/registrar-bitacora', [BitacoraController::class, 'registrar'])->name('registrar.bitacora');
 
 
 Route::get('/test-react', function () {
     return view('test');
 });
-

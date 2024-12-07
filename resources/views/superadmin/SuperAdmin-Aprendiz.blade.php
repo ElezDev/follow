@@ -16,9 +16,6 @@
                 <img src="{{ asset('img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
             </a>
 
-
-    
-
             <form class="flex items-center gap-2 mb-4" onsubmit="return false;">
                 <input type="text" id="searchInput"
                     placeholder="Buscar por nombre o identificación"class="px-2 py-1 text-sm border border-black rounded-full w-96" />
@@ -50,26 +47,40 @@
                 @php
                     $contador = 0;
                 @endphp
-                @foreach ($aprendiz as $user)
-                    <a href="{{ route('superadmin.SuperAdmin-AprendizPerfil', ['id' => $user['id']]) }}"
-                        class="w-40 h-30 bg-white border-2 border-[#009E00] rounded-2xl m-4 p-2 flex flex-col items-center hover:bg-green-100">
-                        <img src="{{ asset('img/administrador/administrador.png') }}" alt="User"
-                            class="w-8 h-8 mb-1">
-                        <span class="p-1 text-xs text-center">{{ $user['name'] }} {{ $user['last_name'] }}</span>
-                        <span class="p-1 text-xs text-center">{{ $user['identification'] }}</span>
-                        <span class="p-1 text-xs text-center">{{ $user['department'] }}</span>
-                        <span class="p-1 text-xs text-center">{{ $user['role']['role_type'] }}</span>
-                    </a>
-                    @php
-                        $contador++;
-                    @endphp
-                @endforeach
+                @if (!empty($aprendiz) && is_array($aprendiz))
+                    @foreach ($aprendiz as $user)
+                        <a href="{{ route('superadmin.SuperAdmin-AprendizPerfil', ['id' => $user['id'] ?? '']) }}"
+                            class="w-40 h-30 bg-white border-2 border-[#009E00] rounded-2xl m-4 p-2 flex flex-col items-center hover:bg-green-100">
+                            <img src="{{ asset('img/administrador/administrador.png') }}" alt="User"
+                                class="w-8 h-8 mb-1">
+
+                            <!-- Validaciones con navegación segura -->
+                            <span class="p-1 text-xs text-center">
+                                {{ $user['name'] ?? 'N/A' }} {{ $user['last_name'] ?? 'N/A' }}
+                            </span>
+                            <span class="p-1 text-xs text-center">
+                                {{ $user['identification'] ?? 'Sin identificación' }}
+                            </span>
+                            <span class="p-1 text-xs text-center">
+                                {{ $user['department'] ?? 'Sin departamento' }}
+                            </span>
+                            <span class="p-1 text-xs text-center">
+                                {{ $user['role']['role_type'] ?? 'Sin rol' }}
+                            </span>
+                        </a>
+                        @php
+                            $contador++;
+                        @endphp
+                    @endforeach
+                @else
+                    <p class="text-center text-red-500">No se encontraron aprendices.</p>
+                @endif
+
             </div>
         </div>
 
         <div class="m-4 mt-4 text-sm text-center text-gray-500">Total de registros: {{ $contador }}</div>
     </main>
-    {{-- <script src="{{ asset('js/SuperAdmin.js') }}"></script> --}}
 
     <script>
         const searchInput = document.getElementById('searchInput');

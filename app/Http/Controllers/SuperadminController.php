@@ -17,7 +17,7 @@ class SuperadminController extends Controller
 
     public function SuperAdminAdministrator(Request $request)
     {
-        $userData = Http::get('http://127.0.0.1:8001/api/user_by_roles');
+        $userData = Http::get(env('URL_API') .  'user_by_roles');
        $userDataArray = $userData->json();
     
         if ($request->has('search') && !empty($request->search)) {
@@ -67,20 +67,9 @@ class SuperadminController extends Controller
         return view('superadmin.email');
     }
 
-    // public function SuperAdminRedactar()
-    // {
-    //     return view('superadmin.SuperAdmin-Redactar');
-    // }
-
-
-    // public function SuperAdminAdministratorAñadir()
-    // {
-    //     return view('superadmin.SuperAdmin-AdministratorAñadir');
-    // }
-
     public function SuperAdminAdministratorPerfil($id)
     {
-        $response = Http::get("http://127.0.0.1:8001/api/user_registers/{$id}");
+        $response = Http::get(env('URL_API') . "user_registers/{$id}");
     
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
@@ -93,7 +82,7 @@ class SuperadminController extends Controller
 
     public function SuperAdminInstructor(Request $request)
     {
-        $userData = Http::get('http://127.0.0.1:8001/api/user_by_roles_instructor');
+        $userData = Http::get(env('URL_API') . 'user_by_roles_instructor');
         $userDataArray = $userData->json(); 
     
         if ($request->has('search') && !empty($request->search)) {
@@ -117,7 +106,7 @@ class SuperadminController extends Controller
 
     public function SuperAdminAprendiz(Request $request)
     {
-        $userData = Http::get('http://127.0.0.1:8001/api/user_by_roles_aprendiz');
+        $userData = Http::get(env('URL_API') . 'user_by_roles_aprendiz');
         $userDataArray = $userData->json();
     
         if ($request->has('search') && !empty($request->search)) {
@@ -138,19 +127,10 @@ class SuperadminController extends Controller
     
         return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
     }
-    
-
-    
-
-
-    // public function SuperAdminInstructorAñadir()
-    // {
-    //     return view('superadmin.SuperAdmin-InstructorAñadir');
-    // }
 
     public function SuperAdminInstructorPerfil($id)
     {
-        $response = Http::get("http://127.0.0.1:8001/api/user_registers/{$id}");
+        $response = Http::get(env('URL_API') . "user_registers/{$id}");
     
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
@@ -161,15 +141,6 @@ class SuperadminController extends Controller
         return view('superadmin.SuperAdmin-InstructorPerfil', compact('user'));
     }
     
-
-// Route::get('/superadmin/instructor-perfil/{id}', [SuperAdminController::class, 'instructorPerfil'])->name('superadmin.SuperAdmin-InstructorPerfil');
-
-
-  
-    // public function SuperAdminAprendizAgregar()
-    // {
-    //     return view('superadmin.SuperAdmin-AprendizAgregar');
-    // }
     public function SuperAdminCronograma()
     {
         return view('superadmin.SuperAdmin-Cronograma');
@@ -188,7 +159,7 @@ class SuperadminController extends Controller
 
     public function SuperAdminAprendizPerfil($id)
     {
-        $response = Http::get("http://127.0.0.1:8001/api/user_registers/{$id}");
+        $response = Http::get(env('URL_API') . "user_registers/{$id}");
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
         }

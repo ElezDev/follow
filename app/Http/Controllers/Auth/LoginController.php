@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class LoginController extends Controller
 {
@@ -15,61 +18,44 @@ class LoginController extends Controller
     }
 
     // Maneja la solicitud de inicio de sesión
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         // Valida las credenciales de la solicitud
-        $credentials = $request->validate([
-            'email' => ['required', 'email'],
+        $validated = $request->validate([
+            'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
 
-        // Intenta autenticar al usuario con las credenciales
-        if (Auth::attempt($credentials)) {
-            // Regenera la sesión para evitar ataques de fijación de sesión
-            $request->session()->regenerate();
+        $base_url = env('URL_API') . 'login';
 
-            // Obtiene el usuario autenticado
-            $user = Auth::user();
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->post($base_url, [
+            'email'    => $validated['email'],
+            'password' => $validated['password']
+        ]);
 
-            // Define las rutas de redirección según el rol del usuario
-            $roleRoutes = [
-                'superadmin' => 'superadmin.home',
-                'administrator' => 'administrator.home',
-                'trainer' => 'icon',
-                'apprentice' => 'apprentice.home',
-            ];
+        if ($response->successful()) {
+            $data = $response->json();
 
-            // Obtiene el primer rol del usuario
-            $userRole = $user->roles->first();
-            if ($userRole) {
-                // Determina la ruta de redirección basada en el rol del usuario
-                $redirectRoute = $roleRoutes[$userRole->guard_name] ?? '/';
-                return redirect()->intended(route($redirectRoute));
+            if (isset($data['access_token'])) {
+                // Almacena el token en la sesión
+                session(['token' => $data['access_token']]);
+                session(['user' => $data['user']]); 
+                // Redirige al usuario
+                return redirect('/')->with('success', 'Usuario autenticado correctamente');
             }
-
-            // Si no se encuentra un rol, redirige a la página principal
-            return redirect()->intended('/');
         }
 
-        // Si la autenticación falla, retorna al formulario de inicio de sesión con un error
-        return back()->withErrors([
-            'email' => 'Las credenciales no coinciden con nuestros registros.',
-        ]);
+        return back()->withErrors(['email' => 'Las credenciales no coinciden con nuestros registros.']);
     }
 
     // Maneja la solicitud de cierre de sesión
     public function logout(Request $request)
     {
-        // Cierra la sesión del usuario autenticado
-        Auth::logout();
+        $request->session()->forget(['token', 'user']);
 
-        // Invalida la sesión actual
-        $request->session()->invalidate();
-
-        // Regenera el token de la sesión para evitar ataques CSRF
-        $request->session()->regenerateToken();
-
-        // Redirige a la página principal
         return redirect('/');
     }
 }

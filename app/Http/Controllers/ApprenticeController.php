@@ -108,7 +108,7 @@ class ApprenticeController extends Controller
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-        ])->post('http://127.0.0.1:8001/api/apprentices-asignar', $request->all());
+            ])->post(env('URL_API') . 'apprentices-asignar', $request->all());
 
 
         if ($response->successful()) {
@@ -116,7 +116,6 @@ class ApprenticeController extends Controller
         } else {
             return redirect()->back()->with('error', 'Error al crear el usuario');
         }
-
 
     }
 
