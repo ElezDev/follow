@@ -174,11 +174,11 @@
         <div class="w-full max-w-screen-lg mx-auto p-3 bg-gray-100 rounded-lg shadow flex flex-col mt-[1%] ">
             <h2 class="text-lg font-bold">Instructor Asignado</h2>
             <ul class="mt-7 space-y-2 md:space-y-4 text-sm">
-                <li><span class="font-semibold">Nombre:</span> Mariany Dorado</li>
+                <li><span class="font-semibold">Nombre:</span> {{ $data['trainer']['user']['name'] }}</li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Correo:</span> edusena10@gmail.com</li>
+                <li><span class="font-semibold">Correo:</span> {{ $data['trainer']['user']['last_name'] }}</li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Teléfono:</span> 322 546 78 67</li>
+                <li><span class="font-semibold">Teléfono:</span> {{ $data['trainer']['user']['email'] }}</li>
                 <hr class="border-white">
             </ul>
         </div>

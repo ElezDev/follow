@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\apprentice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class ApprenticeController extends Controller
 {
@@ -13,20 +14,29 @@ class ApprenticeController extends Controller
      * Display a listing of the resource.
      */
 
-    public function index()
+    public function index(): View
     {
-        return view('apprentice.home');
-    }
+        $token = session()->get('token');
 
-    // public function calendar()
-    // {
-    //     return view('apprentice.calendar');
-    // }
+        // Realizar la solicitud con el token en el encabezado
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ])->get(env('URL_API') . 'get_trainer_assigned_by_apprentice');
+
+        // Convertir la respuesta JSON en un array, vacío si no tiene contenido
+        $data = $response->json();
+
+        // Retornar siempre el array, incluso si está vacío
+        return view('apprentice.home', compact('data'));
+    }
 
     public function visit()
     {
         return view('apprentice.visit');
     }
+
     public function registervisit()
     {
         return view('apprentice.registervisit');
@@ -40,17 +50,6 @@ class ApprenticeController extends Controller
     {
         return view('apprentice.settings');
     }
-    // public function notification()
-    // {
-    //     $notificaciones = [
-    //         ['titulo' => 'Notificación 1', 'asunto' => 'Asunto 1', 'fecha' => '2023-10-30'],
-    //         ['titulo' => 'Notificación 2', 'asunto' => 'Asunto 2', 'fecha' => '2023-10-31'],
-    //         // Agrega más notificaciones aquí
-    //     ];
-
-    //     return view('apprentice.notification', compact('notificaciones'));
-    // }
-
 
     /**
      * Show the form for creating a new resource.
@@ -103,20 +102,15 @@ class ApprenticeController extends Controller
 
     public function crearAprendiz(Request $request)
     {
-
-
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
-            ])->post(env('URL_API') . 'apprentices-asignar', $request->all());
-
+        ])->post(env('URL_API') . 'apprentices-asignar', $request->all());
 
         if ($response->successful()) {
             return redirect()->route('superadmin.SuperAdmin-Aprendiz')->with('success', 'Usuario creado correctamente');
         } else {
             return redirect()->back()->with('error', 'Error al crear el usuario');
         }
-
     }
-
 }
