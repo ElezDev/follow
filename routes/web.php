@@ -30,7 +30,7 @@ Route::get('/', function () {
 Route::get('/graficos', [GraphicController::class, 'index'])->name('graficos.index');
 // Rutas para el inicio de sesión y registro
 
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::get('auth/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login_authentication');
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);

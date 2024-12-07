@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 
 class LoginController extends Controller
 {
@@ -17,11 +18,11 @@ class LoginController extends Controller
     }
 
     // Maneja la solicitud de inicio de sesión
-    public function login(Request $request)
+    public function login(Request $request): RedirectResponse
     {
         // Valida las credenciales de la solicitud
         $validated = $request->validate([
-            'email' => ['required', 'email'],
+            'email'    => ['required', 'email'],
             'password' => ['required'],
         ]);
 
@@ -36,10 +37,16 @@ class LoginController extends Controller
         ]);
 
         if ($response->successful()) {
-            return redirect()->route('superadmin.SuperAdmin-Administrator')->with('success', 'Usuario creado correctamente');
-        } else {
-            return back()->withErrors(['email' => 'Las credenciales no coinciden con nuestros registros.']);
+            $data = $response->json();
+            Storage::disk('local')->put('respuesta.json', json_encode($data));
+
+            if (isset($data['access_token'])) {
+                Storage::disk('local')->put('token.json', json_encode(['token' => $data['access_token']]));
+                return redirect('/')->with('success', 'Usuario autenticado correctamente');
+            }
         }
+
+        return back()->withErrors(['email' => 'Las credenciales no coinciden con nuestros registros.']);
     }
 
     // Maneja la solicitud de cierre de sesión
