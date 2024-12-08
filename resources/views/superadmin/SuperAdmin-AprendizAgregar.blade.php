@@ -67,11 +67,11 @@
                             <input type="text" name="municipality"
                                 class="w-full border border-gray-300 rounded-lg p-2.5" placeholder="Municipio" required>
                         </div>
-                        <div>
+                        {{-- <div>
                             <label class="block text-gray-700">Dirección:</label>
                             <input type="text" name="address" class="w-full border border-gray-300 rounded-lg p-2.5"
                                 placeholder="Dirección" required>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
 
