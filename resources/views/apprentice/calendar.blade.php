@@ -222,14 +222,14 @@
     </div>
 
     <script>
-        const calendarData = @json($data);
+        const calendarData = @json($visitsData);
     </script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
         // Data from the assigned trainer and data with variable name injected by the controller
-        const events = calendarData.trainer.follow_ups.map(followUp => ({
+        const events = calendarData.map(followUp => ({
             title: followUp.type_of_agreement,
             start: followUp.date,
             observation: followUp.observation,
