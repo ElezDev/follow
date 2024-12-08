@@ -12,6 +12,11 @@
             top: 100%;
             margin-top: 0.5rem;
         }
+
+        .active-button {
+            background-color: #2F3E4C;
+            color: white;
+        }
     </style>
 </head>
 
@@ -38,107 +43,96 @@
 
 
     <div class="w-24 flex justify-start m-2 pl-56 items-center">
-        <a href="{{ route('report') }}" type="submit"
-            class="bg-gray-300 hover:bg-gray-400 text-black p-1 rounded">Redactar</a>
+        <a href="{{ route('report') }}" type="submit" class="bg-gray-300 hover:bg-gray-400 text-black p-1 rounded">
+            Redactar
+        </a>
     </div>
+
     <div class="flex justify-center">
-        <main class="bg-white m-4 p-4 rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.8)] border-[#2F3E4C] w-2/3 items-center">
-            <div class="flex justify-center">
-                <button type="button" class="hover:bg-gray-200 m-4 pr-28 pl-28 p-2 rounded active-button"
-                    onclick="setActive(this)">Recibidos</button>
-                <button type="button" class="hover:bg-gray-200 m-4 pl-28 pr-28 p-2 rounded"
-                    onclick="setActive(this)">Enviados</button>
+        <main class="bg-white m-4 p-4 rounded-lg shadow-lg border-[#2F3E4C] w-2/3">
+
+            <!-- Botones de Tabs -->
+            <div class="flex justify-center mb-4">
+                <button type="button" id="receivedTab" class="tab-button active-button p-2 w-1/3 text-center rounded"
+                    onclick="setActiveTab('received')">
+                    Recibidos
+                </button>
+                <button type="button" id="sentTab" class="tab-button p-2 w-1/3 text-center rounded"
+                    onclick="setActiveTab('sent')">
+                    Enviados
+                </button>
             </div>
-            <ul class="bg-white shadow overflow-hidden sm:rounded-md">
-                <li class="border-t border-gray-200">
-                    <div class="flex justify-between items-center p-4 hover:bg-gray-100">
-                        <div>
-                            <h2 class="text-lg font-bold">Título de la Notificación</h2>
-                            <p class="text-gray-600">Asunto de la Notificación</p>
-                            <p class="text-gray-600">Fecha</p>
-                        </div>
-                        <div class="flex items-center">
-                            <a href="{{ route('email') }}">
-                                <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
-                            </a>
-                            <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="border-t border-gray-200">
-                    <div class="flex justify-between items-center p-4 hover:bg-gray-100">
-                        <div>
-                            <h2 class="text-lg font-bold">Título de la Notificación</h2>
-                            <p class="text-gray-600">Cuerpo de la Notificación</p>
-                            <p class="text-gray-600">Fecha</p>
-                        </div>
-                        <div class="flex items-center">
-                            <a href="{{ route('email') }}">
-                                <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
-                            </a>
-                            <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="border-t border-gray-200">
-                    <div class="flex justify-between items-center p-4 hover:bg-gray-100">
-                        <div>
-                            <h2 class="text-lg font-bold">Título de la Notificación</h2>
-                            <p class="text-gray-600">Cuerpo de la Notificación</p>
-                            <p class="text-gray-600">Fecha</p>
-                        </div>
-                        <div class="flex items-center">
-                            <a href="{{ route('email') }}">
-                                <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
-                            </a>
-                            <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="border-t border-gray-200">
-                    <div class="flex justify-between items-center p-4 hover:bg-gray-100">
-                        <div>
-                            <h2 class="text-lg font-bold">Título de la Notificación</h2>
-                            <p class="text-gray-600">Cuerpo de la Notificación</p>
-                            <p class="text-gray-600">Fecha</p>
-                        </div>
-                        <div class="flex items-center">
-                            <a href="{{ route('email') }}">
-                                <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
-                            </a>
-                            <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
-                        </div>
-                    </div>
-                </li>
-                <li class="border-t border-gray-200">
-                    <div class="flex justify-between items-center p-4 hover:bg-gray-100">
-                        <div>
-                            <h2 class="text-lg font-bold">Título de la Notificación</h2>
-                            <p class="text-gray-600">Cuerpo de la Notificación</p>
-                            <p class="text-gray-600">Fecha</p>
-                        </div>
-                        <div class="flex items-center">
-                            <a href="{{ route('email') }}">
-                                <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
-                            </a>
-                            <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
-                        </div>
-                    </div>
-                </li>
+
+            <!-- Lista de Notificaciones -->
+            <ul id="notificationList" class="bg-white shadow overflow-hidden sm:rounded-md">
+                <!-- Notificaciones Recibidas -->
+                <div id="receivedNotifications" class="notification-list">
+                    @foreach ($receivedNotifications as $notification)
+                        <li class="notification-item border-t border-gray-200">
+                            <div class="flex justify-between items-center p-4 hover:bg-gray-100">
+                                <div>
+                                    <h2 class="text-lg font-bold">{{ $notification['content'] }}</h2>
+                                    <p class="text-gray-600">{{ $notification['message'] }}</p>
+                                    <p class="text-gray-600">
+                                        {{ \Carbon\Carbon::parse($notification['shipping_date'])->format('d/m/Y') }}</p>
+                                </div>
+                                <div class="flex items-center">
+                                    <a href="{{ route('email') }}">
+                                        <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
+                                    </a>
+                                    <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </div>
+
+                <!-- Notificaciones Enviadas -->
+                <div id="sentNotifications" class="notification-list" style="display:none;">
+                    @foreach ($sentNotifications as $notification)
+                        <li class="notification-item border-t border-gray-200">
+                            <div class="flex justify-between items-center p-4 hover:bg-gray-100">
+                                <div>
+                                    <h2 class="text-lg font-bold">{{ $notification['content'] }}</h2>
+                                    <p class="text-gray-600">{{ $notification['message'] }}</p>
+                                    <p class="text-gray-600">
+                                        {{ \Carbon\Carbon::parse($notification['shipping_date'])->format('d/m/Y') }}
+                                    </p>
+                                </div>
+                                <div class="flex items-center">
+                                    <a href="{{ route('email') }}">
+                                        <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
+                                    </a>
+                                    <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
+                                </div>
+                            </div>
+                        </li>
+                    @endforeach
+                </div>
             </ul>
         </main>
     </div>
+
     <script>
-        function setActive(button) {
-            // Remueve la clase 'active-button' de todos los botones
-            document.querySelectorAll('.active-button').forEach(btn => btn.classList.remove('bg-gray-200',
-            'active-button'));
-            // Agrega la clase 'active-button' y el color al botón clicado
-            button.classList.add('bg-gray-200', 'active-button');
+        // Función para cambiar entre tabs
+        function setActiveTab(tab) {
+            if (tab === 'received') {
+                document.getElementById('receivedTab').classList.add('active-button');
+                document.getElementById('sentTab').classList.remove('active-button');
+                document.getElementById('receivedNotifications').style.display = 'block';
+                document.getElementById('sentNotifications').style.display = 'none';
+            } else if (tab === 'sent') {
+                document.getElementById('sentTab').classList.add('active-button');
+                document.getElementById('receivedTab').classList.remove('active-button');
+                document.getElementById('sentNotifications').style.display = 'block';
+                document.getElementById('receivedNotifications').style.display = 'none';
+            }
         }
+
+        // Iniciar con la tab 'received' activa
+        setActiveTab('received');
     </script>
-    <script src="{{ asset('js/Trainer.js') }}"></script>
-</body>
+
 </body>
 
 </html>

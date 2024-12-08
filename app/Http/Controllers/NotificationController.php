@@ -2,20 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\View\View;
 use App\Models\notification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Illuminate\Http\RedirectResponse;
 
 class NotificationController extends Controller
 {
-    
+
     public function index()
     {
         $notifications = Notification::included()->filter()->sort()->getOrPaginate();
         return response()->json($notifications);
     }
-    
+
     public function store(Request $request)
     {
         $request->validate([
@@ -43,20 +44,20 @@ class NotificationController extends Controller
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $token,
         ])->get(env('URL_API') . 'notification_by_person');
-        
+
         // Verifica si la respuesta es exitosa
         if ($response->successful()) {
             $notificaciones = $response->json();
         } else {
             $notificaciones = []; // En caso de error, devuelves un array vacío
         }
-        
+
         return view('apprentice.notification', compact('notificaciones'));
     }
-    
 
 
-   
+
+
 
 
 
@@ -65,15 +66,58 @@ class NotificationController extends Controller
     {
         return view('superadmin.SuperAdmin-Notificaciones');
     }
-    public function notificationtrainer()
+    public function notificationtrainer(): RedirectResponse|View
     {
-        return view('trainer.notification');
+        // Obtener el token de la sesión
+        $token = session()->get('token');
+
+        if (!$token) {
+            return redirect()->back()->with('error', 'No se encontró el token de autenticación.');
+        }
+
+        // URL para obtener las notificaciones recibidas
+        $urlReceivedNotifications = env('URL_API') . 'get_received_notifications_by_user';
+
+        // Solicitud para obtener las notificaciones recibidas
+        $receivedResponse = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->get($urlReceivedNotifications);
+
+        // Verificar si la solicitud fue exitosa
+        if (!$receivedResponse->successful()) {
+            return redirect()->back()->with('error', 'Error al obtener las notificaciones recibidas.');
+        }
+
+        // URL para obtener las notificaciones enviadas
+        $urlNotificationsSend = env('URL_API') . 'get_notifications_send_by_user';
+
+        // Solicitud para obtener las notificaciones enviadas
+        $sendResponse = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->get($urlNotificationsSend);
+
+        // Verificar si la solicitud fue exitosa
+        if (!$sendResponse->successful()) {
+            return redirect()->back()->with('error', 'Error al obtener las notificaciones enviadas.');
+        }
+
+        // Pasar las respuestas a la vista
+        $receivedNotifications = $receivedResponse->json();  // Notificaciones recibidas
+        $sentNotifications = $sendResponse->json();         // Notificaciones enviadas
+
+        // Retornar la vista con los datos de las notificaciones
+        return view('trainer.notification', [
+            'receivedNotifications' => $receivedNotifications,
+            'sentNotifications' => $sentNotifications,
+        ]);
     }
 
-    public function create()
-    {
-    }
-    
+    public function create() {}
+
     public function show($id)
     {
         $notification = Notification::included()->findOrFail($id);
@@ -96,5 +140,4 @@ class NotificationController extends Controller
         $notification->delete();
         return response()->json(null, 204);
     }
-    
 }

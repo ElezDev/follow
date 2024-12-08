@@ -82,4 +82,5 @@ class ReportController extends Controller
             return redirect()->back()->with('error', 'Error al enviar la notificación.');
         }
     }
+    
 }
