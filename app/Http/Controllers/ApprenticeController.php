@@ -27,6 +27,7 @@ class ApprenticeController extends Controller
 
         // Convertir la respuesta JSON en un array, vacío si no tiene contenido
         $data = $response->json();
+        
 
         // Retornar siempre el array, incluso si está vacío
         return view('apprentice.home', compact('data'));

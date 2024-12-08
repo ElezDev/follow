@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\notification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
 
 class NotificationController extends Controller
 {
@@ -35,14 +37,29 @@ class NotificationController extends Controller
     //aprendiz
     public function notification()
     {
-        $notificaciones = [
-            ['titulo' => 'Notificación 1', 'asunto' => 'Asunto 1', 'fecha' => '2023-10-30'],
-            ['titulo' => 'Notificación 2', 'asunto' => 'Asunto 2', 'fecha' => '2023-10-31'],
-            // Agrega más notificaciones aquí
-        ];
-
+        $token = session()->get('token');
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ])->get(env('URL_API') . 'notification_by_person');
+        
+        // Verifica si la respuesta es exitosa
+        if ($response->successful()) {
+            $notificaciones = $response->json();
+        } else {
+            $notificaciones = []; // En caso de error, devuelves un array vacío
+        }
+        
         return view('apprentice.notification', compact('notificaciones'));
     }
+    
+
+
+   
+
+
+
     //superadministrador
     public function SuperAdminNotificaciones()
     {
