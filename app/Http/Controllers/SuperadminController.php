@@ -19,21 +19,21 @@ class SuperadminController extends Controller
 
     public function SuperAdminAdministrator(Request $request)
     {
-        $userData = Http::get(env('URL_API') .  'user_by_roles');
-       $userDataArray = $userData->json();
-    
+        $userData = Http::get(env('URL_API') . 'user_by_roles');
+        $userDataArray = $userData->json();
+
         if ($request->has('search') && !empty($request->search)) {
-             $search = $request->search;
-    
+            $search = $request->search;
+
             $filteredData = array_filter($userDataArray, function ($user) use ($search) {
-                return stripos($user['name'], $search) !== false || 
-                       stripos($user['last_name'], $search) !== false || 
-                       stripos($user['identification'], $search) !== false;
+                return stripos($user['name'], $search) !== false ||
+                    stripos($user['last_name'], $search) !== false ||
+                    stripos($user['identification'], $search) !== false;
             });
-    
+
             $userDataArray = array_values($filteredData);
         }
-    
+
         if ($request->ajax()) {
             return view('partials.admin_results', ['data' => $userDataArray]);
         }
@@ -42,7 +42,7 @@ class SuperadminController extends Controller
     }
 
 
-   
+
 
     // public function SuperAdminNotificaciones()
     // {
@@ -72,103 +72,103 @@ class SuperadminController extends Controller
     public function SuperAdminAdministratorPerfil($id)
     {
         $response = Http::get(env('URL_API') . "user_registers/{$id}");
-    
+
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
         }
-    
+
         $user = $response->json();
-    
+
         return view('superadmin.SuperAdmin-AdministratorPerfil', compact('user'));
     }
 
     public function SuperAdminInstructor(Request $request)
     {
         $userData = Http::get(env('URL_API') . 'user_by_roles_instructor');
-        $userDataArray = $userData->json(); 
-    
+        $userDataArray = $userData->json();
+
         if ($request->has('search') && !empty($request->search)) {
-             $search = $request->search;
-    
+            $search = $request->search;
+
             $filteredData = array_filter($userDataArray, function ($user) use ($search) {
-                return stripos($user['name'], $search) !== false || 
-                       stripos($user['last_name'], $search) !== false || 
-                       stripos($user['identification'], $search) !== false;
+                return stripos($user['name'], $search) !== false ||
+                    stripos($user['last_name'], $search) !== false ||
+                    stripos($user['identification'], $search) !== false;
             });
-    
+
             $userDataArray = array_values($filteredData);
         }
-    
+
         if ($request->ajax()) {
-           return view('partials.admin_results', ['data' => $userDataArray]);
+            return view('partials.admin_results', ['data' => $userDataArray]);
         }
-            return view('superadmin.SuperAdmin-Instructor', ['users' => $userDataArray]);
+        return view('superadmin.SuperAdmin-Instructor', ['users' => $userDataArray]);
     }
-    
+
 
     // public function SuperAdminAprendiz(Request $request)
     // {
     //     $userData = Http::get(env('URL_API') . 'user_by_roles_aprendiz');
     //     $userDataArray = $userData->json();
-    
+
     //     if ($request->has('search') && !empty($request->search)) {
     //         $search = $request->search;
-    
+
     //         $filteredData = array_filter($userDataArray, function ($user) use ($search) {
     //             return stripos($user['name'], $search) !== false || 
     //                    stripos($user['last_name'], $search) !== false || 
     //                    stripos($user['identification'], $search) !== false;
     //         });
-    
+
     //         $userDataArray = array_values($filteredData);
     //     }
-    
+
     //     if ($request->ajax()) {
     //         return view('partials.aprendiz_results', ['aprendiz' => $userDataArray]);
     //     }
-    
+
     //     return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
     // }
 
     public function SuperAdminAprendiz(Request $request)
     {
-    $userData = Http::get(env('URL_API') . 'user_by_roles_aprendiz');
-    $userDataArray = $userData->json();
+        $userData = Http::get(env('URL_API') . 'user_by_roles_aprendiz');
+        $userDataArray = $userData->json();
 
-    if ($request->has('search') && !empty($request->search)) {
-        $search = $request->search;
+        if ($request->has('search') && !empty($request->search)) {
+            $search = $request->search;
 
-        $filteredData = array_filter($userDataArray, function ($user) use ($search) {
-            return stripos($user['name'], $search) !== false || 
-                   stripos($user['last_name'], $search) !== false || 
-                   stripos($user['identification'], $search) !== false;
-        });
+            $filteredData = array_filter($userDataArray, function ($user) use ($search) {
+                return stripos($user['name'], $search) !== false ||
+                    stripos($user['last_name'], $search) !== false ||
+                    stripos($user['identification'], $search) !== false;
+            });
 
-        $userDataArray = array_values($filteredData);
-    }
+            $userDataArray = array_values($filteredData);
+        }
         if ($request->ajax()) {
             return view('partials.aprendiz_results', ['aprendiz' => $userDataArray]);
         }
 
-    if ($request->has('download')) {
-        return Excel::download(new AprendizExport($userDataArray), 'aprendices.xlsx');
+        if ($request->has('download')) {
+            return Excel::download(new AprendizExport($userDataArray), 'aprendices.xlsx');
+        }
+        return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
     }
-    return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
-}
 
     public function SuperAdminInstructorPerfil($id)
     {
         $response = Http::get(env('URL_API') . "user_registers/{$id}");
-    
+
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
         }
-    
+
         $user = $response->json();
-    
+
         return view('superadmin.SuperAdmin-InstructorPerfil', compact('user'));
     }
-    
+
     public function SuperAdminCronograma()
     {
         return view('superadmin.SuperAdmin-Cronograma');
@@ -189,20 +189,20 @@ class SuperadminController extends Controller
     {
         $response = Http::get(env('URL_API') . "user_by_id/{$id}");
 
-        
+
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
         }
-        
+
         $user = $response->json();
 
-         return view('superadmin.SuperAdmin-AprendizPerfil',compact('user'));
+        return view('superadmin.SuperAdmin-AprendizPerfil', compact('user'));
 
     }
 
 
 
-   
+
 
 
     public function SuperAdminMensajeInstructor()
