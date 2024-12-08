@@ -156,7 +156,7 @@ Route::middleware([CheckTokenAndUser::class, RoleApprendiceMiddleware::class])->
     Route::get('/profileaprendiz', [ApprenticeController::class, 'profile'])->name('apprentice.profile');
     Route::get('/settingsaprendiz', [ApprenticeController::class, 'settings'])->name('apprentice.settings');
     Route::get('/notificationaprendiz', [NotificationController::class, 'notification'])->name('apprentice.notification');
-    Route::get('/notificacionaprendiz', [ApprenticeController::class, 'notification'])->name('notificacionaprendiz');
+    // Route::get('/notificacionaprendiz', [ApprenticeController::class, 'notification'])->name('notificacionaprendiz');
 });
 
 //rutas intructor
