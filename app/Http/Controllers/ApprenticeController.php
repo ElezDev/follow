@@ -103,9 +103,12 @@ class ApprenticeController extends Controller
 
     public function crearAprendiz(Request $request)
     {
+        $token = session()->get('token');
+
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
             'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
         ])->post(env('URL_API') . 'apprentices-asignar', $request->all());
 
         if ($response->successful()) {

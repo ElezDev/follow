@@ -183,7 +183,17 @@
                                 </optgroup>
                             </select>
                         </div>
-
+  <div>
+                                <label for="modalidad" class="block text-sm font-medium text-gray-700">Modalidad de etapa práctica</label>
+                                <select id="modalidad" name="modalidad" class="w-full border border-gray-300 rounded-lg p-2.5" required>
+                                    <option value="" disabled selected>Selecciona una modalidad</option>
+                                    <option value="pasantia">Pasantía</option>
+                                    <option value="contrato">Contrato de aprendizaje</option>
+                                    <option value="vinculacion_directa">Vinculación directa</option>
+                                    <option value="proyecto_productivo">Proyecto productivo</option>
+                                    <option value="emprendimiento">Emprendimiento</option>
+                                </select>
+                            </div>
                         <!-- Ficha -->
                         <div>
                             <label for="ficha" class="block text-sm font-medium text-gray-700">Ficha</label>
