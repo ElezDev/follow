@@ -64,10 +64,11 @@ class UserRegisterController extends Controller
             // 'password' => 'required|string|min:8',
             'last_name' => 'required|string|max:100',
         ]);
-    
+        $token = session()->get('token');
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
+            'Authorization' => 'Bearer ' . $token,
             ])->post(env('URL_API') . 'user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],
@@ -218,15 +219,16 @@ class UserRegisterController extends Controller
             'department' => 'required|string|max:100',
             'municipality' => 'required|string|max:100',
             'id_role' => 'required|integer',
-            // 'password' => 'required|string|min:8',
             'last_name' => 'required|string|max:100',
             
 
         ]);
     
+        $token = session()->get('token');
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
+            'Authorization' => 'Bearer ' . $token,
         ])->post(env('URL_API') . 'user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],
@@ -236,7 +238,6 @@ class UserRegisterController extends Controller
             'department' => $validated['department'],
             'municipality' => $validated['municipality'],
             'id_role' => 3,
-            // 'password' => $validated['password'],
             'last_name' => $validated['last_name'],
 
         ]);
