@@ -111,7 +111,7 @@
             <section class="p-4">
                 <div id="calendarDays" class="calendar"></div>
             </section>
-            <button id="open-modal" class="px-4 py-2 bg-green-500 text-white rounded">Abrir Modal</button>
+            {{-- <button id="open-modal" class="px-4 py-2 bg-green-500 text-white rounded">Abrir Modal</button> --}}
         </main>
     </div>
 
@@ -124,7 +124,10 @@
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
 
-                    <form action="/" id="visit-form" method="POST" class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <form action="/" id="visit-form" method="POST"
+                        class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+
+                        {!! csrf_field() !!}
 
                         <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                             <div class="sm:items-start">
@@ -132,7 +135,7 @@
                                 <h3 class="text-center text-base font-semibold text-gray-900" id="modal-title">Visita
                                 </h3>
                                 <div class="text-center mt-2">
-                                    <p class="text-lg text-gray-500">Fecha: 2024-12-12</p>
+                                    <p id="selected-date" class="text-lg text-gray-500">Fecha: 2024-12-12</p>
                                     <p class="text-lg text-gray-500">Hora: 08:30 am</p>
                                 </div>
 
@@ -182,20 +185,19 @@
         </div>
     </div>
 
+    <script>
+        const calendarData = @json($data);
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        const modal = document.getElementById('evento');
-        const openModalButton = document.getElementById('open-modal');
-        const closeModalButton = document.getElementById('close-modal');
-
-        openModalButton.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
-
-        closeModalButton.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
+        // Data from the assigned trainer and data with variable name injected by the controller
+        const events = calendarData.trainer.follow_ups.map(followUp => ({
+            title: followUp.type_of_agreement,
+            start: followUp.date,
+            observation: followUp.observation,
+        }));
     </script>
 
     <script src="{{ asset('js/calendar.js') }}" defer></script>

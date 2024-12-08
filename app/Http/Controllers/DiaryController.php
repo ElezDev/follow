@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diary;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\Factory;
+use Illuminate\Support\Facades\Http;
 
 class DiaryController extends Controller
 {
@@ -13,10 +16,24 @@ class DiaryController extends Controller
     {
         return view('trainer.cronograma');
     }
-    //aprendiz
-    public function calendar()
+    
+    /**
+     * Get data follow ups to view in calendar
+     * @return \Illuminate\View\Factory|\Illuminate\View\View
+     */
+    public function calendar(): Factory|View
     {
-        return view('apprentice.calendar');
+        $token = session()->get('token');
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ])->get(env('URL_API') . 'get_trainer_assigned_by_apprentice');
+
+        $data = $response->json();
+
+        return view('apprentice.calendar', compact('data'));
     }
 
 
