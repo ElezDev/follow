@@ -203,7 +203,22 @@ class SuperadminController extends Controller
     }
 
 
+   public function updateProfilePhoto(){
+    //    $this->validate(request(), [
+    //         'profile_photo' =>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+    //     ]);
 
+    //     $image = request()->file('profile_photo');
+    //     $imageName = time(). '.'. $image->getClientOriginalExtension();
+    //     $image->move(public_path('images'), $imageName);
+
+    //     $user = Auth::user();
+    //     $user->profile_photo = $imageName;
+    //     $user->save();
+
+    //     return back()->with('success', 'Imagen de Perfil actualizada correctamente.');
+    //
+   }
 
 
 
@@ -219,50 +234,5 @@ class SuperadminController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(superadmin $superadmin)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(superadmin $superadmin)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, superadmin $superadmin)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(superadmin $superadmin)
-    {
-        //
-    }
-
-
+   
 }

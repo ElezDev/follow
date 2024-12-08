@@ -118,6 +118,7 @@ Route::middleware([CheckTokenAndUser::class, RoleMiddleware::class])->group(func
 
     // Ruta para enviar un mensaje a un aprendiz
     Route::get('/superadmin/SuperAdmin-MensajeAprendiz', [SuperadminController::class, 'SuperAdminMensajeAprendiz'])->name('superadmin.SuperAdmin-MensajeAprendiz');
+    Route::post('/superadmin/update-profile-photo', [SuperAdminController::class, 'updateProfilePhoto'])->name('superadmin.updateProfilePhoto');
 
     //RUTAS ADMINISTRADOR
     Route::get('/administrator/home', function () {
