@@ -82,6 +82,9 @@ Route::middleware([CheckTokenAndUser::class, RoleMiddleware::class])->group(func
     Route::post('/superadmin/store-user', [UserRegisterController::class, 'storeUser'])->name('superadmin.storeUser');
     Route::post('/superadmin/store-instructor', [UserRegisterController::class, 'crearInstructor'])->name('superadmin.crearInstructor');
 
+    Route::put('/superadmin/update-user/{id}', [UserRegisterController::class, 'updateUserInstructor'])->name('superadmin.updateUser');
+
+
     // Ruta para configuración general del superadmin
     Route::get('/superadmin/SuperAdmin-Configuracion', [SuperadminController::class, 'SuperAdminConfiguracion'])->name('superadmin.SuperAdmin-Configuracion');
 
