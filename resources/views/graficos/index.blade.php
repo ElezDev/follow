@@ -125,7 +125,6 @@
             font-size: 12px;
             /* Ajustar el tamaño de fuente */
         }
-
     </style>
 </head>
 
@@ -188,7 +187,7 @@
     </div>
 
     <script>
-    const URL_API = "http://127.0.0.1:8001/api/";
+        const URL_API = "{{ env('URL_API') }}";
         let apiData = [];
 
         // Obtener los datos de la API
@@ -204,44 +203,45 @@
         }
 
         // Filtrar y actualizar la visualización
-       // Filtrar y actualizar la visualización
-let filteredData = [...apiData];
+        // Filtrar y actualizar la visualización
+        let filteredData = [...apiData];
 
-function applyFilters() {
-    const filterContract = document.getElementById('filterContract').value;
-    const startDate = document.getElementById('startDate').value;
-    const endDate = document.getElementById('endDate').value;
-    const sortOrder = document.getElementById('sortOrder').value;
+        function applyFilters() {
+            const filterContract = document.getElementById('filterContract').value;
+            const startDate = document.getElementById('startDate').value;
+            const endDate = document.getElementById('endDate').value;
+            const sortOrder = document.getElementById('sortOrder').value;
 
-    filteredData = apiData.filter(item => {
-        const matchContract = filterContract === 'todos' || item.modalidad.toLowerCase().includes(filterContract.toLowerCase());
+            filteredData = apiData.filter(item => {
+                const matchContract = filterContract === 'todos' || item.modalidad.toLowerCase().includes(
+                    filterContract.toLowerCase());
 
-        return matchContract;
-    });
+                return matchContract;
+            });
 
-    if (sortOrder === 'asc') {
-        filteredData.sort((a, b) => a.count - b.count);
-    } else if (sortOrder === 'desc') {
-        filteredData.sort((a, b) => b.count - a.count);
-    }
+            if (sortOrder === 'asc') {
+                filteredData.sort((a, b) => a.count - b.count);
+            } else if (sortOrder === 'desc') {
+                filteredData.sort((a, b) => b.count - a.count);
+            }
 
-    // Verificar si hay datos filtrados
-    if (filteredData.length === 0) {
-        // Usar SweetAlert en lugar del alert
-        Swal.fire({
-            title: '¡Oops!',
-            text: 'No se encontraron datos con los filtros seleccionados.',
-            icon: 'warning',
-            confirmButtonText: 'Aceptar',
-            background: '#f8f9fa',
-            color: '#333',
-            confirmButtonColor: '#007bff'
-        });
-    }
+            // Verificar si hay datos filtrados
+            if (filteredData.length === 0) {
+                // Usar SweetAlert en lugar del alert
+                Swal.fire({
+                    title: '¡Oops!',
+                    text: 'No se encontraron datos con los filtros seleccionados.',
+                    icon: 'warning',
+                    confirmButtonText: 'Aceptar',
+                    background: '#f8f9fa',
+                    color: '#333',
+                    confirmButtonColor: '#007bff'
+                });
+            }
 
-    updateCharts(); 
-    updateContractInfo(); 
-}
+            updateCharts();
+            updateContractInfo();
+        }
 
 
         // Inicializar gráficos
@@ -326,7 +326,5 @@ function applyFilters() {
 
         // Cargar datos iniciales
         fetchData();
-
     </script>
 </body>
-
