@@ -64,6 +64,42 @@
         .modal {
             display: none;
         }
+
+        /* Estilo general para todos los botones */
+        .fc-button {
+            background-color: #009e00 !important;
+            /* Fondo verde oscuro */
+            border-color: #009e00 !important;
+            /* Borde verde oscuro */
+            color: #fff !important;
+            /* Texto blanco */
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+            /* Esquinas redondeadas */
+        }
+
+        /* Cambiar el color al pasar el mouse */
+        .fc-button:hover {
+            background-color: #007d00 !important;
+            /* Verde más oscuro al pasar el mouse */
+            border-color: #007d00 !important;
+        }
+
+        /* Botón 'Hoy' (puedes personalizarlo si quieres que sea diferente) */
+        .fc-today-button {
+            background-color: #009e00 !important;
+            border-color: #007d00 !important;
+            color: #fff !important;
+        }
+
+        /* Botones de navegación (previo y siguiente) */
+        .fc-prev-button,
+        .fc-next-button {
+            background-color: #009e00 !important;
+            border-color: #007d00 !important;
+            color: #fff !important;
+        }
     </style>
 
 </head>
@@ -197,6 +233,8 @@
             title: followUp.type_of_agreement,
             start: followUp.date,
             observation: followUp.observation,
+            backgroundColor: '#009e00',
+            borderColor: '#009e00',
         }));
     </script>
 
