@@ -94,7 +94,7 @@
                 @else
                     @foreach ($data as $monitoring)
                         @foreach ($monitoring['apprentices'] as $apprentice)
-                            <a href="{{ route('perfilapre', ['id' => $apprentice['id']]) }}"
+                            <a href="{{ route('perfilapre', ['id' => $apprentice['user']['id']]) }}"
                                 class="w-40px h-30px bg-white border-2 border-[#009E00] rounded-2xl m-4 p-2 flex flex-col items-center hover:bg-green-100">
                                 <img src="{{ asset('img/trainer/aprendiz_icono_tra.png') }}" alt="User"
                                     class="w-6 h-8 mb-1">
