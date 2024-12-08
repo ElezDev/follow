@@ -2,18 +2,23 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\RedirectResponse;
 
 class LoginController extends Controller
 {
     // Muestra el formulario de inicio de sesión
-    public function showLoginForm()
+    public function showLoginForm(): RedirectResponse|View
     {
+        $isAuthenticated = session('token');
+
+        if ($isAuthenticated) {
+            return redirect()->route('administrator.web');
+        }
+
         return view('auth.login');
     }
 

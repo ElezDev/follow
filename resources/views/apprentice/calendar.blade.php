@@ -420,8 +420,7 @@
                 <h2 class="text-2xl font-bold">Cronograma</h2>
                 <div class="flex items-center">
                     <button id="prevMonth" class="bg-[#009e00] text-white px-3 py-1 rounded-l">
-                        << /button>
-                            <span id="currentMonth" class="bg-[#009e00] text-white px-4 py-1">Mes Actual</span>
+                        <<span id="currentMonth" class="bg-[#009e00] text-white px-4 py-1">Mes Actual</span>
                             <button id="nextMonth" class="bg-[#009e00] text-white px-3 py-1 rounded-r">></button>
                 </div>
             </div>
@@ -480,9 +479,7 @@
                     dayCell.classList.add('cursor-pointer');
 
                     dayCell.addEventListener("click", () => {
-                        // Redirigir a la interfaz apprentice.registervisit con la fecha como parámetro
                         window.location.href = `registervisitaprendiz`;
-                        // =${currentYear}-${currentMonth + 1}-${day}`;
                     });
 
                     calendarDays.appendChild(dayCell);
@@ -506,7 +503,6 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Evento para el toggle del menú 2
             document.getElementById('toggleMenu2').addEventListener('click', function() {
                 console.log('toggleMenu2 clicked'); // Verificar si se activa el evento
                 var menu = document.getElementById('menu2');
