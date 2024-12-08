@@ -165,6 +165,7 @@ Route::middleware([CheckTokenAndUser::class, RoleTrainnerMiddleware::class])->gr
     Route::get('/trainer/icon', [TrainerController::class, 'icon'])->name('icon');
     Route::get('/trainer/notification', [NotificationController::class, 'notificationtrainer'])->name('notificationtrainer');
     Route::get('/trainer/report', [ReportController::class, 'report'])->name('report');
+    Route::post('/create-notification-trainner', [ReportController::class, 'createNotification'])->name('createNotificationTrainner');
     Route::get('/trainer/username', [TrainerController::class, 'username'])->name('username');
     Route::get('/trainer/Bitacora', [BitacoraController::class, 'bitacora'])->name('bitacora');
     Route::get('/trainer/visita/{id}', [TrainerController::class, 'visita'])->name('visita');

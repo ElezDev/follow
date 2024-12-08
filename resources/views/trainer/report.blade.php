@@ -7,7 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
-    <script src="{{ asset('js/Trainer.js') }}"></script>
     <title>Etapa Seguimiento</title>
     <style>
         #userMenuTri {
@@ -34,21 +33,33 @@
     <div class="flex justify-center">
 
         <main class="bg-white m-4 p-2 rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.8)] border-[#2F3E4C] w-2/3 items-center">
-            <h1 class="text-2xl font-bold mb-4">Reporte</h1>
-            <form class="mb-4">
-                <input type="text" placeholder="Para" class="border p-2 rounded w-full mb-2">
-                <input type="text" placeholder="Título" class="border p-2 rounded w-full mb-2">
-                <textarea placeholder="Asunto" class="border p-2 rounded w-full mb-2"></textarea>
-                <a href="{{ route('notificationtrainer') }}" type="submit"
-                    class="bg-[#009e00] ] text-white p-2 rounded">Enviar Reporte</a>
-                <a href="{{ route('notificationtrainer') }}" type="submit"
+            <h1 class="text-2xl font-bold mb-4">Reporte - notificación</h1>
+            <!-- Formulario para enviar la notificación -->
+            <form action="{{ route('createNotificationTrainner') }}" method="POST" class="mb-4">
+                @csrf
+
+                <select name="user_id" class="border p-2 rounded w-full mb-2" required>
+                    <option value="" disabled selected>Seleccionar aprendiz</option>
+                    @foreach ($apprentices[0]['apprentices'] as $apprentice)
+                        <option value="{{ $apprentice['user']['id'] }}">
+                            {{ $apprentice['user']['name'] }} {{ $apprentice['user']['last_name'] }}
+                        </option>
+                    @endforeach
+                </select>
+
+                <textarea name="message" placeholder="Asunto" class="border p-2 rounded w-full mb-2" required></textarea>
+
+                <!-- Botón de Enviar -->
+                <button type="submit" class="bg-[#009e00] text-white p-2 rounded">Enviar</button>
+
+                <!-- Botón de Cancelar -->
+                <a href="{{ route('notificationtrainer') }}"
                     class="bg-gray-300 hover:bg-gray-400 text-black p-2 rounded">Cancelar</a>
             </form>
+        </main>
+
     </div>
-    </div>
-    </main>
-    </div>
-    <script src="{{ asset('js/SuperAdmin.js') }}"></script>
+
 </body>
 
 </html>
