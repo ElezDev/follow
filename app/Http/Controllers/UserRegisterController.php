@@ -219,7 +219,6 @@ class UserRegisterController extends Controller
             'department' => 'required|string|max:100',
             'municipality' => 'required|string|max:100',
             'id_role' => 'required|integer',
-            // 'password' => 'required|string|min:8',
             'last_name' => 'required|string|max:100',
             
 
@@ -239,7 +238,6 @@ class UserRegisterController extends Controller
             'department' => $validated['department'],
             'municipality' => $validated['municipality'],
             'id_role' => 3,
-            // 'password' => $validated['password'],
             'last_name' => $validated['last_name'],
 
         ]);
