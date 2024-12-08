@@ -64,6 +64,42 @@
         .modal {
             display: none;
         }
+
+        /* Estilo general para todos los botones */
+        .fc-button {
+            background-color: #009e00 !important;
+            /* Fondo verde oscuro */
+            border-color: #009e00 !important;
+            /* Borde verde oscuro */
+            color: #fff !important;
+            /* Texto blanco */
+            font-weight: bold;
+            transition: background-color 0.3s ease;
+            border-radius: 5px;
+            /* Esquinas redondeadas */
+        }
+
+        /* Cambiar el color al pasar el mouse */
+        .fc-button:hover {
+            background-color: #007d00 !important;
+            /* Verde más oscuro al pasar el mouse */
+            border-color: #007d00 !important;
+        }
+
+        /* Botón 'Hoy' (puedes personalizarlo si quieres que sea diferente) */
+        .fc-today-button {
+            background-color: #009e00 !important;
+            border-color: #007d00 !important;
+            color: #fff !important;
+        }
+
+        /* Botones de navegación (previo y siguiente) */
+        .fc-prev-button,
+        .fc-next-button {
+            background-color: #009e00 !important;
+            border-color: #007d00 !important;
+            color: #fff !important;
+        }
     </style>
 
 </head>
@@ -111,7 +147,7 @@
             <section class="p-4">
                 <div id="calendarDays" class="calendar"></div>
             </section>
-            <button id="open-modal" class="px-4 py-2 bg-green-500 text-white rounded">Abrir Modal</button>
+            {{-- <button id="open-modal" class="px-4 py-2 bg-green-500 text-white rounded">Abrir Modal</button> --}}
         </main>
     </div>
 
@@ -124,7 +160,10 @@
                 <div
                     class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
 
-                    <form action="/" id="visit-form" method="POST" class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                    <form action="/" id="visit-form" method="POST"
+                        class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+
+                        {!! csrf_field() !!}
 
                         <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
                             <div class="sm:items-start">
@@ -132,7 +171,7 @@
                                 <h3 class="text-center text-base font-semibold text-gray-900" id="modal-title">Visita
                                 </h3>
                                 <div class="text-center mt-2">
-                                    <p class="text-lg text-gray-500">Fecha: 2024-12-12</p>
+                                    <p id="selected-date" class="text-lg text-gray-500">Fecha: 2024-12-12</p>
                                     <p class="text-lg text-gray-500">Hora: 08:30 am</p>
                                 </div>
 
@@ -182,20 +221,21 @@
         </div>
     </div>
 
+    <script>
+        const calendarData = @json($data);
+    </script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <script>
-        const modal = document.getElementById('evento');
-        const openModalButton = document.getElementById('open-modal');
-        const closeModalButton = document.getElementById('close-modal');
-
-        openModalButton.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-        });
-
-        closeModalButton.addEventListener('click', () => {
-            modal.classList.add('hidden');
-        });
+        // Data from the assigned trainer and data with variable name injected by the controller
+        const events = calendarData.trainer.follow_ups.map(followUp => ({
+            title: followUp.type_of_agreement,
+            start: followUp.date,
+            observation: followUp.observation,
+            backgroundColor: '#009e00',
+            borderColor: '#009e00',
+        }));
     </script>
 
     <script src="{{ asset('js/calendar.js') }}" defer></script>

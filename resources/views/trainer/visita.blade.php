@@ -24,8 +24,8 @@
     @include('partials.nav-trainner')
 
     <div class="w-full flex justify-between items-center mt-4">
-        <a href="http://127.0.0.1:8000/trainer/perfilapre" class="ml-4">
-            <img src="http://127.0.0.1:8000/img/flecha.png" alt="Flecha" class="w-5 h-auto">
+        <a href="{{ route('trainer.home') }}" class="ml-4">
+            <img src="{{ asset('img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
         </a>
     </div>
 
@@ -34,19 +34,19 @@
         <div class="flex flex-cols-4 gap-12 pb-4  items-between text-center mt-2">
             <div class="flex flex-col w-1/4 ">
                 <label class="font-bold">Nombre Del Aprendiz</label>
-                <p type="text" class="bg-gray-200 bg-opacity-60 p-2 rounded-md text-black">Marian Diaz</p>
+                <p type="text" class="bg-gray-200 bg-opacity-60 p-2 rounded-md text-black">{{ $apprentice['name'] . ' ' . $apprentice['last_name'] }}</p>
             </div>
             <div class="flex flex-col  w-1/4">
                 <label class="font-bold">Programa</label>
-                <p type="text" class=" bg-gray-200 bg-opacity-60 p-2 rounded-md text-black">ADSO</p>
+                <p type="text" class=" bg-gray-200 bg-opacity-60 p-2 rounded-md text-black">{{ isset($apprentice['apprentice']['program']) ? $apprentice['apprentice']['program'] : '' }}</p>
             </div>
             <div class="flex flex-col  w-1/4">
                 <label class="font-bold">N° Ficha</label>
-                <p type="text" class=" bg-gray-200 bg-opacity-60 p-2 rounded-md text-black">2654013</p>
+                <p type="text" class=" bg-gray-200 bg-opacity-60 p-2 rounded-md text-black">{{ isset($apprentice['apprentice']['ficha']) ? $apprentice['apprentice']['ficha'] : '' }}</p>
             </div>
             <div class="flex flex-col  w-1/4">
                 <label class="font-bold">Correo Electrónico</label>
-                <p type="email" class=" bg-gray-200 bg-opacity-60 p-2 rounded-md text-black">mariandiaz@gmail.com
+                <p type="email" class=" bg-gray-200 bg-opacity-60 p-2 rounded-md text-black">{{ $apprentice['email'] }}
                 </p>
             </div>
         </div>
@@ -55,7 +55,7 @@
                 class="flex-cols-2 gap-2 p-4 w-2/5 text-center h-vg[80] shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 rounded-2xl ml-4">
                 <div class="flex flex-col">
                     <label class="font-bold">Nombre De La Empresa</label>
-                    <p type="text" class="border border-gray-400  p-2 rounded-md bg-white">FREETIME</p>
+                    <p type="text" class="border border-gray-400  p-2 rounded-md bg-white">{{ isset($apprentice['apprentice']['contract']['company']) ? $apprentice['apprentice']['contract']['company']['name'] : '' }}</p>
                 </div>
                 <div class="w-full flex space-x-4 items-center justify-between text-center">
                     <div class="flex flex-col">
@@ -80,12 +80,12 @@
                 </div>
                 <div class="flex flex-col ">
                     <label class="font-bold">Correo</label>
-                    <input type="text" id="correo_empresa" value=""
+                    <input type="text" id="correo_empresa" value="{{ isset($apprentice['apprentice']['contract']['company']) ? $apprentice['apprentice']['contract']['company']['email'] : '' }}"
                         class="border border-gray-400 p-2 rounded-md bg-white text-center ">
                 </div>
                 <div class="flex flex-col ">
                     <label class="font-bold">Telefono de contacto</label>
-                    <input type="text" id="telefono_contacto" value=""
+                    <input type="text" id="telefono_contacto" value="{{ isset($apprentice['apprentice']['contract']['company']) ? $apprentice['apprentice']['contract']['company']['telephone'] : '' }}"
                         class="border border-gray-400 p-2 rounded-md bg-white text-center ">
                 </div>
             </div>
@@ -108,6 +108,7 @@
                 id="registrar-btn">REGISTRAR</button>
         </div>
     </main>
+
     <script>
         // Esperar a que el DOM se cargue
         document.addEventListener("DOMContentLoaded", function() {

@@ -15,9 +15,33 @@ document.addEventListener('DOMContentLoaded', function () {
             right: "dayGridMonth, timeGridWeek, listWeek",
         },
 
-        dateClick: function (info) {
-            console.log(info);
+        buttonText: {
+            today: 'Hoy',
+            month: 'Mes',
+            week: 'Semana',
+            day: 'Día',
+            list: 'Lista',
+            prev: 'Anterior',
+            next: 'Siguiente',
+        },
+
+        events: events,
+
+        // dateClick: function (info) {
+        //     console.log(info);
+        //     $('#evento').css('display', 'flex');
+
+        //     // Actualizar la fecha en el párrafo con el id "selected-date"
+        //     const dateElement = document.getElementById('selected-date');
+        //     dateElement.textContent = `Fecha: ${info.dateStr}`;
+        // },
+
+        eventClick: function (info) {
             $('#evento').css('display', 'flex');
+
+            var event = info.event;
+            console.log(event);
+
         }
 
     });
@@ -45,6 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
     $('#evento').on('click', function (e) {
         if (e.target === this) {
             $(this).css('display', 'none');
+            form.reset();
         }
     });
 })
