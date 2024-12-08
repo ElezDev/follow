@@ -8,7 +8,7 @@
     @include('partials.header')
     @yield('content')
     @include('partials.nav')
-  
+
     <div class="flex items-center justify-between w-full mt-6">
         <a href="{{ route('superadmin.SuperAdmin-Instructor') }}" class="ml-4">
             <img src="{{ asset('img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
@@ -78,7 +78,7 @@
 
 
                 <h3 class="mt-6 mb-4 font-bold">Información Seguimiento</h3>
-                <div class="space-y-4">
+                {{-- <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Aprendices Asignados:</label>
                         <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">
@@ -87,15 +87,13 @@
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Horas:</label>
                         <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">
-                            {{ auth()->user()->modality }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Horas realizadas:</label>
                         <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">
-                            {{ auth()->user()->modality }}</p>
                     </div>
 
-                </div>
+                </div> --}}
 
                 <div class="flex justify-end mt-6 space-x-4">
                     <a

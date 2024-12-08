@@ -64,7 +64,7 @@
                      <div class="p-4">
                          <div class="flex items-center mb-4">
                              <div>
-                                 <p class="text-sm font-bold">{{ auth()->user()->name }} {{ auth()->user()->last_name }}</p>
+                                 {{-- <p class="text-sm font-bold">{{ auth()->user()->name }} {{ auth()->user()->last_name }}</p> --}}
                                  <p class="mt-2 text-sm">Super Administrador</p>
                              </div>
 
@@ -182,11 +182,11 @@
                     <div class="space-y-4">
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Departamento:</label>
-                            <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ auth()->user()->department }}</p>
+                            <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['department'] }}</p>
                         </div>
                         <div>
                             <label class="block text-sm font-medium text-gray-700">Municipio:</label>
-                            <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ auth()->user()->municipality }}</p>
+                            <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['municipality'] }}</p>
                         </div>
 
                     </div>

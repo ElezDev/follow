@@ -64,10 +64,11 @@ class UserRegisterController extends Controller
             // 'password' => 'required|string|min:8',
             'last_name' => 'required|string|max:100',
         ]);
-    
+        $token = session()->get('token');
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
+            'Authorization' => 'Bearer ' . $token,
             ])->post(env('URL_API') . 'user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],
@@ -224,9 +225,11 @@ class UserRegisterController extends Controller
 
         ]);
     
+        $token = session()->get('token');
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',              
             'Accept' => 'application/json',   
+            'Authorization' => 'Bearer ' . $token,
         ])->post(env('URL_API') . 'user_registers', [
             'identification' => $validated['identification'],
             'name' => $validated['name'],

@@ -64,7 +64,7 @@
                      <div class="p-4">
                          <div class="flex items-center mb-4">
                              <div>
-                                 <p class="text-sm font-bold">{{ auth()->user()->name }} {{ auth()->user()->last_name }}</p>
+                                 {{-- <p class="text-sm font-bold">{{ auth()->user()->name }} {{ auth()->user()->last_name }}</p> --}}
                                  <p class="mt-2 text-sm">Super Administrador</p>
                              </div>
 
@@ -157,19 +157,19 @@
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Tipo de Modalidad:</label>
-                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ auth()->user()->modality }}</p>
+                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['apprentice']['modalidad'] ?? 'N/A' }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Fecha Inicio:</label>
-                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ auth()->user()->modality }}</p>
+                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">N/A</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Fecha Final:</label>
-                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ auth()->user()->modality }}</p>
+                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">N/A</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Proceso:</label>
-                         <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ auth()->user()->modality }}</p>
+                         <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">N/A</p>
                      </div>
                      <img class="Linea-Tiempo" src="{{ asset('administrator/linea-tiempo.png') }}" alt="linea-tiempo">
                 </div>
@@ -178,30 +178,30 @@
                 <div class="space-y-4">
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Nombres:</label>
-                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['name'] }}</p>
+                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['name'] ?? 'N/A' }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Apellidos:</label>
-                    <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['last_name'] }}</p>
+                    <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['last_name'] ?? 'N/A'}}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Correo electrónico:</label>
-                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['email'] }}</p>
+                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7"> {{ $user['email']?? 'N/A' }}  </p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Cuenta  SENA:</label>
-                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['email'] }}</p>
+                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['email'] ?? 'N/A'}}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Departamento:</label>
-                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['department'] }}</p>
+                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['department']?? 'N/A' }}</p>
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Municipio:</label>
-                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['municipality'] }}</p>
+                        <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['municipality'] ?? 'N/A'}}</p>
                     </div>
                     <label class="block text-sm font-medium text-gray-700">Nivel academico:</label>
-                    <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">Tecnico</p>
+                    <p class="w-full p-1 mt-1 text-sm text-black bg-white border border-gray-300 rounded-md h-7">{{ $user['apprentice']['academic_level'] ?? 'N/A' }}</p>
                 </div>
 
 

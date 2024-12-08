@@ -187,13 +187,16 @@ class SuperadminController extends Controller
 
     public function SuperAdminAprendizPerfil($id)
     {
-        $response = Http::get(env('URL_API') . "user_registers/{$id}");
+        $response = Http::get(env('URL_API') . "user_by_id/{$id}");
+
+        
         if ($response->failed()) {
             abort(404, 'Usuario no encontrado en la API.');
         }
-    
+        
         $user = $response->json();
-        return view('superadmin.SuperAdmin-AprendizPerfil',compact('user'));
+
+         return view('superadmin.SuperAdmin-AprendizPerfil',compact('user'));
 
     }
 
