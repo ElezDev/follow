@@ -92,7 +92,7 @@ class UserRegisterController extends Controller
     }
     
     
-    public function updateUserInstructor(Request $request, $id)
+    public function updateUserAdmin(Request $request, $id)
     {
 
        
@@ -104,6 +104,40 @@ class UserRegisterController extends Controller
     
         if ($response->successful()) {
             return redirect()->route('superadmin.SuperAdmin-Administrator')->with('success', 'Usuario creado correctamente');
+        } else {
+            return redirect()->back()->with('error', 'Error al crear el usuario');
+        }
+    }
+
+    public function updateUserInstructor(Request $request, $id)
+    {
+      
+       
+        $response = Http::withHeaders(headers: [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->put(env('URL_API') . "update_user/{$id}", $request->all());
+    
+       
+        if ($response->successful()) {
+            return redirect()->route('superadmin.SuperAdmin-Aprendiz')->with('success', 'Usuario creado correctamente');
+        } else {
+            return redirect()->back()->with('error', 'Error al crear el usuario');
+        }
+    }
+    
+
+    public function updateUserAprendiz(Request $request, $id)
+    {
+      
+        $response = Http::withHeaders(headers: [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->put(env('URL_API') . "update_user/{$id}", $request->all());
+    
+       
+        if ($response->successful()) {
+            return redirect()->route('superadmin.SuperAdmin-Aprendiz')->with('success', 'Usuario creado correctamente');
         } else {
             return redirect()->back()->with('error', 'Error al crear el usuario');
         }
