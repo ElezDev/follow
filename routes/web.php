@@ -1,21 +1,23 @@
 <?php
 
-use App\Http\Controllers\ApprenticeController;
-use App\Http\Controllers\SuperadminController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\AdministratorController;
-use App\Http\Controllers\DiaryController;
-use App\Http\Controllers\NotificationController;
-use App\Http\Controllers\ReportController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\TrainerController;
-use App\Http\Controllers\UserRegisterController;
-use App\Http\Controllers\BitacoraController;
-use App\Http\Controllers\Auth\ForgotPasswordController;
-use App\Http\Controllers\GraphicController;
-use App\Http\Middleware\CheckTokenAndUser;
 use App\Http\Middleware\RoleMiddleware;
+use App\Http\Controllers\DiaryController;
+use App\Http\Controllers\ReportController;
+use App\Http\Middleware\CheckTokenAndUser;
+use App\Http\Controllers\GraphicController;
+use App\Http\Controllers\TrainerController;
+use App\Http\Controllers\BitacoraController;
+use App\Http\Controllers\ApprenticeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\SuperadminController;
+use App\Http\Controllers\NotificationController;
+use App\Http\Controllers\UserRegisterController;
+use App\Http\Controllers\AdministratorController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Middleware\RoleApprendiceMiddleware;
+use App\Http\Controllers\Auth\ForgotPasswordController;
+use App\Http\Middleware\RoleTrainnerMiddleware;
 
 // Ruta principal que muestra el formulario de inicio de sesión
 Route::get('/', function () {
@@ -145,33 +147,38 @@ Route::middleware([CheckTokenAndUser::class, RoleMiddleware::class])->group(func
     })->name('apprentice.home');
 });
 
-// RUTAS APRENDIZ (fuera del middleware 'auth')
-Route::get('/homeaprendiz', [ApprenticeController::class, 'index'])->name('apprentice.index');
-Route::get('/calendaraprendiz', [DiaryController::class, 'calendar'])->name('apprentice.calendar');
-Route::get('/visitaprendiz', [ApprenticeController::class, 'visit'])->name('apprentice.visit');
-Route::get('/registervisitaprendiz', [ApprenticeController::class, 'registervisit'])->name('apprentice.registervisit');
-Route::get('/profileaprendiz', [ApprenticeController::class, 'profile'])->name('apprentice.profile');
-Route::get('/settingsaprendiz', [ApprenticeController::class, 'settings'])->name('apprentice.settings');
-Route::get('/notificationaprendiz', [NotificationController::class, 'notification'])->name('apprentice.notification');
-Route::get('/notificacionaprendiz', [ApprenticeController::class, 'notification'])->name('notificacionaprendiz');
+Route::middleware([CheckTokenAndUser::class, RoleApprendiceMiddleware::class])->group(function () {
+    // RUTAS APRENDIZ (fuera del middleware 'auth')
+    Route::get('/homeaprendiz', [ApprenticeController::class, 'index'])->name('apprentice.index');
+    Route::get('/calendar-aprendiz', [DiaryController::class, 'calendar'])->name('apprentice.calendar');
+    Route::get('/visitaprendiz', [ApprenticeController::class, 'visit'])->name('apprentice.visit');
+    Route::get('/registervisitaprendiz', [ApprenticeController::class, 'registervisit'])->name('apprentice.registervisit');
+    Route::get('/profileaprendiz', [ApprenticeController::class, 'profile'])->name('apprentice.profile');
+    Route::get('/settingsaprendiz', [ApprenticeController::class, 'settings'])->name('apprentice.settings');
+    Route::get('/notificationaprendiz', [NotificationController::class, 'notification'])->name('apprentice.notification');
+    Route::get('/notificacionaprendiz', [ApprenticeController::class, 'notification'])->name('notificacionaprendiz');
+});
 
-Route::get('/trainer/icon', function () {
-    return view('trainer.icon');
-})->name('icon');
+Route::middleware([CheckTokenAndUser::class, RoleTrainnerMiddleware::class])->group(function () {
+    Route::get('/trainer/icon', function () {
+        return view('trainer.icon');
+    })->name('icon');
 
-//rutas intructor
-Route::get('/trainer/icon', [TrainerController::class, 'icon']);
-Route::get('/trainer/notification', [NotificationController::class, 'notificationtrainer'])->name('notificationtrainer');
-Route::get('/trainer/report', [ReportController::class, 'report'])->name('report');
-Route::get('/trainer/username', [TrainerController::class, 'username'])->name('username');
-Route::get('/trainer/Bitacora', [BitacoraController::class, 'bitacora'])->name('bitacora');
-Route::get('/trainer/visita', [TrainerController::class, 'visita'])->name('visita');
-Route::get('/trainer/perfilapre', [TrainerController::class, 'perfilapre'])->name('perfilapre');
-Route::get('/trainer/iconTrainer', [TrainerController::class, 'icon'])->name('icon');
-Route::get('/trainer/emailTrainer', [TrainerController::class, 'email'])->name('email');
-Route::get('/trainer/configuracion', [TrainerController::class, 'configuracion'])->name('configuracion');
-Route::get('/trainer/cronograma', [DiaryController::class, 'cronograma'])->name('cronograma');
-Route::post('/registrar-bitacora', [BitacoraController::class, 'registrar'])->name('registrar.bitacora');
+    //rutas intructor
+    Route::get('/trainer/icon', [TrainerController::class, 'icon']);
+    Route::get('/trainer/notification', [NotificationController::class, 'notificationtrainer'])->name('notificationtrainer');
+    Route::get('/trainer/report', [ReportController::class, 'report'])->name('report');
+    Route::get('/trainer/username', [TrainerController::class, 'username'])->name('username');
+    Route::get('/trainer/Bitacora', [BitacoraController::class, 'bitacora'])->name('bitacora');
+    Route::get('/trainer/visita', [TrainerController::class, 'visita'])->name('visita');
+    Route::get('/trainer/perfilapre', [TrainerController::class, 'perfilapre'])->name('perfilapre');
+    Route::get('/trainer/iconTrainer', [TrainerController::class, 'icon'])->name('icon');
+    Route::get('/trainer/emailTrainer', [TrainerController::class, 'email'])->name('email');
+    Route::get('/trainer/configuracion', [TrainerController::class, 'configuracion'])->name('configuracion');
+    Route::get('/trainer/cronograma', [DiaryController::class, 'cronograma'])->name('cronograma');
+    Route::post('/registrar-bitacora', [BitacoraController::class, 'registrar'])->name('registrar.bitacora');
+});
+
 
 
 Route::get('/test-react', function () {

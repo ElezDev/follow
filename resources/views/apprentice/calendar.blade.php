@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
-    {{-- <link href="https://cdn.jsdelivr.net/npm/fullcalendar@5.11.3/main.min.css" rel="stylesheet"> --}}
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
     <title>Etapa Productiva</title>
 
@@ -61,319 +60,6 @@
             color: black;
             /* Color del porcentaje */
         }
-
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-
-        .calendar div {
-            border: 1px solid #ccc;
-            padding: 10px;
-            min-height: 80px;
-            position: relative;
-        }
-
-        .calendar div .event {
-            background-color: #009e00;
-            color: white;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-size: 0.8rem;
-            margin-top: 5px;
-        }
-
-        .calendar-container {
-            position: absolute;
-            width: 100%;
-            height: 38px;
-            left: 0%;
-            top: 24%;
-            background: #D9D9D9;
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-
-        }
-
-        .calendar-container h3 {
-            position: relative;
-            width: 476px;
-            height: 26px;
-            left: 84px;
-            font-family: 'DM Sans', sans-serif;
-            font-style: normal;
-            font-weight: 400;
-            font-size: 15px;
-            line-height: 36px;
-            display: flex;
-            align-items: center;
-            color: #000000;
-            margin: 0 10px;
-        }
-
-        .back-button {
-            background-color: transparent;
-            color: #000000;
-            font-style: normal;
-            position: absolute;
-            width: 27px;
-            height: 27px;
-            left: 40px;
-            top: -16px;
-            padding: 15px;
-            text-align: center;
-            font-size: 32px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        #calendar {
-            position: absolute;
-            width: 1054px;
-            height: 600px;
-            left: 10%;
-            top: 28%;
-            background: #D9D9D9;
-            margin: 0 auto;
-        }
-
-        .fc .fc-daygrid-day {
-            height: 150px;
-            padding: 60px;
-        }
-
-        .fc .fc-col-header-cell {
-            font-size: 15px;
-        }
-
-        .fc .fc-daygrid-day-number {
-            font-size: 16px;
-        }
-
-        .fc .fc-daygrid-event {
-            font-size: 14px;
-        }
-
-        .fc-day-other {
-            visibility: hidden;
-        }
-
-
-        @media (max-width: 1024px) {
-            #calendar {
-                width: 90%;
-                height: auto;
-                left: 5%;
-            }
-
-            .calendar-container h3 {
-                width: 70%;
-                font-size: 18px;
-            }
-
-            .fc .fc-daygrid-day {
-                height: auto;
-                padding: 40px;
-            }
-
-            .fc .fc-col-header-cell {
-                font-size: 14px;
-            }
-
-            .fc .fc-daygrid-day-number {
-                font-size: 14px;
-            }
-
-            .fc .fc-daygrid-event {
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            #calendar {
-                width: 95%;
-                left: 2.5%;
-            }
-
-            .calendar-container h3 {
-                width: 80%;
-                font-size: 16px;
-                left: 10px;
-            }
-
-            .back-button {
-                left: 10px;
-                top: -10px;
-                font-size: 28px;
-            }
-
-            .fc .fc-daygrid-day {
-                padding: 30px;
-            }
-
-            .fc .fc-col-header-cell {
-                font-size: 13px;
-            }
-
-            .fc .fc-daygrid-day-number {
-                font-size: 12px;
-            }
-
-            .fc .fc-daygrid-event {
-                font-size: 11px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .calendar-container {
-                top: 20%;
-                height: auto;
-            }
-
-            .calendar-container h3 {
-                width: 90%;
-                font-size: 14px;
-                left: 5px;
-            }
-
-            .back-button {
-                left: 5px;
-                top: -8px;
-                font-size: 26px;
-            }
-
-            #calendar {
-                width: 100%;
-                left: 0;
-                top: 25%;
-                padding: 0 10px;
-            }
-
-            .fc .fc-daygrid-day {
-                padding: 20px;
-            }
-
-            .fc .fc-col-header-cell {
-                font-size: 12px;
-            }
-
-            .fc .fc-daygrid-day-number {
-                font-size: 10px;
-            }
-
-            .fc .fc-daygrid-event {
-                font-size: 10px;
-            }
-        }
-
-        @media (max-width: 1024px) {
-            #calendar {
-                width: 90%;
-                height: auto;
-                left: 5%;
-            }
-
-            .calendar-container h3 {
-                width: 70%;
-                font-size: 18px;
-            }
-
-            .fc .fc-daygrid-day {
-                height: auto;
-                padding: 40px;
-            }
-
-            .fc .fc-col-header-cell {
-                font-size: 14px;
-            }
-
-            .fc .fc-daygrid-day-number {
-                font-size: 14px;
-            }
-
-            .fc .fc-daygrid-event {
-                font-size: 12px;
-            }
-        }
-
-        @media (max-width: 768px) {
-            #calendar {
-                width: 95%;
-                left: 2.5%;
-            }
-
-            .calendar-container h3 {
-                width: 80%;
-                font-size: 16px;
-                left: 10px;
-            }
-
-            .back-button {
-                left: 10px;
-                top: -10px;
-                font-size: 28px;
-            }
-
-            .fc .fc-daygrid-day {
-                padding: 30px;
-            }
-
-            .fc .fc-col-header-cell {
-                font-size: 13px;
-            }
-
-            .fc .fc-daygrid-day-number {
-                font-size: 12px;
-            }
-
-            .fc .fc-daygrid-event {
-                font-size: 11px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .calendar-container {
-                top: 15%;
-                height: auto;
-            }
-
-            .calendar-container h3 {
-                width: 90%;
-                font-size: 14px;
-                left: 5px;
-            }
-
-            .back-button {
-                left: 5px;
-                top: -8px;
-                font-size: 26px;
-            }
-
-            #calendar {
-                width: 100%;
-                left: 0;
-                padding: 0 10px;
-            }
-
-            .fc .fc-daygrid-day {
-                padding: 20px;
-            }
-
-            .fc .fc-col-header-cell {
-                font-size: 12px;
-            }
-
-            .fc .fc-daygrid-day-number {
-                font-size: 10px;
-            }
-
-            .fc .fc-daygrid-event {
-                font-size: 10px;
-            }
-        }
     </style>
 
 </head>
@@ -407,7 +93,6 @@
 
     </nav>
 
-
     <div class="w-full flex justify-between items-center mt-6">
         <a href="{{ route('apprentice.home') }}" class="ml-4">
             <img src="{{ asset('img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
@@ -418,117 +103,68 @@
         <main class="bg-white m-4 p-4 rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.8)] border-[#2F3E4C] w-2/3">
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-2xl font-bold">Cronograma</h2>
-                <div class="flex items-center">
-                    <button id="prevMonth" class="bg-[#009e00] text-white px-3 py-1 rounded-l">
-                        << /button>
-                            <span id="currentMonth" class="bg-[#009e00] text-white px-4 py-1">Mes Actual</span>
-                            <button id="nextMonth" class="bg-[#009e00] text-white px-3 py-1 rounded-r">></button>
-                </div>
             </div>
             <section class="p-4">
-                <div class="grid grid-cols-7 gap-2 text-center font-bold">
-                    <div>Dom</div>
-                    <div>Lun</div>
-                    <div>Mar</div>
-                    <div>Mié</div>
-                    <div>Jue</div>
-                    <div>Vie</div>
-                    <div>Sáb</div>
-                </div>
                 <div id="calendarDays" class="calendar"></div>
             </section>
+            <button id="open-modal" class="px-4 py-2 bg-green-500 text-white rounded">Abrir Modal</button>
         </main>
     </div>
 
+    <div class="relative z-10" id="evento" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+
+        <div class="fixed inset-0 bg-gray-500/75 transition-opacity" aria-hidden="true"></div>
+
+        <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
+            <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+                <div
+                    class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
+                    <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
+                        <div class="sm:flex sm:items-start">
+                            <div
+                                class="mx-auto flex size-12 shrink-0 items-center justify-center rounded-full bg-red-100 sm:mx-0 sm:size-10">
+                                <svg class="size-6 text-red-600" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" aria-hidden="true" data-slot="icon">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                            </div>
+                            <div class="mt-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
+                                <h3 class="text-base font-semibold text-gray-900" id="modal-title">Deactivate account
+                                </h3>
+                                <div class="mt-2">
+                                    <p class="text-sm text-gray-500">Are you sure you want to deactivate your account?
+                                        All of your data will be permanently removed. This action cannot be undone.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
+                        <button type="button"
+                            class="inline-flex w-full justify-center rounded-md bg-red-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-red-500 sm:ml-3 sm:w-auto">Deactivate</button>
+                        <button type="button" id="close-modal"
+                            class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const currentMonthSpan = document.getElementById('currentMonth');
-            const prevMonthButton = document.getElementById('prevMonth');
-            const nextMonthButton = document.getElementById('nextMonth');
-            const calendarDays = document.getElementById('calendarDays');
+        const modal = document.getElementById('evento');
+        const openModalButton = document.getElementById('open-modal');
+        const closeModalButton = document.getElementById('close-modal');
 
-            let currentMonth = new Date().getMonth();
-            let currentYear = new Date().getFullYear();
-            const months = [
-                'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
-                'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
-            ];
-
-            function daysInMonth(month, year) {
-                return new Date(year, month + 1, 0).getDate();
-            }
-
-            function firstDayOfMonth(month, year) {
-                return new Date(year, month, 1).getDay();
-            }
-
-            function renderCalendar() {
-                calendarDays.innerHTML = '';
-                currentMonthSpan.textContent = `${months[currentMonth]} ${currentYear}`;
-
-                const totalDays = daysInMonth(currentMonth, currentYear);
-                const startDay = firstDayOfMonth(currentMonth, currentYear);
-
-                for (let i = 0; i < startDay; i++) {
-                    const emptyCell = document.createElement('div');
-                    calendarDays.appendChild(emptyCell);
-                }
-
-                for (let day = 1; day <= totalDays; day++) {
-                    const dayCell = document.createElement('div');
-                    dayCell.textContent = day;
-                    dayCell.classList.add('cursor-pointer');
-
-                    dayCell.addEventListener("click", () => {
-                        // Redirigir a la interfaz apprentice.registervisit con la fecha como parámetro
-                        window.location.href = `registervisitaprendiz`;
-                        // =${currentYear}-${currentMonth + 1}-${day}`;
-                    });
-
-                    calendarDays.appendChild(dayCell);
-                }
-            }
-
-            prevMonthButton.addEventListener('click', function() {
-                currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
-                if (currentMonth === 11) currentYear--;
-                renderCalendar();
-            });
-
-            nextMonthButton.addEventListener('click', function() {
-                currentMonth = (currentMonth === 11) ? 0 : currentMonth + 1;
-                if (currentMonth === 0) currentYear++;
-                renderCalendar();
-            });
-
-            renderCalendar();
+        openModalButton.addEventListener('click', () => {
+            modal.classList.remove('hidden');
         });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Evento para el toggle del menú 2
-            document.getElementById('toggleMenu2').addEventListener('click', function() {
-                console.log('toggleMenu2 clicked'); // Verificar si se activa el evento
-                var menu = document.getElementById('menu2');
-                menu.classList.toggle('hidden'); // Alternar la clase 'hidden'
-            });
 
-            // Función para alternar sublistas
-            function toggleSublist(event) {
-                event.preventDefault(); // Evitar el comportamiento por defecto
-                var sublist = event.target.nextElementSibling; // Obtener el siguiente elemento
-                if (sublist) {
-                    sublist.classList.toggle('hidden'); // Alternar la clase 'hidden' de la sublista
-                }
-            }
-
-            // Registro del evento para todos los enlaces que necesitan alternar un submenu
-            document.querySelectorAll('a[onclick="toggleSublist(event)"]').forEach(function(link) {
-                link.addEventListener('click', toggleSublist);
-            });
+        closeModalButton.addEventListener('click', () => {
+            modal.classList.add('hidden');
         });
     </script>
 
+    <script src="{{ asset('js/calendar.js') }}" defer></script>
     <script src="{{ asset('js/SuperAdmin.js') }}"></script>
 
 </body>

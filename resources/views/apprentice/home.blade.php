@@ -67,79 +67,6 @@
 </head>
 
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
-    
-    {{-- <header
-        class="bg-white text-[#009e00] px-5 py-2.5 flex flex-col items-center border-t-[5px] border-t-white border-b border-b-[#e0e0e0]">
-
-        <div class="flex justify-between w-full">
-            <div class="flex items-center">
-                <!-- Logo de SENA en el lado izquierdo -->
-                <img class="w-[70px] h-[70px]" src="{{ asset('img/logo-sena.png') }}" alt="Sena Logo ">
-
-                <!-- Espaciado entre los dos bloques -->
-                <div class="flex-grow m-2"></div>
-
-                <!-- Logo de Etapa Productiva y texto "Centro de Comercio y Servicios" en el lado derecho -->
-                <div class="text-left">
-                    <!-- Logo de Etapa Seguimiento -->
-                    <a href="{{ route('apprentice.home') }}" class="flex items-center">
-                        <img src="{{ asset('img/logo.png') }}" alt="Etapa Seguimiento Logo" class="w-10 h-auto mr-1.5">
-                        <div class="flex flex-col text-left">
-                            <h2 class="text-[12px] m-0 text-[#009e00]">Etapa</h2>
-                            <h2 class="text-[12px] m-0 text-[#009e00]">Productiva</h2>
-                        </div>
-                    </a>
-
-                    <!-- Texto "Centro de Comercio y Servicios" debajo del logo y el texto de Etapa Productiva -->
-                    <h2 class="text-sm mt-2 text-[#009e00]">Centro de Comercio y Servicios</h2>
-                </div>
-            </div>
-            <div class="relative ml-auto flex items-center">
-                <!-- Contenedor para la imagen y el ícono de los tres puntos -->
-                <div class="relative">
-                    <!-- Imagen de usuario -->
-                    <p class="text-sm font-bold mr-[16px] bg-[#f5f4f4] p-1 rounded-lg  z-20">{{ auth()->user()->name }}
-                        {{ auth()->user()->last_name }}</p>
-
-                    <!-- Botón de los tres puntos encima de la imagen -->
-                    <button id="menuButton" class="absolute top-[-4px] right-0 bg-transparent p-1 mr-[-15%]">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="black" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="black" class="w-8 h-8">
-                            <path stroke-linecap="round" stroke-linejoin="round"
-                                d="M12 6.75a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm0 5.25a1.5 1.5 0 110-3 1.5 1.5 0 010 3z" />
-                        </svg>
-                    </button>
-                </div>
-                
-                <div id="userMenu"
-                    class=" hidden absolute right-4  mt-2 w-64 bg-[#D9D9D9] border border-gray-300 rounded-lg shadow-lg z-20">
-                    <div class="p-4">
-                        <div class="flex items-center mb-4">
-                            <div>
-                                <p class="text-sm font-bold">{{ auth()->user()->name }} {{ auth()->user()->last_name }}
-                                </p>
-                                <p class="text-sm mt-2">Aprendiz</p>
-                            </div>
-
-
-                        </div>
-                        <ul>
-                            <li class="mt-2"><a href="{{ route('apprentice.profile') }}"
-                                    class="block text-center text-green-600 font-bold bg-white border hover:text-white hover:bg-green-600 border-green-600 rounded-lg py-1">Ver
-                                    perfil</a></li>
-
-                            <li class="mt-2"><a href="{{ route('apprentice.settings') }}"
-                                    class="block text-black hover:bg-white p-2 rounded-lg">Configuración</a></li>
-                        </ul>
-                        <form id="logoutForm" action="{{ route('logout') }}" method="POST" class="mt-4">
-                            @csrf
-                            <button type="submit"
-                                class="block text-center text-green-600 font-bold bg-white border hover:text-white hover:bg-green-600 border-green-600 rounded-lg py-2 w-full">Cerrar
-                                sesión</button>
-                        </form>
-                    </div>
-                </div>
-    </header> --}}
 
     @include('partials.header')
 
@@ -167,18 +94,19 @@
         </div>
 
     </nav>
-    {{-- FIN Menu --}}
 
     <!-- Trainer Container -->
     <div class="flex flex-col md:flex-row w-full px-2 p-[2%] py-4 md:px-10 md:py-0 space-y-4 md:space-y-0 md:space-x-4">
         <div class="w-full max-w-screen-lg mx-auto p-3 bg-gray-100 rounded-lg shadow flex flex-col mt-[1%] ">
             <h2 class="text-lg font-bold">Instructor Asignado</h2>
             <ul class="mt-7 space-y-2 md:space-y-4 text-sm">
-                <li><span class="font-semibold">Nombre:</span> Mariany Dorado</li>
+                <li><span class="font-semibold">Nombre:</span> {{ $data['trainer']['user']['name'] . ' ' . $data['trainer']['user']['last_name'] }}</li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Correo:</span> edusena10@gmail.com</li>
+                <li><span class="font-semibold">Correo:</span> {{ $data['trainer']['user']['email'] }}</li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Teléfono:</span> 322 546 78 67</li>
+                <li><span class="font-semibold">Teléfono:</span> {{ $data['trainer']['user']['telephone'] }}</li>
+                <hr class="border-white">
+                <li><span class="font-semibold">Teléfono:</span> {{ $data['trainer']['user']['id_role'] == 3 ? 'Instructor' : '' }}</li>
                 <hr class="border-white">
             </ul>
         </div>
@@ -192,13 +120,13 @@
             </div>
         </div>
     </div>
+
     <!-- Timeline Section -->
     <div
-        class="w-full md:flex-1 mt-[0.5%] bg-gray-100 rounded-lg shadow mx-auto tarjeta flex flex-col items-center p-8 ">
+        class="w-full m-5 md:flex-1 mt-[0.5%] bg-gray-100 rounded-lg shadow mx-auto tarjeta flex flex-col items-center p-8 ">
         <h3 class="text-center text-lg font-bold mb-0">Línea Temporal (Etapa de seguimiento)</h3>
         <div id="timeline" class="w-full h-60 md:h-80 object-cover "></div>
     </div>
-
 
 
     <!-- Scripts for Dropdowns -->
@@ -219,6 +147,7 @@
             }
         };
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Evento para el toggle del menú 2
@@ -244,8 +173,8 @@
         });
     </script>
 
-
     <script src="{{ asset('js/SuperAdmin.js') }}"></script>
+
     <script>
         // Función para obtener actividades completadas
         function getCompletedActivities() {
@@ -355,7 +284,6 @@
         updateTimeline();
     </script>
 
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('myChart').getContext('2d');
@@ -409,7 +337,6 @@
             actualizarGrafico(bitacorasSeleccionadas.length);
         });
     </script>
-
 
 </body>
 

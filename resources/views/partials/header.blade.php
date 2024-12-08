@@ -1,4 +1,15 @@
 <!-- resources/views/partials/header.blade.php -->
+<style>
+    .custom-login-button {
+        background-color: #009e00;
+        height: 40px;
+        line-height: 30px;
+    }
+
+    .custom-login-button:hover {
+        background-color: #41bd41;
+    }
+</style>
 <header
     class="bg-white text-[#009e00] px-5 py-2.5 flex flex-col items-center border-t-[5px] border-t-white border-b border-b-[#e0e0e0]">
     <div class="flex justify-between w-full">
@@ -19,20 +30,12 @@
             </div>
         </div>
         <div class="relative flex items-center ml-auto">
-            
+
             @if (!session()->has('token'))
                 <a href="{{ route('login') }}"
                     class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
                     Iniciar sesión
                 </a>
-            @else
-                <form action="{{ route('logout') }}" method="POST" class="inline">
-                    @csrf
-                    <button type="submit"
-                        class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
-                        Cerrar sesión
-                    </button>
-                </form>
             @endif
 
             <div class="relative">
@@ -92,6 +95,15 @@
                                     class="block p-2 text-black rounded-lg hover:bg-white">
                                     Gráficas
                                 </a>
+                            </li>
+
+                            <li class="mt-2">
+                                <form action="{{ route('logout') }}" method="POST" class="inline">
+                                    @csrf
+                                    <button type="submit" class="block p-2 text-black rounded-lg hover:bg-white">
+                                        Cerrar sesión
+                                    </button>
+                                </form>
                             </li>
                         @endif
 
