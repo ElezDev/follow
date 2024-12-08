@@ -61,7 +61,9 @@ class SuperadminController extends Controller
 
     public function SuperAdminGraficas()
     {
-        return view('superadmin.SuperAdmin-Graficas');
+        return view('graficos.index');
+
+        // return view('superadmin.SuperAdmin-Graficas');
     }
 
     public function SuperAdminemail()

@@ -33,14 +33,14 @@
 
             @if (!session()->has('token'))
                 <a href="{{ route('login') }}"
-                    class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
+                    class="flex items-center self-center justify-center px-4 py-2 text-sm text-white transition rounded-md custom-login-button">
                     Iniciar sesión
                 </a>
             @else
                 <button type="submit">
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
-                        <button type="submit" class="custom-login-button text-white text-sm px-4 py-2 rounded-md transition self-center flex items-center justify-center">
+                        <button type="submit" class="flex items-center self-center justify-center px-4 py-2 text-sm text-white transition rounded-md custom-login-button">
                             Cerrar sesión
                         </button>
                     </form>
@@ -100,7 +100,7 @@
                             </li>
 
                             <li class="mt-2">
-                                <a href="{{ route('superadmin.SuperAdmin-Graficas') }}"
+                                <a href="{{ route('graficos.index') }}"
                                     class="block p-2 text-black rounded-lg hover:bg-white">
                                     Gráficas
                                 </a>
