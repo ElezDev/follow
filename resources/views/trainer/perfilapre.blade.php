@@ -109,7 +109,8 @@
 
                             </div>
                             <div>
-                                <a href="{{ route('visita') }}"
+
+                                <a href="{{ route('visita', ['id' => $apprentice['id']]) }}"
                                     class="m-2.5 py-10 rounded-[10%] flex flex-col items-center text-center p-5 w-56 h-56 hover:border-green-600">
                                     <img src="{{ asset('img/trainer/visitas_1.png') }}" alt="Visita"
                                         class="m-2.5 py-5 rounded-[10%] flex flex-col items-center text-center p-2 bg-white border-[2px] border-black w-40 h-40 hover:border-green-600 object-cover">

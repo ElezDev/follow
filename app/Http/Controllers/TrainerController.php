@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\trainer;
 use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\Factory;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\RedirectResponse;
 
@@ -38,7 +39,7 @@ class TrainerController extends Controller
     {
         return view('trainer.configuracion');
     }
-    
+
     /**
      * Return view profile to apprentice selected by trainner
      * @param string|int $id
@@ -73,10 +74,32 @@ class TrainerController extends Controller
         return view('trainer.username');
     }
 
-    //icono visita
-    public function visita()
+    /**
+     * Get apprentice by id to view visits
+     * @param string|int $id
+     * @return RedirectResponse|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
+     */
+    public function visita(string|int $id): Factory|RedirectResponse|View
     {
-        return view('trainer.visita');
+        $token = session()->get('token');
+
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ])->get(env('URL_API') . 'get_apprentice_by_user_id/' . $id);
+
+        if ($response->successful()) {
+            $apprentice = $response->json();
+
+            if (!$apprentice) {
+                return redirect()->back()->with('error', 'Estudiante no encontrado.');
+            }
+
+            return view('trainer.visita', compact('apprentice'));
+        } else {
+            return redirect()->back()->with('error', 'Error al obtener la información del estudiante.');
+        }
     }
     //icono email
     public function email()
