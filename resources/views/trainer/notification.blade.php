@@ -108,7 +108,7 @@
                                 </div>
                                 <div class="flex items-center">
                                     <button class="bg-[#009e00] text-white p-2 rounded ml-2"
-                                        onclick="mostrarModal({{ json_encode($notification) }})">
+                                        onclick="mostrarModalUserSend({{ json_encode($notification) }})">
                                         Ver
                                     </button>
                                     <button class="bg-gray-300 text-black p-2 rounded ml-2"
@@ -146,6 +146,27 @@
         </div>
     </div>
 
+    <div id="modal-user" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+        <div class="w-1/2 bg-white rounded-lg shadow-lg">
+            <div class="p-4 border-b">
+                <h2 id="modal-title-user" class="text-lg font-semibold">Detalles de la Notificación</h2>
+            </div>
+            <div class="p-4">
+                <p><strong>Mensaje:</strong> <span id="modal-message-user"></span></p>
+                <p><strong>Contenido:</strong> <span id="modal-content-user"></span></p>
+                <p><strong>Fecha:</strong> <span id="modal-date-user"></span></p>
+                <hr class="my-4">
+                <p><strong>Enviado a:</strong></p>
+                <p><strong>Nombre:</strong> <span id="modal-user-name"></span></p>
+                <p><strong>Email:</strong> <span id="modal-user-email"></span></p>
+                <p><strong>Teléfono:</strong> <span id="modal-user-telephone"></span></p>
+            </div>
+            <div class="p-4 text-right border-t">
+                <button onclick="cerrarModalUser()" class="px-4 py-2 text-white bg-red-500 rounded">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
     <script>
         function mostrarModal(notificacion) {
             document.getElementById('modal').classList.remove('hidden');
@@ -164,6 +185,25 @@
 
         function cerrarModal() {
             document.getElementById('modal').classList.add('hidden');
+        }
+
+        function mostrarModalUserSend(notificacion) {
+            document.getElementById('modal-user').classList.remove('hidden');
+
+            document.getElementById('modal-title-user').textContent = notificacion.message ?? 'Sin título';
+            document.getElementById('modal-message-user').textContent = notificacion.message ?? 'Mensaje no disponible';
+            document.getElementById('modal-content-user').textContent = notificacion.content ?? 'Contenido no disponible';
+            document.getElementById('modal-date-user').textContent = notificacion.shipping_date ?? 'Fecha no disponible';
+
+            const user = notificacion.user || {};
+            document.getElementById('modal-user-name').textContent =
+                `${user.name ?? 'Nombre no disponible'} ${user.last_name ?? ''}`;
+            document.getElementById('modal-user-email').textContent = user.email ?? 'Correo no disponible';
+            document.getElementById('modal-user-telephone').textContent = user.telephone ?? 'Teléfono no disponible';
+        }
+
+        function cerrarModalUser() {
+            document.getElementById('modal-user').classList.add('hidden');
         }
     </script>
 
