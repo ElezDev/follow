@@ -51,7 +51,7 @@
     </div>
 
     <div class="flex justify-center">
-        
+
         <main class="bg-white m-4 p-4 rounded-lg shadow-lg border-[#2F3E4C] w-2/3">
 
             <!-- Botones de Tabs -->
@@ -81,9 +81,10 @@
                                         {{ \Carbon\Carbon::parse($notification['shipping_date'])->format('d/m/Y') }}</p>
                                 </div>
                                 <div class="flex items-center">
-                                    <a href="{{ route('email') }}">
-                                        <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
-                                    </a>
+                                    <button class="bg-[#009e00] text-white p-2 rounded ml-2"
+                                        onclick="mostrarModal({{ json_encode($notification) }})">
+                                        Ver
+                                    </button>
                                     <button class="bg-gray-300 text-black p-2 rounded ml-2"
                                         onclick="deleteNotification({{ $notification['id'] }})">Eliminar</button>
                                 </div>
@@ -106,9 +107,10 @@
                                     </p>
                                 </div>
                                 <div class="flex items-center">
-                                    <a href="{{ route('email') }}">
-                                        <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
-                                    </a>
+                                    <button class="bg-[#009e00] text-white p-2 rounded ml-2"
+                                        onclick="mostrarModal({{ json_encode($notification) }})">
+                                        Ver
+                                    </button>
                                     <button class="bg-gray-300 text-black p-2 rounded ml-2"
                                         onclick="deleteNotification({{ $notification['id'] }})">Eliminar</button>
                                 </div>
@@ -121,6 +123,49 @@
         </main>
 
     </div>
+
+    <!-- Modal -->
+    <div id="modal" class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+        <div class="w-1/2 bg-white rounded-lg shadow-lg">
+            <div class="p-4 border-b">
+                <h2 id="modal-title" class="text-lg font-semibold">Detalles de la Notificación</h2>
+            </div>
+            <div class="p-4">
+                <p><strong>Mensaje:</strong> <span id="modal-message"></span></p>
+                <p><strong>Contenido:</strong> <span id="modal-content"></span></p>
+                <p><strong>Fecha:</strong> <span id="modal-date"></span></p>
+                <hr class="my-4">
+                <p><strong>Enviado por:</strong></p>
+                <p><strong>Nombre:</strong> <span id="modal-sender-name"></span></p>
+                <p><strong>Email:</strong> <span id="modal-sender-email"></span></p>
+                <p><strong>Teléfono:</strong> <span id="modal-sender-telephone"></span></p>
+            </div>
+            <div class="p-4 text-right border-t">
+                <button onclick="cerrarModal()" class="px-4 py-2 text-white bg-red-500 rounded">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function mostrarModal(notificacion) {
+            document.getElementById('modal').classList.remove('hidden');
+
+            document.getElementById('modal-title').textContent = notificacion.message ?? 'Sin título';
+            document.getElementById('modal-message').textContent = notificacion.message ?? 'Mensaje no disponible';
+            document.getElementById('modal-content').textContent = notificacion.content ?? 'Contenido no disponible';
+            document.getElementById('modal-date').textContent = notificacion.shipping_date ?? 'Fecha no disponible';
+
+            const sender = notificacion.sender || {};
+            document.getElementById('modal-sender-name').textContent =
+                `${sender.name ?? 'Nombre no disponible'} ${sender.last_name ?? ''}`;
+            document.getElementById('modal-sender-email').textContent = sender.email ?? 'Correo no disponible';
+            document.getElementById('modal-sender-telephone').textContent = sender.telephone ?? 'Teléfono no disponible';
+        }
+
+        function cerrarModal() {
+            document.getElementById('modal').classList.add('hidden');
+        }
+    </script>
 
     <script>
         // Función para cambiar entre tabs
