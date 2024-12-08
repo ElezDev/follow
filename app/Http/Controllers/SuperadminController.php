@@ -131,11 +131,10 @@ class SuperadminController extends Controller
     // }
 
     public function SuperAdminAprendiz(Request $request)
-{
+    {
     $userData = Http::get(env('URL_API') . 'user_by_roles_aprendiz');
     $userDataArray = $userData->json();
 
-    // Filtrar los datos si es necesario
     if ($request->has('search') && !empty($request->search)) {
         $search = $request->search;
 
@@ -147,13 +146,13 @@ class SuperadminController extends Controller
 
         $userDataArray = array_values($filteredData);
     }
+        if ($request->ajax()) {
+            return view('partials.aprendiz_results', ['aprendiz' => $userDataArray]);
+        }
 
-    // Generar y descargar el archivo Excel si la solicitud es de tipo 'download'
     if ($request->has('download')) {
         return Excel::download(new AprendizExport($userDataArray), 'aprendices.xlsx');
     }
-
-    // Retornar la vista con los datos
     return view('superadmin.SuperAdmin-Aprendiz', ['aprendiz' => $userDataArray]);
 }
 
