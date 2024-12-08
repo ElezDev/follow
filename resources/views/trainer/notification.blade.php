@@ -18,6 +18,8 @@
             color: white;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
@@ -49,6 +51,7 @@
     </div>
 
     <div class="flex justify-center">
+        
         <main class="bg-white m-4 p-4 rounded-lg shadow-lg border-[#2F3E4C] w-2/3">
 
             <!-- Botones de Tabs -->
@@ -68,7 +71,8 @@
                 <!-- Notificaciones Recibidas -->
                 <div id="receivedNotifications" class="notification-list">
                     @foreach ($receivedNotifications as $notification)
-                        <li class="notification-item border-t border-gray-200">
+                        <li class="notification-item border-t border-gray-200"
+                            id="notification-{{ $notification['id'] }}">
                             <div class="flex justify-between items-center p-4 hover:bg-gray-100">
                                 <div>
                                     <h2 class="text-lg font-bold">{{ $notification['content'] }}</h2>
@@ -80,7 +84,8 @@
                                     <a href="{{ route('email') }}">
                                         <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
                                     </a>
-                                    <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
+                                    <button class="bg-gray-300 text-black p-2 rounded ml-2"
+                                        onclick="deleteNotification({{ $notification['id'] }})">Eliminar</button>
                                 </div>
                             </div>
                         </li>
@@ -90,7 +95,8 @@
                 <!-- Notificaciones Enviadas -->
                 <div id="sentNotifications" class="notification-list" style="display:none;">
                     @foreach ($sentNotifications as $notification)
-                        <li class="notification-item border-t border-gray-200">
+                        <li class="notification-item border-t border-gray-200"
+                            id="notification-{{ $notification['id'] }}">
                             <div class="flex justify-between items-center p-4 hover:bg-gray-100">
                                 <div>
                                     <h2 class="text-lg font-bold">{{ $notification['content'] }}</h2>
@@ -103,14 +109,17 @@
                                     <a href="{{ route('email') }}">
                                         <button class="bg-[#009e00] text-white p-2 rounded ml-2">Ver</button>
                                     </a>
-                                    <button class="bg-gray-300 text-black p-2 rounded ml-2">Eliminar</button>
+                                    <button class="bg-gray-300 text-black p-2 rounded ml-2"
+                                        onclick="deleteNotification({{ $notification['id'] }})">Eliminar</button>
                                 </div>
                             </div>
                         </li>
                     @endforeach
                 </div>
             </ul>
+
         </main>
+
     </div>
 
     <script>
@@ -131,6 +140,45 @@
 
         // Iniciar con la tab 'received' activa
         setActiveTab('received');
+    </script>
+
+    <script>
+        const URL_API = "{{ env('URL_API') }}";
+
+        function deleteNotification(notificationId) {
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'No podrás revertir esta acción.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    axios.delete(`${URL_API}notifications/${notificationId}`)
+                        .then(response => {
+                            document.getElementById('notification-' + notificationId).remove();
+
+                            Swal.fire(
+                                'Eliminado',
+                                'La notificación ha sido eliminada correctamente.',
+                                'success'
+                            );
+                        })
+                        .catch(error => {
+                            console.error('Error al eliminar la notificación:', error);
+
+                            Swal.fire(
+                                'Error',
+                                'Hubo un problema al eliminar la notificación.',
+                                'error'
+                            );
+                        });
+                }
+            });
+        }
     </script>
 
 </body>

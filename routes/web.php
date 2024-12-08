@@ -163,7 +163,10 @@ Route::middleware([CheckTokenAndUser::class, RoleApprendiceMiddleware::class])->
 Route::middleware([CheckTokenAndUser::class, RoleTrainnerMiddleware::class])->group(function () {
     Route::get('/trainer/home', [TrainerController::class, 'index'])->name('trainer.home');
     Route::get('/trainer/icon', [TrainerController::class, 'icon'])->name('icon');
+
     Route::get('/trainer/notification', [NotificationController::class, 'notificationtrainer'])->name('notificationtrainer');
+    Route::delete('/notification/{id}', [NotificationController::class, 'deleteNotification'])->name('notification.trainner.delete');
+
     Route::get('/trainer/report', [ReportController::class, 'report'])->name('report');
     Route::post('/create-notification-trainner', [ReportController::class, 'createNotification'])->name('createNotificationTrainner');
     Route::get('/trainer/username', [TrainerController::class, 'username'])->name('username');
