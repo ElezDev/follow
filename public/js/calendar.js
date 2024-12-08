@@ -27,14 +27,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
         events: events,
 
-        dateClick: function (info) {
-            console.log(info);
-            $('#evento').css('display', 'flex');
+        // dateClick: function (info) {
+        //     console.log(info);
+        //     $('#evento').css('display', 'flex');
 
-            // Actualizar la fecha en el párrafo con el id "selected-date"
-            const dateElement = document.getElementById('selected-date');
-            dateElement.textContent = `Fecha: ${info.dateStr}`;
-        },
+        //     // Actualizar la fecha en el párrafo con el id "selected-date"
+        //     const dateElement = document.getElementById('selected-date');
+        //     dateElement.textContent = `Fecha: ${info.dateStr}`;
+        // },
 
         eventClick: function (info) {
             $('#evento').css('display', 'flex');

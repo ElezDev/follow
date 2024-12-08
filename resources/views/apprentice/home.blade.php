@@ -97,28 +97,33 @@
 
     <!-- Trainer Container -->
     <div class="flex flex-col md:flex-row w-full px-2 p-[2%] py-4 md:px-10 md:py-0 space-y-4 md:space-y-0 md:space-x-4">
+        
         <div class="w-full max-w-screen-lg mx-auto p-3 bg-gray-100 rounded-lg shadow flex flex-col mt-[1%] ">
+
             <h2 class="text-lg font-bold">Instructor Asignado</h2>
             <ul class="mt-7 space-y-2 md:space-y-4 text-sm">
-                <li><span class="font-semibold">Nombre:</span> {{ $data['trainer']['user']['name'] . ' ' . $data['trainer']['user']['last_name'] }}</li>
+                <li><span class="font-semibold">Nombre:</span>
+                    {{ $data['trainer']['user']['name'] . ' ' . $data['trainer']['user']['last_name'] }}</li>
                 <hr class="border-white">
                 <li><span class="font-semibold">Correo:</span> {{ $data['trainer']['user']['email'] }}</li>
                 <hr class="border-white">
                 <li><span class="font-semibold">Teléfono:</span> {{ $data['trainer']['user']['telephone'] }}</li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Teléfono:</span> {{ $data['trainer']['user']['id_role'] == 3 ? 'Instructor' : '' }}</li>
+                <li><span class="font-semibold">Teléfono:</span>
+                    {{ $data['trainer']['user']['id_role'] == 3 ? 'Instructor' : '' }}</li>
                 <hr class="border-white">
             </ul>
+
         </div>
-        <!-- Blog Section -->
+
+        <!-- Graphiph dount of cant logs -->
         <div class="card flex flex-col p-3 mb-1 bg-gray-100 rounded-lg shadow w-full md:w-[25%] md:p-6 mt-[0.5%]">
-            <h4 class="text-center text-lg font-bold mb-0">Bitácoras</h4> <!-- Añadido mb-2 para margen inferior -->
+            <h4 class="text-center text-lg font-bold mb-0">Bitácoras</h4>
             <div class="w-60 h-60 mx-auto flex justify-center items-center">
-                <!-- Añadido items-center para centrar verticalmente -->
-                <canvas id="myChart" class="w-full h-full"></canvas>
-                <!-- Añadido w-full h-full para que el canvas ocupe todo el contenedor -->
+                <canvas id="logs" class="w-full h-full"></canvas>
             </div>
         </div>
+
     </div>
 
     <!-- Timeline Section -->
@@ -128,6 +133,9 @@
         <div id="timeline" class="w-full h-60 md:h-80 object-cover "></div>
     </div>
 
+    <script>
+        const calendarData = @json($data);
+    </script>
 
     <!-- Scripts for Dropdowns -->
     <script>
@@ -149,71 +157,22 @@
     </script>
 
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Evento para el toggle del menú 2
-            document.getElementById('toggleMenu2').addEventListener('click', function() {
-                console.log('toggleMenu2 clicked'); // Verificar si se activa el evento
-                var menu = document.getElementById('menu2');
-                menu.classList.toggle('hidden'); // Alternar la clase 'hidden'
-            });
-
-            // Función para alternar sublistas
-            function toggleSublist(event) {
-                event.preventDefault(); // Evitar el comportamiento por defecto
-                var sublist = event.target.nextElementSibling; // Obtener el siguiente elemento
-                if (sublist) {
-                    sublist.classList.toggle('hidden'); // Alternar la clase 'hidden' de la sublista
-                }
-            }
-
-            // Registro del evento para todos los enlaces que necesitan alternar un submenu
-            document.querySelectorAll('a[onclick="toggleSublist(event)"]').forEach(function(link) {
-                link.addEventListener('click', toggleSublist);
-            });
-        });
-    </script>
-
-    <script src="{{ asset('js/SuperAdmin.js') }}"></script>
-
-    <script>
         // Función para obtener actividades completadas
         function getCompletedActivities() {
-            return JSON.parse(localStorage.getItem('completedActivities')) ||
-        []; // Se asegura de que retorne un array vacío si no hay datos
+            return JSON.parse(localStorage.getItem('completedActivities')) || [];
         }
 
+        const itemsData = calendarData.trainer.follow_ups.map(followUp => ({
+            id: followUp.id,
+            content: followUp.type_of_agreement,
+            start: followUp.date,
+            observation: followUp.observation,
+            backgroundColor: '#009e00',
+            borderColor: '#009e00',
+        }));
+
         // Crear elementos para la línea de tiempo
-        var items = new vis.DataSet([{
-                id: 1,
-                content: 'Asignación',
-                start: '2023-12-29'
-            },
-            {
-                id: 2,
-                content: 'Inicio Etapa Productiva',
-                start: '2024-01-01'
-            }, // Completado
-            {
-                id: 3,
-                content: 'Primera Visita',
-                start: '2024-02-01'
-            },
-            {
-                id: 4,
-                content: 'Segunda Visita',
-                start: '2024-04-01'
-            },
-            {
-                id: 5,
-                content: 'Tercera Visita',
-                start: '2024-06-01'
-            },
-            {
-                id: 6,
-                content: 'Finalización de Etapa Productiva',
-                start: '2024-08-01'
-            }
-        ]);
+        var items = new vis.DataSet(itemsData);
 
         // Opciones de la línea de tiempo
         var options = {
@@ -286,7 +245,7 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('myChart').getContext('2d');
+            const ctx = document.getElementById('logs').getContext('2d');
 
             // Función para actualizar el gráfico con la cantidad de bitácoras seleccionadas
             function actualizarGrafico(cantidadSeleccionada) {
@@ -334,6 +293,8 @@
 
             // Obtener el número de bitácoras seleccionadas y actualizar el gráfico
             const bitacorasSeleccionadas = JSON.parse(localStorage.getItem('bitacorasSeleccionadas')) || [];
+            console.log(bitacorasSeleccionadas);
+            
             actualizarGrafico(bitacorasSeleccionadas.length);
         });
     </script>
