@@ -21,6 +21,18 @@
                     Visitas
                 </a>
             </li>
+            <li>
+                <a href="{{ route('bitacora') }}"
+                    class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                    Bitácoras
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('cronograma') }}"
+                    class="block text-white text-center bg-transparent px-4 py-2 rounded-lg hover:bg-green-700 transition">
+                    Cronograma
+                </a>
+            </li>
         </ul>
     </div>
     <button id="notifButton" class="relative">

@@ -66,7 +66,6 @@
 
     @include('partials.nav-trainner')
 
-    </div>
     <main class="flex flex-col items-center mt-4 relative">
         <div class="w-full flex justify-between items-center mb-4">
             <a href="{{ route('icon') }}" class="ml-4">
