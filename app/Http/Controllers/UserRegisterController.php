@@ -142,6 +142,28 @@ class UserRegisterController extends Controller
             return redirect()->back()->with('error', 'Error al crear el usuario');
         }
     }
+
+
+    public function deleteUser(Request $request, $id)
+    {
+      
+        $response = Http::withHeaders(headers: [
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->delete(env('URL_API') . "delete_user/{$id}", $request->all());
+
+        
+        dd(
+            $response->json()
+        );
+       
+        if ($response->successful()) {
+            return redirect()->route('superadmin.SuperAdmin-Administrator')->with('success', 'Usuario creado correctamente');
+        } else {
+            return redirect()->back()->with('error', 'Error al crear el usuario');
+        }
+    }
+    
     
 
 
@@ -187,6 +209,10 @@ class UserRegisterController extends Controller
             return redirect()->back()->with('error', 'Error al crear el usuario');
         }
     }
+
+
+
+
     
 }
 

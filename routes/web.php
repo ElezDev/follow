@@ -86,7 +86,7 @@ Route::middleware([CheckTokenAndUser::class, RoleMiddleware::class])->group(func
     Route::put('/superadmin/update-instructor/{id}', [UserRegisterController::class, 'updateUserInstructor'])->name('superadmin.updateInstructor');
     Route::put('/superadmin/update-aprendiz/{id}', [UserRegisterController::class, 'updateUserInstructor'])->name('superadmin.updateAprendiz');
 
-
+    Route::delete('/superadmin/delete-user/{id}', [UserRegisterController::class, 'deleteUser'])->name('superadmin.deleteUser');
 
     // Ruta para configuración general del superadmin
     Route::get('/superadmin/SuperAdmin-Configuracion', [SuperadminController::class, 'SuperAdminConfiguracion'])->name('superadmin.SuperAdmin-Configuracion');
