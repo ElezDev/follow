@@ -120,9 +120,6 @@
         </div>
     </main>
 
-
-    <script src="{{ asset('js/Trainer.js') }}"></script>
-
 </body>
 
 </html>

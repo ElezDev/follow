@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
-    <script src="{{ asset('js/Trainer.js') }}"></script>
     <title>Etapa Seguimiento</title>
     <style>
         #userMenuTri {
@@ -59,10 +58,11 @@
     @include('partials.nav-trainner')
 
     <div class="w-full flex justify-between items-center mt-4">
-        <a href="http://127.0.0.1:8000/trainer/perfilapre" class="ml-4">
-            <img src="http://127.0.0.1:8000/img/flecha.png" alt="Flecha" class="w-5 h-auto">
+        <a href="{{ route('trainer.home') }}" class="ml-4">
+            <img src="{{ asset('img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
         </a>
     </div>
+
     <div class="flex justify-center">
         <main class="bg-white m-4 p-4 rounded-lg shadow-[0_0_10px_rgba(0,0,0,0.8)] border-[#2F3E4C] w-2/3">
             <div class="flex justify-between items-center mb-4">
