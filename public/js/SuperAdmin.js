@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Datos para las gráficas
     const data = {
         pasantia: 150,
@@ -177,18 +177,18 @@ createBarChart(document.getElementById('barChartAdicional').getContext('2d'), da
 createDoughnutChart(document.getElementById('doughnutChartAdicional').getContext('2d'), dataAdicional);
 
 // Funcionalidad del formulario
-document.getElementById('contractForm').addEventListener('submit', function(e) {
+document.getElementById('contractForm').addEventListener('submit', function (e) {
     e.preventDefault();
     alert('Formulario enviado');
 });
 
 ['pendienteBtn', 'activoBtn', 'finalizadosBtn'].forEach(id => {
-    document.getElementById(id).addEventListener('click', function() {
+    document.getElementById(id).addEventListener('click', function () {
         alert(`Estado cambiado a: ${this.textContent}`);
     });
 });
 
-document.getElementById('cancelarBtn').addEventListener('click', function() {
+document.getElementById('cancelarBtn').addEventListener('click', function () {
     document.getElementById('contractForm').reset();
 });
 
@@ -214,7 +214,7 @@ document.getElementById('notifButton').addEventListener('click', function () {
 });
 
 // Cuando el contenido de la página se ha cargado completamente
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     // Seleccionar elementos del DOM necesarios para el calendario y el formulario de eventos
     const calendarGrid = document.querySelector('.grid');
     const currentMonthSpan = document.getElementById('currentMonth');
