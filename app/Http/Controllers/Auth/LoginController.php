@@ -56,6 +56,10 @@ class LoginController extends Controller
                     return redirect()->route('superadmin.home');
                 }
 
+                if ($roleId == 3) {
+                    return redirect()->route('trainer.home');
+                }
+
                 if ($roleId == 4) {
                     return redirect()->route('apprentice.index');
                 }

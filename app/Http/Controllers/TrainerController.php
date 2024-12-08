@@ -12,7 +12,7 @@ class TrainerController extends Controller
      */
     public function index()
     {
-        return view('trainer.icon');
+        return view('trainer.home');
     }
 
    //inicio de instructor iconos
@@ -20,13 +20,6 @@ class TrainerController extends Controller
     {
         return view('trainer.icon');
     }
-
-    //icono notificaciones
-    // public function notification()
-    // {
-    //     return view('trainer.notification');
-    // }
-    //aprendiz icono
 
     public function configuracion()
     {
@@ -37,26 +30,13 @@ class TrainerController extends Controller
      {
          return view('trainer.perfilapre');
      }
-     //icono cronograma
-    // public function cronograma()
-    // {
-    //     return view('trainer.cronograma');
-    // }
-    //icono reportes
-    // public function report()
-    // {
-    //     return view('trainer.report');
-    // }
+    
     //icono nombre usuario instructor
     public function username()
     {
         return view('trainer.username');
     }
-    //icono bitacora
-    // public function bitacora()
-    // {
-    //     return view('trainer.bitacora');
-    // }
+    
     //icono visita
     public function visita()
     {
@@ -67,19 +47,6 @@ class TrainerController extends Controller
     {
         return view('trainer.email');
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**

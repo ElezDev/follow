@@ -159,13 +159,10 @@ Route::middleware([CheckTokenAndUser::class, RoleApprendiceMiddleware::class])->
     Route::get('/notificacionaprendiz', [ApprenticeController::class, 'notification'])->name('notificacionaprendiz');
 });
 
+//rutas intructor
 Route::middleware([CheckTokenAndUser::class, RoleTrainnerMiddleware::class])->group(function () {
-    Route::get('/trainer/icon', function () {
-        return view('trainer.icon');
-    })->name('icon');
-
-    //rutas intructor
-    Route::get('/trainer/icon', [TrainerController::class, 'icon']);
+    Route::get('/trainer/home', [TrainerController::class, 'index'])->name('trainer.home');
+    Route::get('/trainer/icon', [TrainerController::class, 'icon'])->name('icon');
     Route::get('/trainer/notification', [NotificationController::class, 'notificationtrainer'])->name('notificationtrainer');
     Route::get('/trainer/report', [ReportController::class, 'report'])->name('report');
     Route::get('/trainer/username', [TrainerController::class, 'username'])->name('username');
@@ -178,12 +175,5 @@ Route::middleware([CheckTokenAndUser::class, RoleTrainnerMiddleware::class])->gr
     Route::get('/trainer/cronograma', [DiaryController::class, 'cronograma'])->name('cronograma');
     Route::post('/registrar-bitacora', [BitacoraController::class, 'registrar'])->name('registrar.bitacora');
 });
-
-
-
-Route::get('/test-react', function () {
-    return view('test');
-});
-
 
 Route::get('/superadmin/aprendiz', [SuperAdminController::class, 'SuperAdminAprendiz'])->name('superadmin.aprendiz');
