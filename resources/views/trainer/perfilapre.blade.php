@@ -21,79 +21,82 @@
 </head>
 
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
-    
+
     @include('partials.header')
 
     @include('partials.nav-trainner')
 
-    </div>
-    </nav>
     <div class="w-full flex justify-between items-center mt-6">
-        <a href="{{ route('icon') }}" class="ml-4">
+        <a href="{{ route('trainer.home') }}" class="ml-4">
             <img src="{{ asset('img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
         </a>
     </div>
     <div class="flex justify-center">
-        <main class=" bg-white m-2 px-2 rounded-lg max-height-100% w-5/7 border-2 border-black">
 
+        <main class=" bg-white m-2 px-2 rounded-lg max-height-100% w-5/7 border-2 border-black">
 
             <div class="container  mx-auto mt-6 p-6 bg-white rounded-lg shadow-lg">
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
                     <div class="md:col-span-1 flex flex-col items-center space-y-4">
-                        <div class="bg-gray-200 rounded-full p-6  border-2 border-black">
+                        <div class="bg-gray-200 rounded-full p-6 border-2 border-black">
                             <img src="{{ asset('img/trainer/aprendiz_icono_tra.png') }}" alt="Avatar" class="h-28">
                         </div>
                         <div class="w-full">
                             <label for="nombre" class="block text-sm font-medium text-gray-700">Nombres</label>
-                            <input type="text" id="nombre" value="Carolina"
-                                class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus: border-gray-300 focus:bg-white focus:ring-0 ">
+                            <input type="text" id="nombre" value="{{ $apprentice['name'] }}"
+                                class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-300 focus:bg-white focus:ring-0">
                         </div>
                         <div class="w-full">
                             <label for="apellido" class="block text-sm font-medium text-gray-700">Apellidos</label>
-                            <input type="text" id="apellido" value="Diaz"
-                                class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus: border-gray-300 focus:bg-white focus:ring-0">
+                            <input type="text" id="apellido" value="{{ $apprentice['last_name'] }}"
+                                class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-300 focus:bg-white focus:ring-0">
                         </div>
                         <div class="w-full">
                             <label for="identificacion" class="block text-sm font-medium text-gray-700">N°
                                 identificación</label>
-                            <input type="text" id="identificacion" value="1060435758"
+                            <input type="text" id="identificacion" value="{{ $apprentice['identification'] }}"
                                 class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
                         </div>
                         <div class="w-full">
                             <label for="ficha" class="block text-sm font-medium text-gray-700">N° ficha</label>
-                            <input type="text" id="ficha" value="2354781"
+                            <input type="text" id="ficha"
+                                value="{{ isset($apprentice['apprentice']['ficha']) ? $apprentice['apprentice']['ficha'] : '' }}"
                                 class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
                         </div>
                         <div class="w-full">
                             <label for="email" class="block text-sm font-medium text-gray-700">Correo
                                 Electrónico</label>
-                            <input type="email" id="email" value="carolinadiaz@gmail.com"
+                            <input type="email" id="email" value="{{ $apprentice['email'] }}"
                                 class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
                         </div>
                         <div class="w-full">
                             <label for="departamento"
                                 class="block text-sm font-medium text-gray-700">Departamento</label>
-                            <input type="text" id="departamento" value="Cauca"
+                            <input type="text" id="departamento" value="{{ $apprentice['department'] }}"
                                 class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
                         </div>
                         <div class="w-full">
                             <label for="municipio" class="block text-sm font-medium text-gray-700">Municipio</label>
-                            <input type="text" id="municipio" value="Popayán"
+                            <input type="text" id="municipio" value="{{ $apprentice['municipality'] }}"
                                 class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
                         </div>
                         <div class="w-full">
                             <label for="nivel_formacion" class="block text-sm font-medium text-gray-700">Nivel de
                                 Formación</label>
-                            <input type="text" id="nivel_formacion" value="Tecnologo"
+                            <input type="text" id="nivel_formacion"
+                                value="{{ isset($apprentice['apprentice']['academic_level']) ? $apprentice['apprentice']['academic_level'] : '' }}"
                                 class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
                         </div>
                         <div class="w-full">
-                            <label for="programa" class="block text-sm font-medium text-gray-700">Nombre del
-                                Programa</label>
-                            <input type="text" id="programa" value="Adso"
+                            <label for="programa" class="block text-sm font-medium text-gray-700">Programa</label>
+                            <input type="text" id="programa"
+                                value="{{ isset($apprentice['apprentice']['program']) ? $apprentice['apprentice']['program'] : '' }}"
                                 class="mt-1 block w-full rounded-md bg-gray-100 border-transparent focus:border-gray-500 focus:bg-white focus:ring-0">
                         </div>
                     </div>
+
+
                     <div class="md:col-span-2 flex flex-col items-center space-y-4">
                         <div class="flex justify-between items-center w-full">
                             <div>
@@ -135,13 +138,16 @@
 
                         </div>
                     </div>
+
                 </div>
             </div>
+
+        </main>
+
     </div>
 
-    </main>
-    </div>
     <script src="{{ asset('js/Trainer.js') }}"></script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const selectElement = document.getElementById('statusSelect');
@@ -302,6 +308,7 @@
         // Actualizar la línea de tiempo al cargar la página
         updateTimeline();
     </script>
+
 </body>
 
 </html>

@@ -88,20 +88,31 @@
                 @php
                     $contador = 0;
                 @endphp
-                @for ($i = 0; $i < 24; $i++)
-                    <a href="{{ route('perfilapre') }}"
-                        class=" w-40px h-30px  bg-white border-2 border-[#009E00] rounded-2xl m-4 p-2 flex flex-col items-center hover:bg-green-100">
-                        <img src="{{ asset('img/trainer/aprendiz_icono_tra.png') }}" alt="User"
-                            class="w-6 h-8 mb-1">
-                        <span class="text-xs text-center p-1">Nombre Completo</span>
-                        <span class="text-xs text-center p-1">Cédula</span>
-                        <span class="text-xs text-center p-1">Ficha</span>
-                        <span class="text-xs text-center p-1">Tipo de seguimineto</span>
-                    </a>
-                    @php
-                        $contador++;
-                    @endphp
-                @endfor
+
+                @if (empty($data) || !array_filter($data, fn($monitoring) => !empty($monitoring['apprentices'])))
+                    <p class="text-center text-red-600">No hay aprendices asignados.</p>
+                @else
+                    @foreach ($data as $monitoring)
+                        @foreach ($monitoring['apprentices'] as $apprentice)
+                            <a href="{{ route('perfilapre', ['id' => $apprentice['id']]) }}"
+                                class="w-40px h-30px bg-white border-2 border-[#009E00] rounded-2xl m-4 p-2 flex flex-col items-center hover:bg-green-100">
+                                <img src="{{ asset('img/trainer/aprendiz_icono_tra.png') }}" alt="User"
+                                    class="w-6 h-8 mb-1">
+                                <span class="text-xs text-center p-1">Nombre Completo: {{ $apprentice['user']['name'] }}
+                                    {{ $apprentice['user']['last_name'] }}</span>
+                                <span class="text-xs text-center p-1">Cédula:
+                                    {{ $apprentice['user']['identification'] }}</span>
+                                <span class="text-xs text-center p-1">Ficha: {{ $apprentice['ficha'] }}</span>
+                                <span class="text-xs text-center p-1">Tipo de seguimiento:
+                                    {{ $monitoring['network_knowledge'] }}</span>
+                            </a>
+                            @php
+                                $contador++;
+                            @endphp
+                        @endforeach
+                    @endforeach
+                @endif
+
             </div>
         </div>
         <div class="bg-[#009E00] border-2 border-[black] rounded-lg p-2 mb-2">
