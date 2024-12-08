@@ -109,7 +109,7 @@
                 <hr class="border-white">
                 <li><span class="font-semibold">Teléfono:</span> {{ $data['trainer']['user']['telephone'] }}</li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Teléfono:</span>
+                <li><span class="font-semibold">Rol:</span>
                     {{ $data['trainer']['user']['id_role'] == 3 ? 'Instructor' : '' }}</li>
                 <hr class="border-white">
             </ul>
@@ -134,7 +134,7 @@
     </div>
 
     <script>
-        const calendarData = @json($data);
+        const calendarData = @json($visitsData);
     </script>
 
     <!-- Scripts for Dropdowns -->
@@ -162,7 +162,7 @@
             return JSON.parse(localStorage.getItem('completedActivities')) || [];
         }
 
-        const itemsData = calendarData.trainer.follow_ups.map(followUp => ({
+        const itemsData = calendarData.map(followUp => ({
             id: followUp.id,
             content: followUp.type_of_agreement,
             start: followUp.date,

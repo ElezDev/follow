@@ -27,10 +27,20 @@ class ApprenticeController extends Controller
 
         // Convertir la respuesta JSON en un array, vacío si no tiene contenido
         $data = $response->json();
+
+        // Realizar la solicitud con el token en el encabezado
+        $visits = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ])->get(env('URL_API') . 'get_all_follow_ups_by_apprentice');
+
+        // Convertir la respuesta JSON en un array, vacío si no tiene contenido
+        $visitsData = $visits->json();
         
 
         // Retornar siempre el array, incluso si está vacío
-        return view('apprentice.home', compact('data'));
+        return view('apprentice.home', compact('data', 'visitsData'));
     }
 
     public function visit()
