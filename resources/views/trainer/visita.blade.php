@@ -136,14 +136,13 @@
 
                         <div class="flex justify-between items-center">
                             <div class="flex-1 text-center">
-                                <!-- El título y el texto del formulario estarán centrados -->
                             </div>
                             <button type="button" id="resetFormButton" style="display: none" onclick="resetForm()"
                                 class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 focus:outline-none">
                                 Crear
                             </button>
                         </div>
-                        
+
                         <div class="mb-4">
                             <label for="type_of_agreement" class="block text-gray-700 font-medium mb-2">Tipo de
                                 visita:</label>
@@ -183,13 +182,6 @@
                                 class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                         </div>
 
-                        <div class="mb-4">
-                            <label for="id_trainer" class="block text-gray-700 font-medium mb-2">ID del
-                                Entrenador:</label>
-                            <input type="number" id="id_trainer" name="id_trainer" required
-                                class="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
-                        </div>
-
                         <button type="submit" id="formSubmitButton"
                             class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             Guardar
@@ -216,15 +208,16 @@
         const URL_API = "{{ env('URL_API') }}";
         let visits = [];
         let currentVisitId = null;
+        let id_apprentice = null;
 
         function loadVisits() {
             const urlPath = window.location.pathname;
-            const id_apprentice = urlPath.split('/').pop();
+            id_apprentice = urlPath.split('/').pop();
 
             axios.get(`${URL_API}get_visits_by_apprentice/${id_apprentice}`)
                 .then(response => {
-                    visits = response.data; // Almacenar visitas localmente
-                    renderVisits(); // Renderizar visitas en el DOM
+                    visits = response.data;
+                    renderVisits();
                 })
                 .catch(error => {
                     console.error('Error al cargar las visitas:', error);
@@ -239,22 +232,22 @@
                 const li = document.createElement('li');
                 li.className = 'p-4 bg-white rounded shadow border border-gray-300';
                 li.innerHTML = `
-            <h3 class="font-bold">Tipo de visita: ${visit.type_of_agreement}</h3>
-            <p class="text-sm text-gray-600">Fecha: ${visit.date}</p>
-            <p class="text-sm text-gray-600">Jefe Inmediato: ${visit.name_of_immediate_boss}</p>
-            <div class="flex gap-2 mt-2">
-                <button
-                    class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    onclick="openEditModal(${visit.id})">
-                    Editar
-                </button>
-                <button
-                    class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
-                    onclick="deleteVisit(${visit.id})">
-                    Eliminar
-                </button>
-            </div>
-        `;
+                    <h3 class="font-bold">Tipo de visita: ${visit.type_of_agreement}</h3>
+                    <p class="text-sm text-gray-600">Fecha: ${visit.date}</p>
+                    <p class="text-sm text-gray-600">Jefe Inmediato: ${visit.name_of_immediate_boss}</p>
+                    <div class="flex gap-2 mt-2">
+                        <button
+                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            onclick="openEditModal(${visit.id})">
+                            Editar
+                        </button>
+                        <button
+                            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                            onclick="deleteVisit(${visit.id})">
+                            Eliminar
+                        </button>
+                    </div>
+                `;
                 visitsList.appendChild(li);
             });
         }
@@ -280,65 +273,117 @@
             document.getElementById('resetFormButton').style.display = 'inline-block';
         }
 
-        // Función para guardar o actualizar la visita
         function saveOrUpdateVisit(event) {
             event.preventDefault();
 
             const form = document.getElementById('agreementForm');
             const formData = new FormData(form);
+            formData.append('apprendice_id', id_apprentice);
             const data = Object.fromEntries(formData.entries());
             const isUpdate = form.getAttribute('data-action') === 'update';
 
             if (isUpdate && currentVisitId) {
-                // Actualizar visita
-                axios.put(`${URL_API}update_visit/${currentVisitId}`, data)
+                axios.put(`${URL_API}update_visit_to_apprentice_by_id/${currentVisitId}`, data)
                     .then(response => {
                         const updatedVisit = response.data;
 
-                        // Reemplazar la visita actualizada en el array local
                         const index = visits.findIndex(visit => visit.id === currentVisitId);
                         if (index !== -1) {
                             visits[index] = updatedVisit;
                         }
 
-                        renderVisits(); // Actualizar el DOM
-                        resetForm(); // Reiniciar formulario
-                        alert('Visita actualizada correctamente.');
+                        renderVisits();
+                        resetForm();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Visita actualizada correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     })
                     .catch(error => {
                         console.error('Error al actualizar la visita:', error);
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error al actualizar la visita.',
+                            text: error.message,
+                            showConfirmButton: true
+                        });
                     });
             } else {
-                // Guardar nueva visita
                 axios.post(`${URL_API}create_visit_to_apprentice`, data)
                     .then(response => {
                         const newVisit = response.data;
 
-                        visits.push(newVisit); // Agregar nueva visita al array local
-                        renderVisits(); // Actualizar el DOM
-                        resetForm(); // Reiniciar formulario
-                        alert('Visita guardada correctamente.');
+                        visits.unshift(newVisit);
+
+                        renderVisits();
+                        resetForm();
+
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Visita guardada correctamente.',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
                     })
                     .catch(error => {
                         console.error('Error al guardar la visita:', error);
+
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Error al guardar la visita.',
+                            text: error.message,
+                            showConfirmButton: true
+                        });
                     });
             }
         }
 
         function deleteVisit(visitId) {
-            if (confirm('¿Estás seguro de eliminar esta visita?')) {
-                axios.delete(`${URL_API}delete_visit/${visitId}`)
-                    .then(() => {
-                        // Eliminar visita del array local
-                        visits = visits.filter(visit => visit.id !== visitId);
+            resetForm();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: 'Esta acción no se puede deshacer.',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Hacer la solicitud DELETE a la API para eliminar la visita
+                    axios.delete(`${URL_API}delete_visit/${visitId}`)
+                        .then(() => {
+                            // Eliminar la visita del array local
+                            visits = visits.filter(visit => visit.id !== visitId);
 
-                        renderVisits(); // Actualizar el DOM
-                        alert('Visita eliminada correctamente.');
-                    })
-                    .catch(error => {
-                        console.error('Error al eliminar la visita:', error);
-                    });
-            }
+                            renderVisits(); // Actualizar el DOM
+
+                            // Mostrar mensaje de éxito con SweetAlert2
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Visita eliminada correctamente.',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                        })
+                        .catch(error => {
+                            console.error('Error al eliminar la visita:', error);
+
+                            // Mostrar mensaje de error con SweetAlert2
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error al eliminar la visita.',
+                                text: error.message,
+                                showConfirmButton: true
+                            });
+                        });
+                }
+            });
         }
 
         // Reiniciar formulario
