@@ -108,35 +108,13 @@ class TrainerController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(trainer $trainer)
-    {
-        //
+    public function updateEstado($id){
+        $response = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->get(env('URL_API') . 'apprentices/' . $id . '/estado');
+        dd($response);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(trainer $trainer)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, trainer $trainer)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(trainer $trainer)
-    {
-        //
-    }
+    
 }

@@ -188,3 +188,4 @@ Route::middleware([CheckTokenAndUser::class, RoleTrainnerMiddleware::class])->gr
 });
 
 Route::get('/superadmin/aprendiz', [SuperAdminController::class, 'SuperAdminAprendiz'])->name('superadmin.aprendiz');
+Route::put('/superadmin/update-estado/{id}', [UserRegisterController::class, 'updateEstado'])->name('superadmin.updateEsatdo');
