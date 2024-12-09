@@ -51,60 +51,6 @@
         </div>
         <div class="flex flex-cols-3">
 
-            {{-- <div
-                class="lex-cols-2 gap-2 p-4 w-2/5 text-center h-vg[80] shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 rounded-2xl ml-4">
-                <label class="font-semibold text-center ">Bitacoras</label>
-                <div class="flex flex-col items-center text-center">
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="1">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">1</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="2">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">2</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden itbacora-checkbox" name="bitacora" value="3">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">3</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="4">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">4</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="5">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">5</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="6">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">6</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="7">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">7</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="8">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">8</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96 ">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="9">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">9</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="10">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">10</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="11">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">11</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="12">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">12</span>
-                    </label>
-                </div>
-            </div> --}}
             <div id="bitacoras-container"
                 class="lex-cols-2 gap-2 p-4 w-2/5 text-center h-vg[80] shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 rounded-2xl ml-4">
                 <label class="font-semibold text-center ">Bitacoras</label>
@@ -176,12 +122,20 @@
                 const label = document.createElement('label');
                 label.className = 'items-center mb-3 space-x-2 cursor-pointer w-96';
 
+                // Determinar el color según el estado
+                let stateClass = '';
+                if (log.state === 'pending') {
+                    stateClass = 'bg-orange-100 text-orange-700 border-orange-400'; // Naranja
+                } else if (log.state === 'approved') {
+                    stateClass = 'bg-green-100 text-green-700 border-green-400'; // Verde
+                }
+
                 label.innerHTML = `
-                    <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="${log.id}">
-                    <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">
-                        Bitácora #${log.number_log}
-                    </span>
-                `;
+            <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="${log.id}">
+            <span class="block px-4 py-2 ${stateClass} border rounded-md">
+                Bitácora #${log.number_log}
+            </span>
+        `;
 
                 const checkbox = label.querySelector('.bitacora-checkbox');
                 const span = label.querySelector('span');
@@ -195,12 +149,21 @@
                             selectedLogs.push(logObj);
                         }
 
-                        span.classList.remove('text-gray-700', 'border-gray-400');
-                        span.classList.add('text-green-700', 'border-green-400', 'bg-green-100');
+                        // Cambiar a verde al seleccionar
+                        span.classList.remove('bg-orange-100', 'text-orange-700', 'border-orange-400');
+                        span.classList.add('bg-green-100', 'text-green-700', 'border-green-400');
                     } else {
                         selectedLogs = selectedLogs.filter(selectedLog => selectedLog.id !== logObj.id);
-                        span.classList.remove('text-green-700', 'border-green-400', 'bg-green-100');
-                        span.classList.add('text-gray-700', 'border-gray-400');
+
+                        // Volver al color original según el estado
+                        span.classList.remove('bg-green-100', 'text-green-700', 'border-green-400');
+
+                        // Aplicar el color original según el estado
+                        if (log.state === 'pending') {
+                            span.classList.add('bg-orange-100', 'text-orange-700', 'border-orange-400');
+                        } else if (log.state === 'approved') {
+                            span.classList.add('bg-green-100', 'text-green-700', 'border-green-400');
+                        }
                     }
 
                     console.log('Logs seleccionados:', selectedLogs); // Depuración
