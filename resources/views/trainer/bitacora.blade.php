@@ -31,24 +31,24 @@
     <main class=" bg-white m-2 px-2 rounded-lg max-height-100% w-5/7">
 
         <div class="flex gap-12 pb-4 mt-2 text-center flex-cols-4 items-between">
-            <div class="flex flex-col w-1/4 ">
+            <div class="flex flex-col w-1/4">
                 <label class="font-bold">Nombre Del Aprendiz</label>
-                <p type="text" class="p-2 text-black bg-gray-200 rounded-md bg-opacity-60">Marian Diaz</p>
+                <p id="nombre-aprendiz" class="p-2 text-black bg-gray-200 rounded-md bg-opacity-60"></p>
             </div>
             <div class="flex flex-col w-1/4">
                 <label class="font-bold">Programa</label>
-                <p type="text" class="p-2 text-black bg-gray-200 rounded-md  bg-opacity-60">ADSO</p>
+                <p id="programa-aprendiz" class="p-2 text-black bg-gray-200 rounded-md bg-opacity-60"></p>
             </div>
             <div class="flex flex-col w-1/4">
                 <label class="font-bold">N° Ficha</label>
-                <p type="text" class="p-2 text-black bg-gray-200 rounded-md  bg-opacity-60">2654013</p>
+                <p id="ficha-aprendiz" class="p-2 text-black bg-gray-200 rounded-md bg-opacity-60"></p>
             </div>
             <div class="flex flex-col w-1/4">
                 <label class="font-bold">Correo Electrónico</label>
-                <p type="email" class="p-2 text-black bg-gray-200 rounded-md  bg-opacity-60">mariandiaz@gmail.com
-                </p>
+                <p id="correo-aprendiz" class="p-2 text-black bg-gray-200 rounded-md bg-opacity-60"></p>
             </div>
         </div>
+
         <div class="flex flex-cols-3">
 
             <div id="bitacoras-container"
@@ -85,11 +85,40 @@
     <script>
         const URL_API = "{{ env('URL_API') }}";
         let selectedLogs = [];
+        const urlParams = new URLSearchParams(window.location.search);
+        const id_apprentice = urlParams.get('id');
+
+        function getApprenticeById() {
+            fetch(`${URL_API}get_apprentice_by_user_id/${id_apprentice}`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener las bitácoras');
+                    }
+                    return response.json();
+                })
+                .then(apprenticeData => {
+                    renderApprentice(apprenticeData);
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        function renderApprentice(apprenticeData) {
+            // Asegurarte de que el aprendiz tiene los datos necesarios
+            if (!apprenticeData || !apprenticeData.apprentice) {
+                console.error('Datos del aprendiz no encontrados');
+                return;
+            }
+
+            // Asignar los valores al HTML
+            document.getElementById("nombre-aprendiz").textContent = `${apprenticeData.name} ${apprenticeData.last_name}`;
+            document.getElementById("programa-aprendiz").textContent = apprenticeData.apprentice.program;
+            document.getElementById("ficha-aprendiz").textContent = apprenticeData.apprentice.ficha;
+            document.getElementById("correo-aprendiz").textContent = apprenticeData.email;
+        }
 
         function getLogsByApprentice() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const id_apprentice = urlParams.get('id');
-
             fetch(`${URL_API}get_logs_by_apprentice/${id_apprentice}`)
                 .then(response => {
                     if (!response.ok) {
@@ -160,7 +189,8 @@
                         span.classList.remove('bg-green-100', 'text-green-700', 'border-green-400');
                         span.classList.add('bg-orange-100', 'text-orange-700', 'border-orange-400');
 
-                        console.log('Estado cambiado a "pending" y actualizado en selectedLogs:', selectedLogs);
+                        console.log('Estado cambiado a "pending" y actualizado en selectedLogs:',
+                            selectedLogs);
                     } else if (checkbox.checked) {
                         // Agregar el objeto al arreglo
                         if (!selectedLogs.some(selectedLog => selectedLog.id === logObj.id)) {
@@ -266,6 +296,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            getApprenticeById();
             getLogsByApprentice();
         });
     </script>
