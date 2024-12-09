@@ -203,25 +203,24 @@ class SuperadminController extends Controller
     }
 
 
-   public function updateProfilePhoto(){
-    //    $this->validate(request(), [
-    //         'profile_photo' =>'required|image|mimes:jpeg,png,jpg,gif|max:2048',
-    //     ]);
-
-    //     $image = request()->file('profile_photo');
-    //     $imageName = time(). '.'. $image->getClientOriginalExtension();
-    //     $image->move(public_path('images'), $imageName);
-
-    //     $user = Auth::user();
-    //     $user->profile_photo = $imageName;
-    //     $user->save();
-
-    //     return back()->with('success', 'Imagen de Perfil actualizada correctamente.');
-    //
-   }
-
-
-
+    public function updateProfilePhoto(Request $request)
+    {
+        $token = session()->get('token');
+    
+        $response = Http::withHeaders([
+            'Content-Type' => 'multipart/form-data', 
+            'Authorization' => 'Bearer ' . $token,
+        ])->post(env('URL_API') . 'store_profile_photo', [
+            'profile_photo' => $request->file('profile_photo') 
+        ]);
+    
+        if ($response->successful()) {
+            return redirect()->route('superadmin.SuperAdmin-Administrator')->with('success', 'Foto de perfil actualizada correctamente');
+        } else {
+            return redirect()->back()->with('error', 'Error al actualizar la foto de perfil');
+        }
+    }
+    
     public function SuperAdminMensajeInstructor()
     {
         return view('superadmin.SuperAdmin-MensajeInstructor');

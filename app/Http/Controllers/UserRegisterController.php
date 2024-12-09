@@ -152,11 +152,7 @@ class UserRegisterController extends Controller
             'Accept' => 'application/json',
         ])->delete(env('URL_API') . "delete_user/{$id}", $request->all());
 
-        
-        dd(
-            $response->json()
-        );
-       
+   
         if ($response->successful()) {
             return redirect()->route('superadmin.SuperAdmin-Administrator')->with('success', 'Usuario creado correctamente');
         } else {
