@@ -84,7 +84,7 @@
 
     <script>
         const URL_API = "{{ env('URL_API') }}";
-        let selectedLogs = []; // Arreglo para guardar los logs seleccionados
+        let selectedLogs = [];
 
         function getLogsByApprentice() {
             const urlParams = new URLSearchParams(window.location.search);
@@ -140,7 +140,28 @@
                 checkbox.addEventListener('change', () => {
                     const logObj = log; // Guardar el objeto completo
 
-                    if (checkbox.checked) {
+                    if (checkbox.checked && logObj.state === "approved") {
+                        log.state = "pending";
+
+                        // Actualizar el estado en selectedLogs si el objeto ya existe
+                        const selectedLogIndex = selectedLogs.findIndex(selectedLog => selectedLog.id ===
+                            logObj.id);
+                        if (selectedLogIndex !== -1) {
+                            selectedLogs[selectedLogIndex].state = "pending";
+                        } else {
+                            // Si no está en selectedLogs, agregarlo
+                            selectedLogs.push({
+                                ...logObj,
+                                state: "pending"
+                            });
+                        }
+
+                        // Cambiar los estilos a naranja
+                        span.classList.remove('bg-green-100', 'text-green-700', 'border-green-400');
+                        span.classList.add('bg-orange-100', 'text-orange-700', 'border-orange-400');
+
+                        console.log('Estado cambiado a "pending" y actualizado en selectedLogs:', selectedLogs);
+                    } else if (checkbox.checked) {
                         // Agregar el objeto al arreglo
                         if (!selectedLogs.some(selectedLog => selectedLog.id === logObj.id)) {
                             selectedLogs.push(logObj);
@@ -168,7 +189,8 @@
                         dateInput.value = "";
                     }
 
-                    console.log('Logs seleccionados:', selectedLogs); // Depuración
+                    console.log(selectedLogs);
+
                 });
 
                 bitacorasList.appendChild(label);
@@ -191,7 +213,7 @@
                     }).then((result) => {
                         if (result.isConfirmed) {
                             updateBitacora(selectedLogs, newDate);
-
+                            selectedLogs = [];
                             Swal.fire(
                                 '¡Actualizado!',
                                 'Las bitácoras han sido actualizadas correctamente.',
@@ -213,9 +235,7 @@
 
         function updateBitacora(selectedLogs, newDate) {
             const logIds = selectedLogs.map(item => item.id);
-            const newState = selectedLogs.every(log => log.state === 'approved') ? 'approved' :
-                'pending'; // Determinar el nuevo estado
-            console.log(`Actualizando bitácora ID: ${logIds}, Fecha: ${newDate}, Estado: ${newState}`);
+            const newState = selectedLogs.every(log => log.state === 'approved') ? 'approved' : 'pending';
 
             fetch(`${URL_API}update_logs_by_ids`, {
                     method: 'PUT',
@@ -233,14 +253,15 @@
                     if (!response.ok) {
                         throw new Error('Error al actualizar las bitácoras');
                     }
+                    selectedLogs = [];
                     return response.json();
                 })
                 .then(data => {
-                    console.log('Bitácoras actualizadas:', data);
-                    getLogsByApprentice(); // Volver a cargar las bitácoras
+                    getLogsByApprentice();
                 })
                 .catch(error => {
                     console.error('Error:', error);
+                    selectedLogs = [];
                 });
         }
 
