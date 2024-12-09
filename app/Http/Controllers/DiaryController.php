@@ -14,7 +14,20 @@ class DiaryController extends Controller
     //instructor
     public function cronograma()
     {
-        return view('trainer.cronograma');
+
+        $token = session()->get('token');
+
+        // Realizar la solicitud con el token en el encabezado
+        $visits = Http::withHeaders([
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $token,
+        ])->get(env('URL_API') . 'get_all_follow_ups_by_instructor');
+
+        // Convertir la respuesta JSON en un array, vacío si no tiene contenido
+        $visitsData = $visits->json();
+
+        return view('trainer.cronograma', compact('visitsData'));
     }
 
     /**
