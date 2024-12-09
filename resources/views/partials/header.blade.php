@@ -42,7 +42,8 @@
                 <button type="submit">
                     <form action="{{ route('logout') }}" method="POST" class="inline">
                         @csrf
-                        <button type="submit" class="flex items-center self-center justify-center px-4 py-2 text-sm text-white transition rounded-md custom-login-button">
+                        <button type="submit"
+                            class="flex items-center self-center justify-center px-4 py-2 text-sm text-white transition rounded-md custom-login-button">
                             Cerrar sesión
                         </button>
                     </form>
@@ -65,7 +66,8 @@
             </div>
 
             <div id="userMenu"
-                class="hidden absolute right-4 mt-2 w-64 bg-[#D9D9D9] border border-gray-300 rounded-lg shadow-lg z-20" aria-hidden="true">
+                class="hidden absolute right-4 mt-2 w-64 bg-[#D9D9D9] border border-gray-300 rounded-lg shadow-lg z-20"
+                aria-hidden="true">
                 <div class="p-4">
                     <div class="flex items-center mb-4">
                         <div>
@@ -123,22 +125,24 @@
             </div>
 
         </div>
-        
+
     </div>
 </header>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const menuButton = document.getElementById('menuButton');
-        const userMenu = document.getElementById('userMenu');
+        if (menuButton) {
+            const userMenu = document.getElementById('userMenu');
 
-        menuButton.addEventListener('click', function() {
-            // Alternar la clase 'hidden'
-            userMenu.classList.toggle('hidden');
+            menuButton.addEventListener('click', function() {
+                // Alternar la clase 'hidden'
+                userMenu.classList.toggle('hidden');
 
-            // Cambiar el atributo aria-hidden
-            const isHidden = userMenu.classList.contains('hidden');
-            userMenu.setAttribute('aria-hidden', isHidden);
-        });
+                // Cambiar el atributo aria-hidden
+                const isHidden = userMenu.classList.contains('hidden');
+                userMenu.setAttribute('aria-hidden', isHidden);
+            });
+        }
     });
 </script>
