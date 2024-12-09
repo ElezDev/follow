@@ -123,7 +123,7 @@
                             <div>
                                 <div>
                                     <select id="statusSelect"
-                                        class="border-[2px] border-black p-4 rounded-md w-48 bg-white">
+                                        class="border-[2px] border-black p-4 rounded-md w-48 bg-white text-white">
                                         <option selected disabled>Selecciona Opción</option>
                                         <option value="activo" data-color="green"
                                             @if ($apprentice['apprentice']['estado'] == 'activo') selected @endif>ACTIVO</option>

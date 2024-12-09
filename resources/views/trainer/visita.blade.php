@@ -59,7 +59,7 @@
             </div>
         </div>
 
-        <div class="flex flex-cols-5">
+        <div class="flex justify-center">
             <div
                 class="flex-cols-2 gap-2 p-4 w-2/5 text-center h-vg[80] shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 rounded-2xl ml-4">
 
@@ -106,24 +106,6 @@
                         class="border border-gray-400 p-2 rounded-md bg-white text-center ">
                 </div>
             </div>
-
-            <div class=" w-60 ">
-            </div>
-            <div class="w-2/5 border-2 rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 h-80 mt-8">
-                <div class="flex flex-col p-6 text-center">
-                    <label class="font-semibold ">Tipo de Modalidad de Etapa Productiva</label>
-                    <p type="text" class="border border-gray-400  p-2 rounded-md bg-white">Pasantia</p>
-                </div>
-                <div class="flex flex-col p-6 text-center">
-                    <label class="font-semibold ">Observación/Inasistencia y/o Dificultades</label>
-                    <textarea id="observacion" class="border border-gray-400 p-2 rounded-md h-28 bg-white"></textarea>
-                </div>
-            </div>
-        </div>
-
-        <div class=" pt-2 px-[44%]">
-            <button class="bg-[#009E00] h-8 w-44 rounded-2xl ml-3 text-white mb-8 "
-                id="registrar-btn">REGISTRAR</button>
         </div>
 
         <div class="flex justify-center mt-4">
