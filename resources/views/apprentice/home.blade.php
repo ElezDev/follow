@@ -97,7 +97,7 @@
 
     <!-- Trainer Container -->
     <div class="flex flex-col md:flex-row w-full px-2 p-[2%] py-4 md:px-10 md:py-0 space-y-4 md:space-y-0 md:space-x-4">
-        
+
         <div class="w-full max-w-screen-lg mx-auto p-3 bg-gray-100 rounded-lg shadow flex flex-col mt-[1%] ">
 
             <h2 class="text-lg font-bold">Instructor Asignado</h2>
@@ -138,7 +138,7 @@
     </script>
 
     <!-- Scripts for Dropdowns -->
-    <script>
+    {{-- <script>
         document.getElementById('menuButton').addEventListener('click', function() {
             document.getElementById('userMenu').classList.toggle('show');
         });
@@ -154,7 +154,7 @@
                 document.getElementById('notifMenu').classList.remove('show');
             }
         };
-    </script>
+    </script> --}}
 
     <script>
         // Función para obtener actividades completadas
@@ -244,8 +244,10 @@
     </script>
 
     <script>
+        const logsData = @json($logsData);
 
-        
+        const approvedNumberLogs = logsData.filter(bitacora => bitacora.state === 'approved')
+            .map(bitacora => bitacora.number_log);
 
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('logs').getContext('2d');
@@ -294,11 +296,7 @@
                 return 'green';
             }
 
-            // Obtener el número de bitácoras seleccionadas y actualizar el gráfico
-            const bitacorasSeleccionadas = JSON.parse(localStorage.getItem('bitacorasSeleccionadas')) || [];
-            console.log(bitacorasSeleccionadas);
-            
-            actualizarGrafico(bitacorasSeleccionadas.length);
+            actualizarGrafico(approvedNumberLogs.length);
         });
     </script>
 
