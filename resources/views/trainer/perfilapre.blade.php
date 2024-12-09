@@ -156,8 +156,6 @@
 
     </div>
 
-    <script src="{{ asset('js/Trainer.js') }}"></script>
-
     <script>
         document.getElementById('statusSelect').addEventListener('change', function() {
             var estado = this.value;
@@ -214,72 +212,18 @@
             });
         });
 
-        // script linea de tiempo 
-        // Crear elementos para la línea de tiempo
-        var items = new vis.DataSet([{
-                id: 1,
-                content: 'Asignación',
-                start: '2023-12-29'
-            },
-            {
-                id: 2,
-                content: 'Inicio Etapa Productiva',
-                start: '2024-01-01'
-            }, // Completado
-            {
-                id: 3,
-                content: 'Primera Visita',
-                start: '2024-02-01'
-            },
-            {
-                id: 4,
-                content: 'Segunda Visita',
-                start: '2024-04-01'
-            },
-            {
-                id: 5,
-                content: 'Tercera Visita',
-                start: '2024-06-01'
-            },
-            {
-                id: 6,
-                content: 'Finalización de Etapa Productiva',
-                start: '2024-08-01'
-            }
-        ]);
+        const calendarData = @json($visitsData);
 
-        // Crear elementos para la línea de tiempo
-        var items = new vis.DataSet([{
-                id: 1,
-                content: 'Asignación',
-                start: '2023-12-29'
-            },
-            {
-                id: 2,
-                content: 'Inicio Etapa Productiva',
-                start: '2024-01-01'
-            }, // Completado
-            {
-                id: 3,
-                content: 'Primera Visita',
-                start: '2024-02-01'
-            },
-            {
-                id: 4,
-                content: 'Segunda Visita',
-                start: '2024-04-01'
-            },
-            {
-                id: 5,
-                content: 'Tercera Visita',
-                start: '2024-06-01'
-            },
-            {
-                id: 6,
-                content: 'Finalización de Etapa Productiva',
-                start: '2024-08-01'
-            }
-        ]);
+        const itemsData = calendarData.map(followUp => ({
+            id: followUp.id,
+            content: followUp.type_of_agreement,
+            start: followUp.date,
+            observation: followUp.observation,
+            backgroundColor: '#009e00',
+            borderColor: '#009e00',
+        }));
+
+        var items = new vis.DataSet(itemsData);
 
         // Opciones de la línea de tiempo
         var options = {
