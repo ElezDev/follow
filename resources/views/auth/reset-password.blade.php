@@ -65,10 +65,10 @@
         <h2 class="text-2xl font-bold text-green-600 mb-4">Cambiar Contraseña</h2>
         <p class="text-gray-600 mb-4">Ingresa tu nueva contraseña.</p>
         <form id="passwordForm">
-            <input type="password" placeholder="Nueva contraseña"
+            <input type="password" id="password" placeholder="Nueva contraseña"
                 class="w-full p-2 mb-4 border border-green-300 rounded focus:outline-none focus:border-green-500"
                 required>
-            <input type="password" placeholder="Confirmar contraseña"
+            <input type="password" id="password_confirm" placeholder="Confirmar contraseña"
                 class="w-full p-2 mb-4 border border-green-300 rounded focus:outline-none focus:border-green-500"
                 required>
             <button type="submit" class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
@@ -83,6 +83,8 @@
 
     <script>
         const URL_API = "{{ env('URL_API') }}";
+
+        let verificationCode = null;
 
         const step1 = document.getElementById('step1');
         const step2 = document.getElementById('step2');
@@ -141,7 +143,7 @@
         document.getElementById('codeForm').addEventListener('submit', (e) => {
             e.preventDefault();
 
-            const verificationCode = document.getElementById('codeInput').value;
+            verificationCode = document.getElementById('codeInput').value;
 
             if (!verificationCode) {
                 Swal.fire({
@@ -198,7 +200,71 @@
 
         document.getElementById('passwordForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            alert('Contraseña cambiada exitosamente');
+
+            const newPassword = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('password_confirm').value;
+            const codeVerified = verificationCode;
+
+            // Validaciones de las contraseñas
+            if (newPassword.length < 8) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Contraseña débil',
+                    text: 'La contraseña debe tener al menos 8 caracteres.',
+                    confirmButtonColor: '#f59e0b'
+                });
+                return;
+            }
+
+            if (newPassword !== confirmPassword) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Contraseñas no coinciden',
+                    text: 'Las contraseñas ingresadas no son iguales.',
+                    confirmButtonColor: '#f59e0b'
+                });
+                return;
+            }
+
+            // Muestra un loader mientras se realiza la solicitud
+            Swal.fire({
+                title: 'Actualizando contraseña...',
+                text: 'Por favor espera.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Enviar la nueva contraseña al endpoint
+            axios.post(URL_API + 'new_password', {
+                    newPassword: newPassword,
+                    code: codeVerified
+                })
+                .then(response => {
+                    Swal.close();
+
+                    if (response.data.message === 200) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: '¡Contraseña actualizada!',
+                            text: 'Tu contraseña se ha cambiado correctamente.',
+                            confirmButtonColor: '#22c55e'
+                        }).then(() => {
+                            window.location.href = '{{ route('login') }}';
+                        });
+                    }
+                })
+                .catch(error => {
+                    Swal.close();
+
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al actualizar',
+                        text: 'Ocurrió un error al actualizar la contraseña. Intentalo de nuevo.',
+                        confirmButtonColor: '#00ff65'
+                    });
+                });
         });
     </script>
 </body>
