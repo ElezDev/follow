@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     @vite('resources/css/app.css')
     <link rel="icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
-    <script src="{{ asset('js/Trainer.js') }}"></script>
     <title>Etapa Seguimiento</title>
     <style>
         #userMenuTri {
@@ -14,17 +13,18 @@
             margin-top: 0.5rem;
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
 
 <body class="font-['Arial',sans-serif] bg-white m-0 flex flex-col min-h-screen">
-    
+
     @include('partials.header')
 
     @include('partials.nav-trainner')
 
     <div class="flex items-center justify-between w-full mt-4">
-        <a href="http://127.0.0.1:8000/trainer/perfilapre" class="ml-4">
-            <img src="http://127.0.0.1:8000/img/flecha.png" alt="Flecha" class="w-5 h-auto">
+        <a href="{{ route('trainer.home') }}" class="ml-4">
+            <img src="{{ asset('/img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
         </a>
     </div>
 
@@ -50,7 +50,8 @@
             </div>
         </div>
         <div class="flex flex-cols-3">
-            <div
+
+            {{-- <div
                 class="lex-cols-2 gap-2 p-4 w-2/5 text-center h-vg[80] shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 rounded-2xl ml-4">
                 <label class="font-semibold text-center ">Bitacoras</label>
                 <div class="flex flex-col items-center text-center">
@@ -103,62 +104,18 @@
                         <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">12</span>
                     </label>
                 </div>
-                <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                                const checkboxes = document.querySelectorAll('.bitacora-checkbox');
-                                const registrarBtn = document.getElementById('registrar-btn');
-
-                                // Arreglo para almacenar los valores seleccionados
-                                let selectedBitacoras = [];
-
-                                // Actualizar estilos al seleccionar/desmarcar
-                                checkboxes.forEach(function(checkbox) {
-                                    checkbox.addEventListener('change', function() {
-                                        if (checkbox.checked) {
-                                            checkbox.nextElementSibling.classList.add('bg-green-500', 'text-white');
-                                            checkbox.nextElementSibling.classList.remove('border-black',
-                                                'text-gray-700');
-                                            selectedBitacoras.push(checkbox.value); // Agregar al arreglo
-                                        } else {
-                                            checkbox.nextElementSibling.classList.remove('bg-green-500', 'text-white');
-                                            checkbox.nextElementSibling.classList.add('border-black', 'text-gray-700');
-                                            selectedBitacoras = selectedBitacoras.filter(val => val !== checkbox
-                                            .value); // Eliminar del arreglo
-                                        }
-                                    });
-                                });
-
-                                // Evento al presionar el botón registrar
-                                registrarBtn.addEventListener('click', function() {
-                                        if (selectedBitacoras.length > 0) {
-                                            // Enviar datos al servidor
-                                            fetch('/guardar-bitacoras', {
-                                                    method: 'POST',
-                                                    headers: {
-                                                        'Content-Type': 'application/json',
-                                                        'X-CSRF-TOKEN': '{{ csrf_token() }}' // Para Laravel
-                                                    },
-                                                    body: JSON.stringify({
-                                                        bitacoras: selectedBitacoras
-                                                    })
-                                                })
-                                                .then(response => response.json())
-                                                .then(data => {
-                                                    if (data.success) {
-                                                        alert('Bitácoras registradas correctamente');
-                                                        window.location.href = '/apprentice/home'; // Redirigir a la vista
-                                                    } else {
-                                                        alert('Error al registrar las bitácoras');
-                                                    }
-                                                });
-                                        });
-                                });
-                </script>
-
+            </div> --}}
+            <div id="bitacoras-container"
+                class="lex-cols-2 gap-2 p-4 w-2/5 text-center h-vg[80] shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 rounded-2xl ml-4">
+                <label class="font-semibold text-center ">Bitacoras</label>
+                <div id="bitacoras-list" class="flex flex-col items-center text-center">
+                    <!-- Aquí se agregarán las bitácoras -->
+                </div>
             </div>
-            {{-- Contenedor Fantasma --}}
+
             <div class=" w-60">
             </div>
+
             <div class="w-2/5 border-2 rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 h-80 mt-8">
                 <div class="flex flex-col p-6 text-center">
                     <label class="font-semibold ">Tipo de Modalidad de Etapa Productiva</label>
@@ -173,11 +130,142 @@
 
         </div>
         <div class=" pt-2 px-[44%]">
-            <button class="bg-[#009E00] h-8 w-44 rounded-2xl ml-3 text-white mb-8"
-                id="registrar-btn">REGISTRAR</button>
+            <button class="bg-[#009E00] h-8 w-44 rounded-2xl ml-3 text-white mb-8" id="registrar-btn">REGISTRAR</button>
         </div>
         </div>
     </main>
+
+    <script>
+        const URL_API = "{{ env('URL_API') }}";
+        let id_apprentice = null;
+
+        // Función para obtener las bitácoras de un aprendiz
+        function getLogsByApprentice() {
+            const urlPath = window.location.pathname;
+            id_apprentice = urlPath.split('/').pop();
+
+            // Hacer la petición al API
+            fetch(`${URL_API}get_logs_by_apprentice/9`)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al obtener las bitácoras');
+                    }
+                    return response.json(); // Parsear la respuesta como JSON
+                })
+                .then(logs => {
+                    console.log('Logs recibidos:', logs); // Depuración
+                    renderLogs(logs); // Pasar el array de logs a la función de renderizado
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
+        // Función para renderizar las bitácoras en el DOM
+        function renderLogs(logs) {
+            const bitacorasList = document.getElementById('bitacoras-list');
+            bitacorasList.innerHTML = ''; // Limpiar el contenedor antes de renderizar
+
+            // Verificar si logs es un array válido
+            if (!Array.isArray(logs) || logs.length === 0) {
+                console.error('No hay bitácoras disponibles:', logs);
+                alert('No hay bitácoras disponibles para mostrar.');
+                return;
+            }
+
+            // Iterar sobre los logs y agregarlos al DOM
+            logs.forEach(log => {
+                const label = document.createElement('label');
+                label.className = 'items-center mb-3 space-x-2 cursor-pointer w-96';
+
+                label.innerHTML = `
+                    <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="${log.id}">
+                    <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">
+                        Bitácora #${log.number_log}: ${log.description}
+                    </span>
+                `;
+
+                bitacorasList.appendChild(label);
+            });
+        }
+
+        // Ejecutar cuando el DOM esté cargado
+        document.addEventListener('DOMContentLoaded', function() {
+            getLogsByApprentice();
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const checkboxes = document.querySelectorAll('.bitacora-checkbox');
+            const registrarBtn = document.getElementById('registrar-btn');
+
+            // Arreglo para almacenar los valores seleccionados
+            let selectedBitacoras = [];
+
+            // Actualizar estilos al seleccionar/desmarcar
+            checkboxes.forEach(function(checkbox) {
+                checkbox.addEventListener('change', function() {
+                    if (checkbox.checked) {
+                        // Agregar estilos seleccionados
+                        checkbox.nextElementSibling.classList.add('bg-green-500', 'text-white');
+                        checkbox.nextElementSibling.classList.remove('border-black',
+                            'text-gray-700');
+
+                        // Agregar al arreglo
+                        if (!selectedBitacoras.includes(checkbox.value)) {
+                            selectedBitacoras.push(checkbox.value);
+                        }
+                    } else {
+                        // Remover estilos seleccionados
+                        checkbox.nextElementSibling.classList.remove('bg-green-500', 'text-white');
+                        checkbox.nextElementSibling.classList.add('border-black', 'text-gray-700');
+
+                        // Eliminar del arreglo
+                        selectedBitacoras = selectedBitacoras.filter(val => val !== checkbox.value);
+                    }
+                });
+            });
+
+            // Evento al presionar el botón registrar
+            registrarBtn.addEventListener('click', function() {
+                if (selectedBitacoras.length > 0) {
+                    // Enviar datos al servidor
+                    fetch('/guardar-bitacoras', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Token CSRF para Laravel
+                            },
+                            body: JSON.stringify({
+                                bitacoras: selectedBitacoras
+                            })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error('Error en la respuesta del servidor');
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            if (data.success) {
+                                alert('Bitácoras registradas correctamente');
+                                window.location.href = '/apprentice/home'; // Redirigir a la vista
+                            } else {
+                                alert('Error al registrar las bitácoras');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('Ocurrió un error al procesar la solicitud.');
+                        });
+                } else {
+                    alert('Por favor, selecciona al menos una bitácora antes de registrar.');
+                }
+            });
+        });
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Cargar las bitácoras seleccionadas desde localStorage
@@ -204,7 +292,7 @@
                     localStorage.setItem('bitacorasSeleccionadas', JSON.stringify(bitacoras));
 
                     // Actualizar el gráfico en tiempo real
-                    actualizarGrafico(bitacoras.length);
+                    // actualizarGrafico(bitacoras.length);
                 });
             });
 

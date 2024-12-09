@@ -3,14 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bitacora;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use Illuminate\View\Factory;
 
 class BitacoraController extends Controller
 {
-    public function bitacora()
+    public function bitacora(): Factory|View
     {
         return view('trainer.bitacora');
     }
+
     public function registrar(Request $request)
     {
         // Validación de los datos recibidos
@@ -32,4 +35,5 @@ class BitacoraController extends Controller
         // Redirigir con mensaje de éxito
         return response()->json(['message' => 'Bitácora registrada exitosamente'], 200);
     }
+
 }
