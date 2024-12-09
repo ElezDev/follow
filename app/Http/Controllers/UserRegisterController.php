@@ -120,7 +120,7 @@ class UserRegisterController extends Controller
     
        
         if ($response->successful()) {
-            return redirect()->route('superadmin.SuperAdmin-Aprendiz')->with('success', 'Usuario creado correctamente');
+            return redirect()->route('superadmin.SuperAdmin-Instructor')->with('success', 'Usuario creado correctamente');
         } else {
             return redirect()->back()->with('error', 'Error al crear el usuario');
         }
