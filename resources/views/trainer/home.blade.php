@@ -66,59 +66,64 @@
 
     @include('partials.nav-trainner')
 
-    <main class="flex flex-col items-center mt-4 relative">
-        <div class="w-full flex justify-between items-center mb-4">
+    <main class="relative flex flex-col items-center mt-4">
+        <div class="flex items-center justify-between w-full mb-4">
             <a href="{{ route('icon') }}" class="ml-4">
                 <img src="{{ asset('img/flecha.png') }}" alt="Flecha" class="w-5 h-auto">
             </a>
 
-            <form action="#" method="GET" class="flex items-center justify-center mx-auto pl-20">
-                <input placeholder="Buscar..." class="px-2  py-1 text-sm border border-black rounded-full w-96">
-                <button type="submit" aria-label="Buscar" class="p-2 bg-transparent border-none cursor-pointer -ml-10">
+            <form action="#" method="GET" class="flex items-center justify-center pl-20 mx-auto">
+                <input placeholder="Buscar..." class="px-2 py-1 text-sm border border-black rounded-full w-96">
+                <button type="submit" aria-label="Buscar" class="p-2 -ml-10 bg-transparent border-none cursor-pointer">
                     <img src="{{ asset('img/lupa.png') }}" alt="Buscar" class="w-4 h-auto">
                 </button>
             </form>
-            <div class="bg-white border-none pr-28 cursor-pointer">
+            <div class="bg-white border-none cursor-pointer pr-28">
             </div>
         </div>
 
         <div
             class="w-full max-w-6xl bg-[#2f3e4c14] border-2 border-[#04324D] rounded-lg p-6 shadow-[0_0_10px_rgba(0,0,0,0.8)] mt-1">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6 gap-4">
-                @php
-                    $contador = 0;
-                @endphp
-
+            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-6">
                 @if (empty($data) || !array_filter($data, fn($monitoring) => !empty($monitoring['apprentices'])))
                     <p class="text-center text-red-600">No hay aprendices asignados.</p>
                 @else
                     @foreach ($data as $monitoring)
                         @foreach ($monitoring['apprentices'] as $apprentice)
-                            <a href="{{ route('perfilapre', ['id' => $apprentice['user']['id']]) }}"
-                                class="w-40px h-30px bg-white border-2 border-[#009E00] rounded-2xl m-4 p-2 flex flex-col items-center hover:bg-green-100">
+                            @php
+                                $estado = strtolower($apprentice['estado']);
+                                $claseEstado = match ($estado) {
+                                    'activo' => 'bg-green-100 border-green-500',
+                                    'finalizada' => 'bg-red-100 border-red-500',
+                                    'novedad' => 'bg-yellow-100 border-yellow-500',
+                                    default => 'bg-gray-100 border-gray-500',
+                                };
+                            @endphp
+
+                            <a href="{{ route('perfilapre', ['id' => $apprentice['user_id']]) }}"
+                                class="w-40px h-30px border-2 rounded-2xl m-4 p-2 flex flex-col items-center hover:opacity-90 {{ $claseEstado }}">
                                 <img src="{{ asset('img/trainer/aprendiz_icono_tra.png') }}" alt="User"
                                     class="w-6 h-8 mb-1">
-                                <span class="text-xs text-center p-1">Nombre Completo: {{ $apprentice['user']['name'] }}
+                                <span class="p-1 text-xs text-center">Nombre Completo: {{ $apprentice['user']['name'] }}
                                     {{ $apprentice['user']['last_name'] }}</span>
-                                <span class="text-xs text-center p-1">Cédula:
+                                <span class="p-1 text-xs text-center">Cédula:
                                     {{ $apprentice['user']['identification'] }}</span>
-                                <span class="text-xs text-center p-1">Ficha: {{ $apprentice['ficha'] }}</span>
-                                <span class="text-xs text-center p-1">Tipo de seguimiento:
+                                <span class="p-1 text-xs text-center">Ficha: {{ $apprentice['ficha'] }}</span>
+                                <span class="p-1 text-xs text-center">Tipo de seguimiento:
                                     {{ $monitoring['network_knowledge'] }}</span>
+                                <span class="p-1 text-xs text-center">Estado:
+                                    {{ $apprentice['estado'] }}</span>
                             </a>
-                            @php
-                                $contador++;
-                            @endphp
                         @endforeach
                     @endforeach
                 @endif
-
             </div>
         </div>
-        <div class="bg-[#009E00] border-2 border-[black] rounded-lg p-2 mb-2">
-            <div class="text-center text-sm text-black">Total de Aprendices: {{ $contador }}</div>
+
+        {{-- <div class="bg-[#009E00] border-2 border-[black] rounded-lg p-2 mb-2">
+            <div class="text-sm text-center text-black">Total de Aprendices: {{ $contador }}</div>
         </div>
-    </main>
+    </main> --}}
 
 </body>
 
