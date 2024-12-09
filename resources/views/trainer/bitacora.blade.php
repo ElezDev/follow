@@ -138,23 +138,22 @@
     <script>
         const URL_API = "{{ env('URL_API') }}";
         let id_apprentice = null;
+        let selectedLogs = []; // Arreglo para guardar los logs seleccionados
 
         // Función para obtener las bitácoras de un aprendiz
         function getLogsByApprentice() {
             const urlPath = window.location.pathname;
             id_apprentice = urlPath.split('/').pop();
 
-            // Hacer la petición al API
             fetch(`${URL_API}get_logs_by_apprentice/9`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error al obtener las bitácoras');
                     }
-                    return response.json(); // Parsear la respuesta como JSON
+                    return response.json();
                 })
                 .then(logs => {
-                    console.log('Logs recibidos:', logs); // Depuración
-                    renderLogs(logs); // Pasar el array de logs a la función de renderizado
+                    renderLogs(logs);
                 })
                 .catch(error => {
                     console.error('Error:', error);
@@ -164,16 +163,13 @@
         // Función para renderizar las bitácoras en el DOM
         function renderLogs(logs) {
             const bitacorasList = document.getElementById('bitacoras-list');
-            bitacorasList.innerHTML = ''; // Limpiar el contenedor antes de renderizar
+            bitacorasList.innerHTML = ''; // Limpiar el contenedor
 
-            // Verificar si logs es un array válido
             if (!Array.isArray(logs) || logs.length === 0) {
-                console.error('No hay bitácoras disponibles:', logs);
                 alert('No hay bitácoras disponibles para mostrar.');
                 return;
             }
 
-            // Iterar sobre los logs y agregarlos al DOM
             logs.forEach(log => {
                 const label = document.createElement('label');
                 label.className = 'items-center mb-3 space-x-2 cursor-pointer w-96';
@@ -184,6 +180,32 @@
                         Bitácora #${log.number_log}: ${log.description}
                     </span>
                 `;
+
+                const checkbox = label.querySelector('.bitacora-checkbox');
+                const span = label.querySelector('span');
+
+                // Evento para alternar selección y el color
+                checkbox.addEventListener('change', () => {
+                    const logObj = log; // Guardar el objeto completo
+
+                    // Verificar si el log ya está en el array de logs seleccionados
+                    if (checkbox.checked) {
+                        if (!selectedLogs.some(selectedLog => selectedLog.id === logObj.id)) {
+                            selectedLogs.push(
+                                logObj); // Agregar log completo al arreglo si no está presente
+                        }
+
+                        span.classList.remove('text-gray-700', 'border-gray-400');
+                        span.classList.add('text-green-700', 'border-green-400', 'bg-green-100');
+                    } else {
+                        selectedLogs = selectedLogs.filter(selectedLog => selectedLog.id !== logObj
+                            .id); // Eliminar log del arreglo
+                        span.classList.remove('text-green-700', 'border-green-400', 'bg-green-100');
+                        span.classList.add('text-gray-700', 'border-gray-400');
+                    }
+
+                    console.log('Logs seleccionados:', selectedLogs); // Depuración
+                });
 
                 bitacorasList.appendChild(label);
             });
