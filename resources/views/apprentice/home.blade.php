@@ -100,19 +100,35 @@
 
         <div class="w-full max-w-screen-lg mx-auto p-3 bg-gray-100 rounded-lg shadow flex flex-col mt-[1%] ">
 
-            <h2 class="text-lg font-bold">Instructor Asignado</h2>
+            <h2 class="text-lg font-bold">Instructor Asignado {{ $data['trainer']['user']['name'] ?? '(No tienes un instructor asignado todavía)' }}</h2>
             <ul class="mt-7 space-y-2 md:space-y-4 text-sm">
-                <li><span class="font-semibold">Nombre:</span>
-                    {{ $data['trainer']['user']['name'] . ' ' . $data['trainer']['user']['last_name'] }}</li>
+                <li>
+                    <span class="font-semibold">Nombre:</span>
+                    {{ isset($data['trainer']['user']['name'], $data['trainer']['user']['last_name'])
+                        ? $data['trainer']['user']['name'] . ' ' . $data['trainer']['user']['last_name']
+                        : 'N/A' }}
+                </li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Correo:</span> {{ $data['trainer']['user']['email'] }}</li>
+
+                <li>
+                    <span class="font-semibold">Correo:</span>
+                    {{ $data['trainer']['user']['email'] ?? 'N/A' }}
+                </li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Teléfono:</span> {{ $data['trainer']['user']['telephone'] }}</li>
+
+                <li>
+                    <span class="font-semibold">Teléfono:</span>
+                    {{ $data['trainer']['user']['telephone'] ?? 'N/A' }}
+                </li>
                 <hr class="border-white">
-                <li><span class="font-semibold">Rol:</span>
-                    {{ $data['trainer']['user']['id_role'] == 3 ? 'Instructor' : '' }}</li>
+
+                <li>
+                    <span class="font-semibold">Rol:</span>
+                    {{ isset($data['trainer']['user']['id_role']) && $data['trainer']['user']['id_role'] == 3 ? 'Instructor' : 'N/A' }}
+                </li>
                 <hr class="border-white">
             </ul>
+
 
         </div>
 
