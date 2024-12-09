@@ -11,34 +11,11 @@
         html,
         body {
             width: 100%;
-            overflow-x: hidden;
-            /* Previene el desbordamiento horizontal */
-        }
-
-        body {
             margin: 0;
             padding: 0;
             font-family: Arial, sans-serif;
             background-color: white;
             overflow-x: hidden;
-            /* Evita que se desplace horizontalmente */
-        }
-
-        header {
-            position: sticky;
-            top: 0;
-            padding: 0;
-            z-index: 1000;
-            background-color: white;
-            border-bottom: 1px solid #e0e0e0;
-        }
-
-        nav {
-            position: sticky;
-            top: 92px;
-            /* Ajusta según la altura del header */
-            z-index: 999;
-            background-color: #009e00;
         }
 
         .section-title {
@@ -211,11 +188,7 @@
 
 <body class="flex flex-col min-h-screen">
 
-    {{-- @include('partials.header')
-    @yield('content')
-    @include('partials.nav') --}}
     @include('partials.header')
-
 
     <nav class="h-14 py-1.5 flex justify-between items-center px-4 bg-[#009e00]">
         <!-- Elementos de navegación centrados -->
@@ -235,7 +208,7 @@
         </div>
     </nav>
 
-    <div class="container-fluid p-0 mt-2"> <!-- Añadí el margin-top aquí -->
+    <div class="container-fluid p-0 mt-2">
         <div class="container-fluid p-0">
             <div id="carouselImages">
                 <div>
@@ -253,7 +226,6 @@
             </div>
         </div>
     </div>
-
 
     <!-- Secciones de contenido -->
     <div id="queEsEtapa" class="section-content flex items-center justify-between">
@@ -331,8 +303,6 @@
         </p>
 
     </section>
-
-
 
     <!-- Sección Misión -->
     <div id="mision" class="section-content">

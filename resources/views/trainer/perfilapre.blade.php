@@ -293,6 +293,7 @@
         // Actualizar la línea de tiempo al cargar la página
         updateTimeline();
     </script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const statusSelect = document.getElementById('statusSelect');

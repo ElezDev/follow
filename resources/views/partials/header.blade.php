@@ -13,6 +13,7 @@
 <header
     class="bg-white text-[#009e00] px-5 py-2.5 flex flex-col items-center border-t-[5px] border-t-white border-b border-b-[#e0e0e0]">
     <div class="flex justify-between w-full">
+
         <div class="flex items-center">
             <a href="/">
                 <img class="w-[70px] h-[70px]" src="{{ asset('img/logo-sena.png') }}" alt="Sena Logo">
@@ -29,6 +30,7 @@
                 <h2 class="text-sm mt-2 text-[#009e00]">Centro de Comercio y Servicios</h2>
             </div>
         </div>
+
         <div class="relative flex items-center ml-auto">
 
             @if (!session()->has('token'))
@@ -63,7 +65,7 @@
             </div>
 
             <div id="userMenu"
-                class="hidden absolute right-4 mt-2 w-64 bg-[#D9D9D9] border border-gray-300 rounded-lg shadow-lg z-20">
+                class="hidden absolute right-4 mt-2 w-64 bg-[#D9D9D9] border border-gray-300 rounded-lg shadow-lg z-20" aria-hidden="true">
                 <div class="p-4">
                     <div class="flex items-center mb-4">
                         <div>
@@ -121,5 +123,22 @@
             </div>
 
         </div>
+        
     </div>
 </header>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const menuButton = document.getElementById('menuButton');
+        const userMenu = document.getElementById('userMenu');
+
+        menuButton.addEventListener('click', function() {
+            // Alternar la clase 'hidden'
+            userMenu.classList.toggle('hidden');
+
+            // Cambiar el atributo aria-hidden
+            const isHidden = userMenu.classList.contains('hidden');
+            userMenu.setAttribute('aria-hidden', isHidden);
+        });
+    });
+</script>

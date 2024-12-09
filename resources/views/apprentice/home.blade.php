@@ -137,25 +137,6 @@
         const calendarData = @json($visitsData);
     </script>
 
-    <!-- Scripts for Dropdowns -->
-    {{-- <script>
-        document.getElementById('menuButton').addEventListener('click', function() {
-            document.getElementById('userMenu').classList.toggle('show');
-        });
-
-        document.getElementById('notifButton').addEventListener('click', function() {
-            document.getElementById('notifMenu').classList.toggle('show');
-        });
-
-        // Close dropdowns when clicking outside
-        window.onclick = function(event) {
-            if (!event.target.closest('#menuButton') && !event.target.closest('#notifButton')) {
-                document.getElementById('userMenu').classList.remove('show');
-                document.getElementById('notifMenu').classList.remove('show');
-            }
-        };
-    </script> --}}
-
     <script>
         // Función para obtener actividades completadas
         function getCompletedActivities() {
