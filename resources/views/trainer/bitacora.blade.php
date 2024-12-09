@@ -84,16 +84,11 @@
 
     <script>
         const URL_API = "{{ env('URL_API') }}";
-        let selectedLog = null;
-        let id_apprentice = null;
         let selectedLogs = []; // Arreglo para guardar los logs seleccionados
 
         function getLogsByApprentice() {
-            const urlPath = window.location.pathname;
             const urlParams = new URLSearchParams(window.location.search);
-            const idFromPath = urlPath.split('/').pop();
-
-            id_apprentice = urlParams.get('id');
+            const id_apprentice = urlParams.get('id');
 
             fetch(`${URL_API}get_logs_by_apprentice/${id_apprentice}`)
                 .then(response => {
@@ -110,10 +105,9 @@
                 });
         }
 
-        // Función para renderizar las bitácoras en el DOM
         function renderLogs(logs) {
             const bitacorasList = document.getElementById('bitacoras-list');
-            const modeElement = document.getElementById('mode'); // Obtener el elemento de modalidad
+            const modeElement = document.getElementById('mode');
             const dateInput = document.getElementById('date-input');
             bitacorasList.innerHTML = ''; // Limpiar el contenedor
 
@@ -122,7 +116,6 @@
                 return;
             }
 
-            // Mostrar la modalidad de la primera bitácora (o puedes elegir otra lógica)
             if (logs.length > 0 && logs[0].apprentice) {
                 modeElement.textContent = logs[0].apprentice.modalidad; // Actualizar la modalidad
             }
@@ -131,13 +124,8 @@
                 const label = document.createElement('label');
                 label.className = 'items-center mb-3 space-x-2 cursor-pointer w-96';
 
-                // Determinar el color según el estado
-                let stateClass = '';
-                if (log.state === 'pending') {
-                    stateClass = 'bg-orange-100 text-orange-700 border-orange-400'; // Naranja
-                } else if (log.state === 'approved') {
-                    stateClass = 'bg-green-100 text-green-700 border-green-400'; // Verde
-                }
+                let stateClass = log.state === 'pending' ? 'bg-orange-100 text-orange-700 border-orange-400' :
+                    'bg-green-100 text-green-700 border-green-400';
 
                 label.innerHTML = `
                     <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="${log.id}">
@@ -149,11 +137,11 @@
                 const checkbox = label.querySelector('.bitacora-checkbox');
                 const span = label.querySelector('span');
 
-                // Evento para alternar selección y el color
                 checkbox.addEventListener('change', () => {
                     const logObj = log; // Guardar el objeto completo
 
                     if (checkbox.checked) {
+                        // Agregar el objeto al arreglo
                         if (!selectedLogs.some(selectedLog => selectedLog.id === logObj.id)) {
                             selectedLogs.push(logObj);
                         }
@@ -161,31 +149,26 @@
                         // Cambiar a verde al seleccionar
                         span.classList.remove('bg-orange-100', 'text-orange-700', 'border-orange-400');
                         span.classList.add('bg-green-100', 'text-green-700', 'border-green-400');
+                        log.state = 'approved';
+
+                        if (logObj.date) {
+                            dateInput.value = logObj.date;
+                        }
                     } else {
+                        // Remover el objeto del arreglo
                         selectedLogs = selectedLogs.filter(selectedLog => selectedLog.id !== logObj.id);
 
-                        // Volver al color original según el estado
+                        // Cambiar a naranja al deseleccionar
                         span.classList.remove('bg-green-100', 'text-green-700', 'border-green-400');
+                        span.classList.add('bg-orange-100', 'text-orange-700', 'border-orange-400');
+                        log.state = 'pending';
+                    }
 
-                        // Aplicar el color original según el estado
-                        if (log.state === 'pending') {
-                            span.classList.add('bg-orange-100', 'text-orange-700', 'border-orange-400');
-                        } else if (log.state === 'approved') {
-                            span.classList.add('bg-green-100', 'text-green-700', 'border-green-400');
-                        }
+                    if (selectedLogs.length == 0) {
+                        dateInput.value = "";
                     }
 
                     console.log('Logs seleccionados:', selectedLogs); // Depuración
-                });
-
-                checkbox.addEventListener('change', () => {
-                    if (checkbox.checked) {
-                        selectedLog = log; // Guardar la bitácora seleccionada
-                        dateInput.value = log.date || ''; // Asignar la fecha de la bitácora seleccionada
-                    } else {
-                        selectedLog = null; // Limpiar la selección si se desmarca
-                        dateInput.value = ''; // Limpiar el campo de fecha
-                    }
                 });
 
                 bitacorasList.appendChild(label);
@@ -193,22 +176,47 @@
 
             const registerButton = document.getElementById('register-button');
             registerButton.addEventListener('click', () => {
-                if (selectedLog) {
+                if (selectedLogs.length > 0) {
                     const newDate = dateInput.value;
-                    // Aquí puedes hacer la lógica para actualizar la fecha y el estado de la bitácora
-                    // Por ejemplo, enviar una solicitud a tu backend
-                    updateBitacora(selectedLogs, newDate, 'approved'); // Cambia 'approved' según sea necesario
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: `Se actualizarán ${selectedLogs.length} bitácoras con la fecha ${newDate}.`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, actualizar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            updateBitacora(selectedLogs, newDate);
+
+                            Swal.fire(
+                                '¡Actualizado!',
+                                'Las bitácoras han sido actualizadas correctamente.',
+                                'success'
+                            );
+                        }
+                    });
                 } else {
-                    alert('Por favor, selecciona una bitácora.');
+                    Swal.fire({
+                        title: 'Atención',
+                        text: 'Por favor, selecciona al menos una bitácora.',
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Entendido'
+                    });
                 }
             });
-
         }
 
-        // Función para actualizar la bitácora (puedes adaptarla según tu backend)
-        function updateBitacora(selectedLogs, newDate, newState) {
+        function updateBitacora(selectedLogs, newDate) {
             const logIds = selectedLogs.map(item => item.id);
+            const newState = selectedLogs.every(log => log.state === 'approved') ? 'approved' :
+                'pending'; // Determinar el nuevo estado
             console.log(`Actualizando bitácora ID: ${logIds}, Fecha: ${newDate}, Estado: ${newState}`);
+
             fetch(`${URL_API}update_logs_by_ids`, {
                     method: 'PUT',
                     headers: {
@@ -236,7 +244,6 @@
                 });
         }
 
-        // Ejecutar cuando el DOM esté cargado
         document.addEventListener('DOMContentLoaded', function() {
             getLogsByApprentice();
         });
