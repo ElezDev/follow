@@ -47,7 +47,7 @@
         <h2 class="text-2xl font-bold text-green-600 mb-4">Verificar Código</h2>
         <p class="text-gray-600 mb-4">Ingresa el código de verificación que recibiste por correo electrónico.</p>
         <form id="codeForm">
-            <input type="text" placeholder="Código de verificación"
+            <input type="text" id="codeInput" placeholder="Código de verificación"
                 class="w-full p-2 mb-4 border border-green-300 rounded focus:outline-none focus:border-green-500"
                 required>
             <button type="submit" class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">Verificar
@@ -140,8 +140,60 @@
 
         document.getElementById('codeForm').addEventListener('submit', (e) => {
             e.preventDefault();
-            step2.classList.add('hidden');
-            step3.classList.remove('hidden');
+
+            const verificationCode = document.getElementById('codeInput').value;
+
+            if (!verificationCode) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Código requerido',
+                    text: 'Por favor, ingresa el código de verificación.',
+                    confirmButtonColor: '#f59e0b'
+                });
+                return;
+            }
+
+            // Muestra el loader mientras se realiza la solicitud
+            Swal.fire({
+                title: 'Verificando código...',
+                text: 'Por favor espera.',
+                allowOutsideClick: false,
+                didOpen: () => {
+                    Swal.showLoading();
+                }
+            });
+
+            // Realiza la solicitud al endpoint
+            axios.post(URL_API + 'verified_code', {
+                    code: verificationCode
+                })
+                .then(response => {
+                    // Cierra el loader
+                    Swal.close();
+
+                    // Muestra el mensaje de éxito
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Código verificado!',
+                        text: 'El código ha sido validado correctamente.',
+                        confirmButtonColor: '#22c55e'
+                    }).then(() => {
+                        step2.classList.add('hidden');
+                        step3.classList.remove('hidden');
+                    });
+                })
+                .catch(error => {
+                    // Cierra el loader
+                    Swal.close();
+
+                    // Maneja el error
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error al verificar',
+                        text: 'El código ingresado no es valido.',
+                        confirmButtonColor: '#00ff65'
+                    });
+                });
         });
 
         document.getElementById('passwordForm').addEventListener('submit', (e) => {
