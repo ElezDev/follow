@@ -148,7 +148,9 @@
                                         Ver
                                     </button>
                                     <button class="bg-gray-300 text-black p-2 rounded ml-2"
-                                        onclick="deleteNotification({{ $notification['id'] }})">Eliminar</button>
+                                        onclick="deleteNotification({{ $notification['id'] }})">
+                                        Eliminar
+                                    </button>
                                 </div>
                             </div>
                         </li>
