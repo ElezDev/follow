@@ -244,6 +244,9 @@
     </script>
 
     <script>
+
+        
+
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('logs').getContext('2d');
 
