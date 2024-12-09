@@ -102,7 +102,7 @@
                     <div class="flex flex-col items-center space-y-4 md:col-span-2">
                         <div class="flex items-center justify-between w-full">
                             <div>
-                                <a href="{{ route('bitacora') }}"
+                                <a href="{{ route('bitacora', ['id' => $apprentice['id']]) }}"
                                     class="m-2.5 py-10 rounded-[10%] flex flex-col items-center text-center p-5 w-56 h-56 hover:border-green-600">
                                     <img src="{{ asset('img/trainer/bitacoras_1.png') }}" alt="Bitacora"
                                         class="m-2.5 py-5 rounded-[10%] flex flex-col items-center text-center p-2 bg-white border-[2px] border-black w-40 h-40 hover:border-green-600 object-cover">

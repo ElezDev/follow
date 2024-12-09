@@ -51,60 +51,6 @@
         </div>
         <div class="flex flex-cols-3">
 
-            {{-- <div
-                class="lex-cols-2 gap-2 p-4 w-2/5 text-center h-vg[80] shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 rounded-2xl ml-4">
-                <label class="font-semibold text-center ">Bitacoras</label>
-                <div class="flex flex-col items-center text-center">
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="1">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">1</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="2">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">2</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden itbacora-checkbox" name="bitacora" value="3">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">3</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="4">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">4</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="5">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">5</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="6">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">6</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="7">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">7</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="8">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">8</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96 ">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="9">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">9</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="10">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">10</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="11">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">11</span>
-                    </label>
-                    <label class="items-center mb-3 space-x-2 cursor-pointer w-96">
-                        <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="12">
-                        <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">12</span>
-                    </label>
-                </div>
-            </div> --}}
             <div id="bitacoras-container"
                 class="lex-cols-2 gap-2 p-4 w-2/5 text-center h-vg[80] shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 rounded-2xl ml-4">
                 <label class="font-semibold text-center ">Bitacoras</label>
@@ -119,33 +65,32 @@
             <div class="w-2/5 border-2 rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 h-80 mt-8">
                 <div class="flex flex-col p-6 text-center">
                     <label class="font-semibold ">Tipo de Modalidad de Etapa Productiva</label>
-                    <p type="text" class="border border-gray-400  p-2 rounded-md bg-white">Pasantia</p>
+                    <p class="border border-gray-400 p-2 rounded-md bg-white" id="mode">Pasantia</p>
                 </div>
                 <div class="flex flex-col p-6 text-center">
                     <label class="font-bold">Fecha</label>
-                    <input type="date"
+                    <input type="date" id="date-input"
                         class="w-64 p-2 mx-auto text-center bg-white border border-gray-400 rounded-md">
                 </div>
             </div>
 
         </div>
         <div class=" pt-2 px-[44%]">
-            <button class="bg-[#009E00] h-8 w-44 rounded-2xl ml-3 text-white mb-8" id="registrar-btn">REGISTRAR</button>
+            <button class="bg-[#009E00] h-8 w-44 rounded-2xl ml-3 text-white mb-8"
+                id="register-button">REGISTRAR</button>
         </div>
         </div>
     </main>
 
     <script>
         const URL_API = "{{ env('URL_API') }}";
-        let id_apprentice = null;
         let selectedLogs = []; // Arreglo para guardar los logs seleccionados
 
-        // Función para obtener las bitácoras de un aprendiz
         function getLogsByApprentice() {
-            const urlPath = window.location.pathname;
-            id_apprentice = urlPath.split('/').pop();
+            const urlParams = new URLSearchParams(window.location.search);
+            const id_apprentice = urlParams.get('id');
 
-            fetch(`${URL_API}get_logs_by_apprentice/9`)
+            fetch(`${URL_API}get_logs_by_apprentice/${id_apprentice}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error al obtener las bitácoras');
@@ -160,48 +105,67 @@
                 });
         }
 
-        // Función para renderizar las bitácoras en el DOM
         function renderLogs(logs) {
             const bitacorasList = document.getElementById('bitacoras-list');
+            const modeElement = document.getElementById('mode');
+            const dateInput = document.getElementById('date-input');
             bitacorasList.innerHTML = ''; // Limpiar el contenedor
 
             if (!Array.isArray(logs) || logs.length === 0) {
-                alert('No hay bitácoras disponibles para mostrar.');
+                console.log('No hay bitácoras disponibles para mostrar.');
                 return;
+            }
+
+            if (logs.length > 0 && logs[0].apprentice) {
+                modeElement.textContent = logs[0].apprentice.modalidad; // Actualizar la modalidad
             }
 
             logs.forEach(log => {
                 const label = document.createElement('label');
                 label.className = 'items-center mb-3 space-x-2 cursor-pointer w-96';
 
+                let stateClass = log.state === 'pending' ? 'bg-orange-100 text-orange-700 border-orange-400' :
+                    'bg-green-100 text-green-700 border-green-400';
+
                 label.innerHTML = `
                     <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="${log.id}">
-                    <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">
-                        Bitácora #${log.number_log}: ${log.description}
+                    <span class="block px-4 py-2 ${stateClass} border rounded-md">
+                        Bitácora #${log.number_log}
                     </span>
                 `;
 
                 const checkbox = label.querySelector('.bitacora-checkbox');
                 const span = label.querySelector('span');
 
-                // Evento para alternar selección y el color
                 checkbox.addEventListener('change', () => {
                     const logObj = log; // Guardar el objeto completo
 
-                    // Verificar si el log ya está en el array de logs seleccionados
                     if (checkbox.checked) {
+                        // Agregar el objeto al arreglo
                         if (!selectedLogs.some(selectedLog => selectedLog.id === logObj.id)) {
-                            selectedLogs.push(
-                                logObj); // Agregar log completo al arreglo si no está presente
+                            selectedLogs.push(logObj);
                         }
 
-                        span.classList.remove('text-gray-700', 'border-gray-400');
-                        span.classList.add('text-green-700', 'border-green-400', 'bg-green-100');
+                        // Cambiar a verde al seleccionar
+                        span.classList.remove('bg-orange-100', 'text-orange-700', 'border-orange-400');
+                        span.classList.add('bg-green-100', 'text-green-700', 'border-green-400');
+                        log.state = 'approved';
+
+                        if (logObj.date) {
+                            dateInput.value = logObj.date;
+                        }
                     } else {
-                        selectedLogs = selectedLogs.filter(selectedLog => selectedLog.id !== logObj
-                            .id); // Eliminar log del arreglo
-                        span.classList.remove('text-green-700', 'border-green-400', 'bg-green-100');
-                        span.classList.add('text-gray-700', 'border-gray-400');
+                        // Remover el objeto del arreglo
+                        selectedLogs = selectedLogs.filter(selectedLog => selectedLog.id !== logObj.id);
+
+                        // Cambiar a naranja al deseleccionar
+                        span.classList.remove('bg-green-100', 'text-green-700', 'border-green-400');
+                        span.classList.add('bg-orange-100', 'text-orange-700', 'border-orange-400');
+                        log.state = 'pending';
+                    }
+
+                    if (selectedLogs.length == 0) {
+                        dateInput.value = "";
                     }
 
                     console.log('Logs seleccionados:', selectedLogs); // Depuración
@@ -209,167 +173,79 @@
 
                 bitacorasList.appendChild(label);
             });
+
+            const registerButton = document.getElementById('register-button');
+            registerButton.addEventListener('click', () => {
+                if (selectedLogs.length > 0) {
+                    const newDate = dateInput.value;
+
+                    Swal.fire({
+                        title: '¿Estás seguro?',
+                        text: `Se actualizarán ${selectedLogs.length} bitácoras con la fecha ${newDate}.`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Sí, actualizar',
+                        cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            updateBitacora(selectedLogs, newDate);
+
+                            Swal.fire(
+                                '¡Actualizado!',
+                                'Las bitácoras han sido actualizadas correctamente.',
+                                'success'
+                            );
+                        }
+                    });
+                } else {
+                    Swal.fire({
+                        title: 'Atención',
+                        text: 'Por favor, selecciona al menos una bitácora.',
+                        icon: 'info',
+                        confirmButtonColor: '#3085d6',
+                        confirmButtonText: 'Entendido'
+                    });
+                }
+            });
         }
 
-        // Ejecutar cuando el DOM esté cargado
+        function updateBitacora(selectedLogs, newDate) {
+            const logIds = selectedLogs.map(item => item.id);
+            const newState = selectedLogs.every(log => log.state === 'approved') ? 'approved' :
+                'pending'; // Determinar el nuevo estado
+            console.log(`Actualizando bitácora ID: ${logIds}, Fecha: ${newDate}, Estado: ${newState}`);
+
+            fetch(`${URL_API}update_logs_by_ids`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ',
+                    },
+                    body: JSON.stringify({
+                        idsLogs: logIds,
+                        date: newDate,
+                        state: newState
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al actualizar las bitácoras');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Bitácoras actualizadas:', data);
+                    getLogsByApprentice(); // Volver a cargar las bitácoras
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             getLogsByApprentice();
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const checkboxes = document.querySelectorAll('.bitacora-checkbox');
-            const registrarBtn = document.getElementById('registrar-btn');
-
-            // Arreglo para almacenar los valores seleccionados
-            let selectedBitacoras = [];
-
-            // Actualizar estilos al seleccionar/desmarcar
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    if (checkbox.checked) {
-                        // Agregar estilos seleccionados
-                        checkbox.nextElementSibling.classList.add('bg-green-500', 'text-white');
-                        checkbox.nextElementSibling.classList.remove('border-black',
-                            'text-gray-700');
-
-                        // Agregar al arreglo
-                        if (!selectedBitacoras.includes(checkbox.value)) {
-                            selectedBitacoras.push(checkbox.value);
-                        }
-                    } else {
-                        // Remover estilos seleccionados
-                        checkbox.nextElementSibling.classList.remove('bg-green-500', 'text-white');
-                        checkbox.nextElementSibling.classList.add('border-black', 'text-gray-700');
-
-                        // Eliminar del arreglo
-                        selectedBitacoras = selectedBitacoras.filter(val => val !== checkbox.value);
-                    }
-                });
-            });
-
-            // Evento al presionar el botón registrar
-            registrarBtn.addEventListener('click', function() {
-                if (selectedBitacoras.length > 0) {
-                    // Enviar datos al servidor
-                    fetch('/guardar-bitacoras', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': '{{ csrf_token() }}' // Token CSRF para Laravel
-                            },
-                            body: JSON.stringify({
-                                bitacoras: selectedBitacoras
-                            })
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Error en la respuesta del servidor');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            if (data.success) {
-                                alert('Bitácoras registradas correctamente');
-                                window.location.href = '/apprentice/home'; // Redirigir a la vista
-                            } else {
-                                alert('Error al registrar las bitácoras');
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('Ocurrió un error al procesar la solicitud.');
-                        });
-                } else {
-                    alert('Por favor, selecciona al menos una bitácora antes de registrar.');
-                }
-            });
-        });
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Cargar las bitácoras seleccionadas desde localStorage
-            cargarSeleccionDeBitacoras();
-
-            // Seleccionar todos los checkboxes de las bitácoras
-            const checkboxes = document.querySelectorAll('.bitacora-checkbox');
-
-            // Agregar un listener de cambio para cada checkbox
-            checkboxes.forEach(function(checkbox) {
-                checkbox.addEventListener('change', function() {
-                    // Cambiar el estilo visual según si está seleccionado o no
-                    const label = checkbox.nextElementSibling;
-                    if (checkbox.checked) {
-                        label.classList.add('bg-green-500', 'text-white');
-                        label.classList.remove('border-gray-400', 'text-gray-700');
-                    } else {
-                        label.classList.remove('bg-green-500', 'text-white');
-                        label.classList.add('border-gray-400', 'text-gray-700');
-                    }
-
-                    // Guardar las bitácoras seleccionadas en localStorage
-                    const bitacoras = obtenerBitacorasSeleccionadas();
-                    localStorage.setItem('bitacorasSeleccionadas', JSON.stringify(bitacoras));
-
-                    // Actualizar el gráfico en tiempo real
-                    // actualizarGrafico(bitacoras.length);
-                });
-            });
-
-            // Función para obtener las bitácoras seleccionadas
-            function obtenerBitacorasSeleccionadas() {
-                const seleccionadas = [];
-                checkboxes.forEach(function(checkbox) {
-                    if (checkbox.checked) {
-                        seleccionadas.push(checkbox.value);
-                    }
-                });
-                return seleccionadas;
-            }
-
-            // Función para manejar el evento de registro
-            document.getElementById("registrar-btn").addEventListener("click", function() {
-                const bitacoras = obtenerBitacorasSeleccionadas();
-                const descripcion = document.getElementById('descripcion').value.trim();
-                const observacion = document.getElementById('observacion').value.trim();
-                const fecha = document.querySelector('input[type="date"]').value.trim();
-
-                if (bitacoras.length === 0 || !descripcion || !observacion || !fecha) {
-                    alert("Por favor, complete todos los campos.");
-                    return;
-                }
-
-                // Guardar las bitácoras seleccionadas en localStorage
-                localStorage.setItem('bitacorasSeleccionadas', JSON.stringify(bitacoras));
-
-                // Mostrar mensaje de éxito
-                alert('¡Bitácora registrada correctamente!');
-
-                // Actualizar el gráfico con las bitácoras seleccionadas
-                actualizarGrafico(bitacoras.length);
-            });
-
-            // Función para cargar la selección de bitácoras desde localStorage
-            function cargarSeleccionDeBitacoras() {
-                const bitacorasSeleccionadas = JSON.parse(localStorage.getItem('bitacorasSeleccionadas')) || [];
-                const checkboxes = document.querySelectorAll('.bitacora-checkbox');
-
-                checkboxes.forEach(function(checkbox) {
-                    if (bitacorasSeleccionadas.includes(checkbox.value)) {
-                        checkbox.checked = true;
-                        const label = checkbox.nextElementSibling;
-                        label.classList.add('bg-green-500', 'text-white');
-                        label.classList.remove('border-gray-400', 'text-gray-700');
-                    } else {
-                        checkbox.checked = false;
-                        const label = checkbox.nextElementSibling;
-                        label.classList.remove('bg-green-500', 'text-white');
-                        label.classList.add('border-gray-400', 'text-gray-700');
-                    }
-                });
-            }
         });
     </script>
 
