@@ -138,7 +138,7 @@
                             <div class="flex-1 text-center">
                             </div>
                             <button type="button" id="resetFormButton" style="display: none" onclick="resetForm()"
-                                class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 focus:outline-none">
+                                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none">
                                 Crear
                             </button>
                         </div>
@@ -183,7 +183,7 @@
                         </div>
 
                         <button type="submit" id="formSubmitButton"
-                            class="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-blue-500">
                             Guardar
                         </button>
                     </form>
@@ -237,12 +237,12 @@
                     <p class="text-sm text-gray-600">Jefe Inmediato: ${visit.name_of_immediate_boss}</p>
                     <div class="flex gap-2 mt-2">
                         <button
-                            class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500"
                             onclick="openEditModal(${visit.id})">
                             Editar
                         </button>
                         <button
-                            class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-500"
+                            class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
                             onclick="deleteVisit(${visit.id})">
                             Eliminar
                         </button>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\View\View;
 use App\Models\notification;
 use Illuminate\Http\Request;
+use Illuminate\View\Factory;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\RedirectResponse;
 
@@ -57,15 +58,57 @@ class NotificationController extends Controller
 
 
 
-
-
-
-
     //superadministrador
-    public function SuperAdminNotificaciones()
+    public function SuperAdminNotificaciones(): Factory|RedirectResponse|View
     {
-        return view('superadmin.SuperAdmin-Notificaciones');
+
+        // Obtener el token de la sesión
+        $token = session()->get('token');
+
+        if (!$token) {
+            return redirect()->back()->with('error', 'No se encontró el token de autenticación.');
+        }
+
+        // URL para obtener las notificaciones recibidas
+        $urlReceivedNotifications = env('URL_API') . 'get_received_notifications_by_user';
+
+        // Solicitud para obtener las notificaciones recibidas
+        $receivedResponse = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->get($urlReceivedNotifications);
+
+        // Verificar si la solicitud fue exitosa
+        if (!$receivedResponse->successful()) {
+            return redirect()->back()->with('error', 'Error al obtener las notificaciones recibidas.');
+        }
+
+        // URL para obtener las notificaciones enviadas
+        $urlNotificationsSend = env('URL_API') . 'get_notifications_send_by_user';
+
+        // Solicitud para obtener las notificaciones enviadas
+        $sendResponse = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Content-Type' => 'application/json',
+            'Accept' => 'application/json',
+        ])->get($urlNotificationsSend);
+
+        // Verificar si la solicitud fue exitosa
+        if (!$sendResponse->successful()) {
+            return redirect()->back()->with('error', 'Error al obtener las notificaciones enviadas.');
+        }
+
+        // Pasar las respuestas a la vista
+        $receivedNotifications = $receivedResponse->json();
+        $sentNotifications = $sendResponse->json();
+
+        return view('superadmin.SuperAdmin-Notificaciones', [
+            'receivedNotifications' => $receivedNotifications,
+            'sentNotifications' => $sentNotifications,
+        ]);
     }
+
     public function notificationtrainer(): RedirectResponse|View
     {
         // Obtener el token de la sesión
