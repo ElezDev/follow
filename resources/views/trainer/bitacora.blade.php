@@ -207,9 +207,33 @@
 
         // Función para actualizar la bitácora (puedes adaptarla según tu backend)
         function updateBitacora(selectedLogs, newDate, newState) {
-            const ids = selectedLogs.map(item => item.id);
-            console.log(`Actualizando bitácora ID: ${ids}, Fecha: ${newDate}, Estado: ${newState}`);
-            // Aquí iría la lógica para hacer la solicitud al servidor
+            const logIds = selectedLogs.map(item => item.id);
+            console.log(`Actualizando bitácora ID: ${logIds}, Fecha: ${newDate}, Estado: ${newState}`);
+            fetch(`${URL_API}update_logs_by_ids`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ',
+                    },
+                    body: JSON.stringify({
+                        idsLogs: logIds,
+                        date: newDate,
+                        state: newState
+                    })
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Error al actualizar las bitácoras');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log('Bitácoras actualizadas:', data);
+                    getLogsByApprentice(); // Volver a cargar las bitácoras
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
         }
 
         // Ejecutar cuando el DOM esté cargado
