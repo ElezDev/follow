@@ -119,7 +119,7 @@
             <div class="w-2/5 border-2 rounded-2xl shadow-[0_0_10px_rgba(0,0,0,0.3)] border-gray-300 h-80 mt-8">
                 <div class="flex flex-col p-6 text-center">
                     <label class="font-semibold ">Tipo de Modalidad de Etapa Productiva</label>
-                    <p type="text" class="border border-gray-400  p-2 rounded-md bg-white">Pasantia</p>
+                    <p class="border border-gray-400 p-2 rounded-md bg-white" id="mode">Pasantia</p>
                 </div>
                 <div class="flex flex-col p-6 text-center">
                     <label class="font-bold">Fecha</label>
@@ -140,12 +140,14 @@
         let id_apprentice = null;
         let selectedLogs = []; // Arreglo para guardar los logs seleccionados
 
-        // Función para obtener las bitácoras de un aprendiz
         function getLogsByApprentice() {
             const urlPath = window.location.pathname;
-            id_apprentice = urlPath.split('/').pop();
+            const urlParams = new URLSearchParams(window.location.search);
+            const idFromPath = urlPath.split('/').pop();
 
-            fetch(`${URL_API}get_logs_by_apprentice/9`)
+            id_apprentice = urlParams.get('id');
+
+            fetch(`${URL_API}get_logs_by_apprentice/${id_apprentice}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Error al obtener las bitácoras');
@@ -166,7 +168,7 @@
             bitacorasList.innerHTML = ''; // Limpiar el contenedor
 
             if (!Array.isArray(logs) || logs.length === 0) {
-                alert('No hay bitácoras disponibles para mostrar.');
+                console.log('No hay bitácoras disponibles para mostrar.');
                 return;
             }
 
@@ -177,7 +179,7 @@
                 label.innerHTML = `
                     <input type="checkbox" class="hidden bitacora-checkbox" name="bitacora" value="${log.id}">
                     <span class="block px-4 py-2 text-gray-700 border border-gray-400 rounded-md">
-                        Bitácora #${log.number_log}: ${log.description}
+                        Bitácora #${log.number_log}
                     </span>
                 `;
 
@@ -188,18 +190,15 @@
                 checkbox.addEventListener('change', () => {
                     const logObj = log; // Guardar el objeto completo
 
-                    // Verificar si el log ya está en el array de logs seleccionados
                     if (checkbox.checked) {
                         if (!selectedLogs.some(selectedLog => selectedLog.id === logObj.id)) {
-                            selectedLogs.push(
-                                logObj); // Agregar log completo al arreglo si no está presente
+                            selectedLogs.push(logObj);
                         }
 
                         span.classList.remove('text-gray-700', 'border-gray-400');
                         span.classList.add('text-green-700', 'border-green-400', 'bg-green-100');
                     } else {
-                        selectedLogs = selectedLogs.filter(selectedLog => selectedLog.id !== logObj
-                            .id); // Eliminar log del arreglo
+                        selectedLogs = selectedLogs.filter(selectedLog => selectedLog.id !== logObj.id);
                         span.classList.remove('text-green-700', 'border-green-400', 'bg-green-100');
                         span.classList.add('text-gray-700', 'border-gray-400');
                     }
