@@ -157,11 +157,13 @@
     </div>
 
     <script>
+    const URL_API = "{{ env('URL_API') }}";
+
         document.getElementById('statusSelect').addEventListener('change', function() {
             var estado = this.value;
             var apprenticeId = {{ $apprentice['id'] }};
 
-            fetch(`http://127.0.0.1:8001/api/apprentices/${apprenticeId}/estado`, {
+            fetch(`${URL_API}apprentices/${apprenticeId}/estado`, {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json',
