@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cambio de Contraseña</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    @vite('resources/css/app.css')
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <style>
         body {
             background-color: #f0fdf4;
@@ -24,11 +25,13 @@
         <h2 class="text-2xl font-bold text-green-600 mb-4">Restablecer Contraseña</h2>
         <p class="text-gray-600 mb-4">Ingresa tu correo electrónico para recibir el código de verificación.</p>
         <form id="emailForm">
-            <input type="email" placeholder="correo@ejemplo.com"
+            <input type="email" id="emailInput" placeholder="correo@ejemplo.com"
                 class="w-full p-2 mb-4 border border-green-300 rounded focus:outline-none focus:border-green-500"
                 required>
-            <button type="submit" class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">Enviar
-                Código</button>
+
+            <button type="submit" class="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600">
+                Enviar Código
+            </button>
 
             <button type="button" class="w-full bg-gray-500 text-white p-2 rounded hover:bg-gray-600 mt-2"
                 onclick="window.location.href='{{ route('login') }}'">
@@ -78,6 +81,8 @@
     </div>
 
     <script>
+        const URL_API = "{{ env('URL_API') }}";
+
         const step1 = document.getElementById('step1');
         const step2 = document.getElementById('step2');
         const step3 = document.getElementById('step3');
@@ -86,6 +91,24 @@
             e.preventDefault();
             step1.classList.add('hidden');
             step2.classList.remove('hidden');
+
+            // Obtén el valor del input de correo
+            const email = document.getElementById('emailInput').value;
+
+            // Envía el correo mediante Axios
+            axios.post(URL_API + 'verified_email', {
+                    email: email // Clave-valor que el backend espera
+                })
+                .then(response => {
+                    // Manejar la respuesta exitosa
+                    console.log(response.data);
+                    alert('Correo enviado exitosamente. Verifica tu bandeja de entrada.');
+                })
+                .catch(error => {
+                    // Manejar el error
+                    console.error(error);
+                    alert('Ocurrió un error al enviar el correo. Intenta de nuevo.');
+                });
         });
 
         document.getElementById('codeForm').addEventListener('submit', (e) => {
