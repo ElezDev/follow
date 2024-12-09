@@ -222,7 +222,7 @@
                 </div>
                 <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
             </form>
-            <a href="{{ route('register') }}" class="register-link">¿Registrar?</a>
+            <a href="{{ route('reset-password') }}" class="register-link">¿Olvidaste la contraseña?</a>
 
         </div>
     </main>

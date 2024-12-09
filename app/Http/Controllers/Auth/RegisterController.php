@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class RegisterController extends Controller
 {
@@ -81,4 +82,6 @@ class RegisterController extends Controller
         // Si no se encuentra un rol, redirige a la página principal
         return redirect()->intended('/');
     }
+
+    
 }

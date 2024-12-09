@@ -71,11 +71,15 @@ class LoginController extends Controller
         return back()->withErrors(['email' => 'Las credenciales no coinciden con nuestros registros.']);
     }
 
-    // Maneja la solicitud de cierre de sesión
     public function logout(Request $request)
     {
         $request->session()->forget(['token', 'user']);
 
         return redirect('/');
+    }
+
+    public function resetPassword(): View
+    {
+        return view('auth.reset-password');
     }
 }
